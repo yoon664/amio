@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>amio - 바른먹거리 풀무원 아미오</title>
+    <title>Amio - 풀무원 아미오</title>
     <style>
         * {
             margin: 0;
@@ -49,15 +49,16 @@
         }
 
         .nav {
-            background: url('img/header.png') center / cover no-repeat;
-            padding: 15px 50px;
-            /* box-shadow: 0 4px 15px rgba(0,0,0,0.15); */
+            background: url('img/header.png') center / contain no-repeat;
+            background-size: 100% 100%;
+            padding: 15px 80px;
+            min-width: 600px;
         }
 
         .nav ul {
             list-style: none;
             display: flex;
-            gap: 50px;
+            gap: 80px;
             margin: 0;
         }
 
@@ -79,8 +80,8 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
-            max-width: 1200px;
+            width: 95%;
+            max-width: 1400px;
             height: 200px;
             background: url('img/mainTable.png') center bottom / contain no-repeat;
             z-index: 50;
@@ -92,8 +93,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 1200px;
+            width: 95%;
+            max-width: 1400px;
             height: 60%;
             display: flex;
             align-items: center;
@@ -107,9 +108,10 @@
             height: 100%;
             position: relative;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: flex-end;
             padding-bottom: 100px;
+            padding-left: 80px;
         }
 
         .cat-tower-container {
@@ -155,15 +157,15 @@
         /* 로고 */
         .logo {
             margin-bottom: 30px;
-            width: 500px;
-            height: 150px;
+            width: 600px;
+            height: 180px;
             background: url('img/amio_logo.png') center / contain no-repeat;
         }
 
         /* 서브타이틀 텍스트 이미지 */
         .subtitle-img {
-            width: 400px;
-            height: 100px;
+            width: 500px;
+            height: 120px;
             background: url('img/바른먹거리\ 풀무원\ 아미오.png') center / contain no-repeat;
             margin: 0 auto;
         }
@@ -185,7 +187,7 @@
         .speech-bubble-container {
             position: absolute;
             top: -80px;
-            right: -200px;
+            right: -250px;
             width: 300px;
             height: 150px;
         }
@@ -217,9 +219,10 @@
             height: 100%;
             position: relative;
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: flex-end;
             padding-bottom: 100px;
+            padding-right: 80px;
         }
 
         .right-content {
@@ -301,7 +304,7 @@
         .plant-left {
             position: absolute;
             bottom: 0;
-            left: 0;
+            left: -20px;
             width: 200px;
             height: 350px;
             background: url('img/tree1-left.png') center bottom / contain no-repeat;
@@ -310,7 +313,7 @@
         .plant-right {
             position: absolute;
             bottom: 0;
-            right: 0;
+            right: -20px;
             width: 200px;
             height: 350px;
             background: url('img/tree2-right.png') center bottom / contain no-repeat;
@@ -385,5 +388,7 @@
         <!-- 메인 테이블 (전면) -->
         <div class="main-table"></div>
     </div>
+
+    <div style="height: 50vh;"></div>
 </body>
 </html>
