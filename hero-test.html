@@ -77,12 +77,13 @@
         /* 메인 테이블 (앞쪽에 놓인) */
         .main-table {
             position: absolute;
+            top: 80%;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
-            max-width: 1400px;
-            height: 250px;
+            width: 100%;
+            max-width: 1920px;
+            height: 300px;
             background: url('img/mainTable.png') center bottom / contain no-repeat;
             z-index: 50;
         }
@@ -124,22 +125,22 @@
             position: absolute;
             top: 33%;
             bottom: 0;
-            left: 50%;
+            left: 2%;
             /* transform: translateX(-50%); */
-            width: 320px;
-            height: 420px;
+            width: 500px;
+            height: 600px;
             background: url('img/고양이타워.png') center bottom / contain no-repeat;
         }
 
         /* 털실 만지는 회색 고양이 */
-        .playing-cat {
+        /* .playing-cat {
             position: absolute;
             top: 50px;
             left: -40px;
             width: 140px;
             height: 120px;
             background: url('img/고양이.png') center / contain no-repeat;
-        }
+        } */
 
         /* 중앙 영역 - 로고와 캐릭터 */
         .center-area {
@@ -151,7 +152,6 @@
             justify-content: flex-start;
             align-items: center;
             text-align: center;
-            padding-top: 80px;
         }
 
         /* 로고 */
@@ -177,8 +177,9 @@
         }
 
         .character {
-            width: 220px;
-            height: 280px;
+            position: absolute;
+            width: 400px;
+            height: 532px;
             background: url('img/staff.png') center / contain no-repeat;
             margin: 0 auto;
         }
@@ -187,7 +188,7 @@
         .speech-bubble-container {
             position: absolute;
             top: -60px;
-            right: -280px;
+            right: -60%;
             width: 340px;
             height: 140px;
         }
@@ -233,27 +234,28 @@
         /* 책상 테이블 */
         .desk-table {
             position: absolute;
-            top: 120px;
-            right: 40px;
-            width: 220px;
-            height: 50px;
+            top: 25vw;
+            /* right: 5vw; */
+            width: 442px;
+            height: 340px;
             background: url('img/table.png') center / contain no-repeat;
         }
 
         /* 책상 위 소품들 */
         .desk-stuff {
             position: absolute;
-            top: 80px;
-            right: 50px;
-            width: 200px;
-            height: 80px;
+            top: 18vw;
+            right: -100px;
+            width: 350px;
+            height: 125px;
             background: url('img/stuff.png') center / contain no-repeat;
+            z-index: 2;
         }
 
         /* 강아지 (침대와 그릇 포함) */
         .dog-area {
             position: absolute;
-            top: 75%;
+            top: 100%;
             bottom: 0;
             left: -50%;
             width: 280px;
@@ -275,30 +277,31 @@
         .light-left {
             position: absolute;
             top: 0;
-            left: 20%;
-            width: 130px;
-            height: 180px;
+            left: 15%;
+            width: 234px;
+            height: 200px;
             background: url('img/light.png') center top / contain no-repeat;
         }
 
         .light-right {
             position: absolute;
             top: 0;
-            right: 20%;
-            width: 130px;
-            height: 180px;
+            right: 15%;
+            width: 234px;
+            height: 200px;
             background: url('img/light.png') center top / contain no-repeat;
         }
 
         /* 식물 장식 */
         .plants {
             position: absolute;
+            top: 15%;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 300px;
+            height: 800px;
             pointer-events: none;
-            z-index: 5;
+            z-index: 60;
         }
 
         .plant-left {
@@ -306,7 +309,7 @@
             bottom: 0;
             left: -30px;
             width: 220px;
-            height: 380px;
+            height: 700px;
             background: url('img/tree1-left.png') center bottom / contain no-repeat;
         }
 
@@ -315,7 +318,7 @@
             bottom: 0;
             right: -30px;
             width: 220px;
-            height: 380px;
+            height: 700px;
             background: url('img/tree2-right.png') center bottom / contain no-repeat;
         }
     </style>
