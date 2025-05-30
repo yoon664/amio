@@ -126,7 +126,6 @@
             top: 33%;
             bottom: 0;
             left: 2%;
-            /* transform: translateX(-50%); */
             width: 500px;
             height: 600px;
             background: url('img/고양이타워.png') center bottom / contain no-repeat;
@@ -156,7 +155,7 @@
 
         /* 로고 */
         .logo {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             width: 450px;
             height: 140px;
             background: url('img/amio_logo.png') center / contain no-repeat;
@@ -173,22 +172,23 @@
         /* 캐릭터 */
         .character-container {
             position: relative;
-            margin-top: 20px;
+            /* margin-top: 20px; */
         }
 
         .character {
             position: absolute;
+            top: -30%;
             width: 400px;
-            height: 532px;
+            height: 500px;
             background: url('img/staff.png') center / contain no-repeat;
             margin: 0 auto;
         }
 
         /* 말풍선 */
         .speech-bubble-container {
-            position: absolute;
+            /* position: absolute; */
             top: -60px;
-            right: -60%;
+            right: -280px;
             width: 340px;
             height: 140px;
         }
@@ -196,7 +196,7 @@
         .speech-bubble-bg {
             position: absolute;
             top: 0;
-            left: 0;
+            left: 70%;
             width: 100%;
             height: 100%;
             background: url('img/말풍선1.png') center / contain no-repeat;
@@ -205,7 +205,7 @@
         .speech-bubble-text {
             position: absolute;
             top: 50%;
-            left: 50%;
+            left: 120%;
             transform: translate(-50%, -50%);
             width: 75%;
             font-size: 14px;
@@ -235,7 +235,6 @@
         .desk-table {
             position: absolute;
             top: 25vw;
-            /* right: 5vw; */
             width: 442px;
             height: 340px;
             background: url('img/table.png') center / contain no-repeat;
@@ -271,7 +270,7 @@
             width: 100%;
             height: 200px;
             pointer-events: none;
-            z-index: 5;
+            z-index: 60;
         }
 
         .light-left {
@@ -355,7 +354,6 @@
             <div class="left-area">
                 <div class="cat-tower-container">
                     <div class="cat-tower"></div>
-                    <div class="playing-cat"></div>
                 </div>
             </div>
 
