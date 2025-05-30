@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카메라 이동 스크롤 슬라이더</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .viewport {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .sections-container {
+            width: 300vw; /* 3개 섹션이므로 300% */
+            height: 200vh; /* 세로 확장을 위해 200% */
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateX(-100vw); /* 시작점을 섹션 1로 설정 */
+        }
+
+        .horizontal-row {
+            width: 300vw;
+            height: 100vh;
+            display: flex;
+        }
+
+        .vertical-section {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .section {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .section-3 {
+            background: linear-gradient(135deg, #3742fa, #2f3542);
+        }
+
+        .section-1 {
+            background: linear-gradient(135deg, #ff4757, #ff3838);
+        }
+
+        .section-2 {
+            background: linear-gradient(135deg, #ffa502, #ff6348);
+        }
+
+        .section-4 {
+            background: linear-gradient(135deg, #2ed573, #1e90ff);
+        }
+
+        /* 카메라 위치별 변환 */
+        .camera-section-1 {
+            transform: translateX(-100vw);
+        }
+
+        .camera-section-2 {
+            transform: translateX(-200vw);
+        }
+
+        .camera-section-3 {
+            transform: translateX(0);
+        }
+
+        .camera-section-4 {
+            transform: translateX(-100vw) translateY(-100vh);
+        }
+
+        /* 네비게이션 도트 */
+        .navigation {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: white;
+            transform: scale(1.3);
+        }
+
+        .nav-dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 스크롤 힌트 */
+        .scroll-hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1rem;
+            animation: bounce 2s infinite;
+            z-index: 100;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* 섹션별 추가 컨텐츠 */
+        .section-content {
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            opacity: 0.8;
+        }
+
+        /* 방향 표시 화살표 */
+        .direction-arrow {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.7;
+            animation: pulse 1.5s infinite;
+        }
+
+        .arrow-right {
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .arrow-left {
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .arrow-down {
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="viewport">
+        <div class="sections-container camera-section-1">
+            <!-- 첫 번째 행: 수평 섹션들 (3-1-2) -->
+            <div class="horizontal-row">
+                <div class="section section-3">
+                    <div class="section-content">
+                        <div>섹션 3 - 파랑</div>
+                        <div class="section-subtitle">왼쪽 섹션</div>
+                    </div>
+                    <div class="direction-arrow arrow-right">→</div>
+                </div>
+                
+                <div class="section section-1">
+                    <div class="section-content">
+                        <div>섹션 1 - 빨강</div>
+                        <div class="section-subtitle">시작점 (중앙)</div>
+                    </div>
+                    <div class="direction-arrow arrow-right">→</div>
+                </div>
+                
+                <div class="section section-2">
+                    <div class="section-content">
+                        <div>섹션 2 - 노랑</div>
+                        <div class="section-subtitle">오른쪽 섹션</div>
+                    </div>
+                    <div class="direction-arrow arrow-down">↓</div>
+                </div>
+            </div>
+
+            <!-- 두 번째 행: 세로 섹션 (초록) -->
+            <div class="horizontal-row">
+                <div class="section section-4" style="width: 300vw;">
+                    <div class="section-content">
+                        <div>섹션 4 - 초록</div>
+                        <div class="section-subtitle">아래 섹션 (세로 스크롤)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        class CameraSlider {
+            constructor() {
+                this.currentSection = 1;
+                this.isAnimating = false;
+                this.sectionsContainer = document.querySelector('.sections-container');
+                this.navDots = document.querySelectorAll('.nav-dot');
+                
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.updateNavigation();
+            }
+
+            bindEvents() {
+                // 마우스 휠 이벤트
+                window.addEventListener('wheel', (e) => this.handleWheel(e), { passive: false });
+                
+                // 키보드 이벤트
+                window.addEventListener('keydown', (e) => this.handleKeyboard(e));
+                
+                // 네비게이션 도트 클릭
+                this.navDots.forEach(dot => {
+                    dot.addEventListener('click', (e) => {
+                        const targetSection = parseInt(e.target.dataset.section);
+                        this.goToSection(targetSection);
+                    });
+                });
+
+                // 터치 이벤트 (모바일)
+                let startY = 0;
+                let startX = 0;
+                
+                window.addEventListener('touchstart', (e) => {
+                    startY = e.touches[0].clientY;
+                    startX = e.touches[0].clientX;
+                }, { passive: true });
+
+                window.addEventListener('touchend', (e) => {
+                    const endY = e.changedTouches[0].clientY;
+                    const endX = e.changedTouches[0].clientX;
+                    const diffY = startY - endY;
+                    const diffX = startX - endX;
+                    
+                    // 세로 스와이프가 더 큰 경우
+                    if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 50) {
+                        if (diffY > 0) {
+                            this.nextSection();
+                        } else {
+                            this.prevSection();
+                        }
+                    }
+                    // 가로 스와이프가 더 큰 경우
+                    else if (Math.abs(diffX) > 50) {
+                        if (diffX > 0 && this.currentSection < 3) {
+                            this.nextSection();
+                        } else if (diffX < 0 && this.currentSection > 1) {
+                            this.prevSection();
+                        }
+                    }
+                }, { passive: true });
+            }
+
+            handleWheel(e) {
+                e.preventDefault();
+                
+                if (this.isAnimating) return;
+
+                const delta = e.deltaY;
+                
+                if (delta > 0) {
+                    this.nextSection();
+                } else {
+                    this.prevSection();
+                }
+            }
+
+            handleKeyboard(e) {
+                if (this.isAnimating) return;
+
+                switch(e.key) {
+                    case 'ArrowDown':
+                    case ' ':
+                        e.preventDefault();
+                        this.nextSection();
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        this.prevSection();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        if (this.currentSection < 4) this.nextSection();
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        if (this.currentSection > 1) this.prevSection();
+                        break;
+                }
+            }
+
+            nextSection() {
+                if (this.currentSection < 4) {
+                    this.goToSection(this.currentSection + 1);
+                }
+            }
+
+            prevSection() {
+                if (this.currentSection > 1) {
+                    this.goToSection(this.currentSection - 1);
+                }
+            }
+
+            goToSection(sectionNumber) {
+                if (sectionNumber === this.currentSection || this.isAnimating) return;
+                
+                this.isAnimating = true;
+                this.currentSection = sectionNumber;
+                
+                // 카메라 위치 업데이트
+                this.sectionsContainer.className = `sections-container camera-section-${sectionNumber}`;
+                
+                // 네비게이션 업데이트
+                this.updateNavigation();
+                
+                // 애니메이션 완료 후 플래그 리셋
+                setTimeout(() => {
+                    this.isAnimating = false;
+                }, 800);
+
+                // 디버그 콘솔
+                console.log(`카메라 이동: 섹션 ${sectionNumber}`);
+            }
+
+            updateNavigation() {
+                this.navDots.forEach((dot, index) => {
+                    if (index + 1 === this.currentSection) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        // 페이지 로드 후 초기화
+        document.addEventListener('DOMContentLoaded', () => {
+            new CameraSlider();
+        });
+
+        // 페이지 새로고침 시 맨 위로
+        window.addEventListener('beforeunload', () => {
+            window.scrollTo(0, 0);
+        });
+    </script>
+</body>
+</html>
