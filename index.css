@@ -14,7 +14,9 @@ body {
 .hero-section {
     width: 100%;
     height: 100vh;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
     background: url('img/bg.png') center center / cover no-repeat;
     overflow: hidden;
 }
@@ -94,6 +96,7 @@ body {
     align-items: center;
     justify-content: space-between;
     z-index: 10;
+    transition: transform 1s ease-out;
 }
 
 /* 왼쪽 영역 - 캣타워 */
@@ -105,12 +108,14 @@ body {
     justify-content: center;
     align-items: flex-end;
     padding-bottom: 120px;
+    transition: all 1s ease-out;
 }
 
 .cat-tower-container {
     position: relative;
     width: 300px;
     height: 450px;
+    transition: all 1s ease-out;
 }
 
 /* 캣타워 (고양이들이 포함된 이미지) */
@@ -119,21 +124,12 @@ body {
     top: 33%;
     bottom: 0;
     left: 2%;
-    /* transform: translateX(-50%); */
     width: 500px;
     height: 600px;
     background: url('img/고양이타워.png') center bottom / contain no-repeat;
+    transition: all 1s ease-out;
+    transform-origin: center bottom;
 }
-
-/* 털실 만지는 회색 고양이 */
-/* .playing-cat {
-    position: absolute;
-    top: 50px;
-    left: -40px;
-    width: 140px;
-    height: 120px;
-    background: url('img/고양이.png') center / contain no-repeat;
-} */
 
 /* 중앙 영역 - 로고와 캐릭터 */
 .center-area {
@@ -145,14 +141,16 @@ body {
     justify-content: flex-start;
     align-items: center;
     text-align: center;
+    transition: all 1s ease-out;
 }
 
 /* 로고 */
 .logo {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     width: 450px;
     height: 140px;
     background: url('img/amio_logo.png') center / contain no-repeat;
+    transition: all 1s ease-out;
 }
 
 /* 서브타이틀 텍스트 이미지 */
@@ -161,50 +159,56 @@ body {
     height: 80px;
     background: url('img/바른먹거리\ 풀무원\ 아미오.png') center / contain no-repeat;
     margin: 0 auto 60px;
+    transition: all 1s ease-out;
 }
 
 /* 캐릭터 */
 .character-container {
     position: relative;
-    margin-top: 20px;
+    transition: all 1s ease-out;
 }
 
 .character {
     position: absolute;
+    top: -30%;
     width: 400px;
-    height: 532px;
+    height: 500px;
     background: url('img/staff.png') center / contain no-repeat;
     margin: 0 auto;
+    transition: all 1s ease-out;
+    transform-origin: center bottom;
 }
 
 /* 말풍선 */
 .speech-bubble-container {
-    position: absolute;
     top: -60px;
-    right: -60%;
+    right: -280px;
     width: 340px;
     height: 140px;
+    transition: all 1s ease-out;
 }
 
 .speech-bubble-bg {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 70%;
     width: 100%;
     height: 100%;
     background: url('img/말풍선1.png') center / contain no-repeat;
+    transition: all 1s ease-out;
 }
 
 .speech-bubble-text {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 120%;
     transform: translate(-50%, -50%);
     width: 75%;
     font-size: 14px;
     line-height: 1.5;
     color: #333;
     text-align: center;
+    transition: all 1s ease-out;
 }
 
 /* 오른쪽 영역 - 강아지와 책상 */
@@ -216,33 +220,36 @@ body {
     justify-content: center;
     align-items: flex-end;
     padding-bottom: 120px;
+    transition: all 1s ease-out;
 }
 
 .right-content {
     position: relative;
     width: 300px;
     height: 450px;
+    transition: all 1s ease-out;
 }
 
 /* 책상 테이블 */
 .desk-table {
     position: absolute;
     top: 25vw;
-    /* right: 5vw; */
-    width: 442px;
+    width: 430px;
     height: 340px;
     background: url('img/table.png') center / contain no-repeat;
+    transition: all 1s ease-out;
 }
 
 /* 책상 위 소품들 */
 .desk-stuff {
     position: absolute;
-    top: 18vw;
+    top: 67%;
     right: -100px;
-    width: 350px;
+    width: 320px;
     height: 125px;
     background: url('img/stuff.png') center / contain no-repeat;
     z-index: 2;
+    transition: all 1s ease-out;
 }
 
 /* 강아지 (침대와 그릇 포함) */
@@ -254,6 +261,8 @@ body {
     width: 280px;
     height: 200px;
     background: url('img/happypuppySet.png') center bottom / contain no-repeat;
+    transition: all 1s ease-out;
+    transform-origin: center bottom;
 }
 
 /* 장식 요소들 - 매달린 조명 */
@@ -264,7 +273,7 @@ body {
     width: 100%;
     height: 200px;
     pointer-events: none;
-    z-index: 5;
+    z-index: 60;
 }
 
 .light-left {
@@ -313,4 +322,87 @@ body {
     width: 220px;
     height: 700px;
     background: url('img/tree2-right.png') center bottom / contain no-repeat;
+}
+
+/* 스크롤 효과를 위한 클래스들 */
+/* 강아지 포커스 상태 */
+.dog-focus .main-content {
+    transform: translate(-70%, -50%);
+}
+
+.dog-focus .dog-area {
+    transform: scale(1.5);
+    z-index: 30;
+}
+
+.dog-focus .character,
+.dog-focus .cat-tower {
+    transform: scale(0.8);
+    opacity: 0.7;
+}
+
+.dog-focus .logo,
+.dog-focus .subtitle-img,
+.dog-focus .speech-bubble-container {
+    opacity: 0.3;
+}
+
+.dog-focus .left-area,
+.dog-focus .center-area {
+    z-index: 5;
+}
+
+.dog-focus .right-area {
+    z-index: 20;
+}
+
+/* 고양이 포커스 상태 */
+.cat-focus .main-content {
+    transform: translate(-50%, -50%);
+}
+
+.cat-focus .cat-tower {
+    transform: scale(1.5) translateX(50%) translateY(30%);
+    z-index: 30;
+}
+
+.cat-focus .character,
+.cat-focus .dog-area {
+    transform: scale(0.8);
+    opacity: 0.7;
+}
+
+.cat-focus .logo,
+.cat-focus .subtitle-img,
+.cat-focus .speech-bubble-container {
+    opacity: 0.3;
+}
+
+.cat-focus .right-area,
+.cat-focus .center-area {
+    z-index: 5;
+}
+
+.cat-focus .left-area {
+    z-index: 20;
+}
+
+/* 스크롤 컨테이너 */
+.scroll-container {
+    height: 400vh;
+    position: relative;
+}
+
+/* 다음 섹션 */
+.next-section {
+    position: absolute;
+    top: 300vh;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
 }
