@@ -29,7 +29,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(124, 179, 66, 0.1);
+    /* background: rgba(124, 179, 66, 0.1); */
+    background: url('img/bg_green.png') center center / cover no-repeat;
     z-index: 1;
     pointer-events: none;
 }
@@ -190,8 +191,8 @@ body {
 
 .speech-bubble-bg {
     position: absolute;
-    top: 0;
-    left: 70%;
+    top: -25%;
+    left: 80%;
     width: 100%;
     height: 100%;
     background: url('img/말풍선1.png') center / contain no-repeat;
@@ -200,14 +201,14 @@ body {
 
 .speech-bubble-text {
     position: absolute;
-    top: 50%;
-    left: 120%;
+    top: 25%;
+    left: 140%;
     transform: translate(-50%, -50%);
     width: 75%;
     font-size: 14px;
     line-height: 1.5;
     color: #333;
-    text-align: center;
+    text-align: left;
     transition: all 1s ease-out;
 }
 
