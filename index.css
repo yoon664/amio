@@ -332,23 +332,23 @@ body {
 }
 
 .dog-focus .dog-area {
-    transform: scale(1.5) translateX(-200%);
+    transform: scale(1.5) translateX(-150%);
     z-index: 30;
 }
 
 .dog-focus .character {
-    transform: scale(0.8) translateX(-30%);
+    transform: scale(0.8) translateX(-80%);
     opacity: 0.7;
 }
 
 .dog-focus .cat-tower {
-    transform: scale(0.8) translateX(-30%);
+    transform: scale(0.8) translateX(-50%);
     opacity: 0.7;
 }
 
 .dog-focus .logo,
 .dog-focus .subtitle-img {
-    opacity: 0.3;
+    opacity: 1;
 }
 
 .dog-focus .left-area,
@@ -366,29 +366,29 @@ body {
 }
 
 .cat-focus .cat-tower {
-    transform: scale(1.5) translateX(200%) translateY(30%);
+    transform: scale(1.3) translateX(20%) translateY(30%);
     z-index: 30;
 }
 
 .cat-focus .character {
-    transform: scale(0.8) translateX(30%);
+    transform: scale(0.8) translateX(70%);
     opacity: 0.7;
 }
 
 .cat-focus .dog-area {
-    transform: scale(0.8) translateX(30%);
+    transform: scale(0.8) translateX(70%);
     opacity: 0.7;
 }
 
-.cat-focus .desk-table,
+/* .cat-focus .desk-table,
 .cat-focus .desk-stuff {
     transform: scale(0.9) translateX(20%);
     opacity: 0.8;
-}
+} */
 
 .cat-focus .logo,
 .cat-focus .subtitle-img {
-    opacity: 0.3;
+    opacity: 1;
 }
 
 .cat-focus .right-area,
