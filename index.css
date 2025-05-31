@@ -234,15 +234,16 @@ body {
 /* 책상 테이블 */
 .desk-table {
     position: absolute;
-    top: 25vw;
+    right: -100%;
+    top: 10vw;
     width: 430px;
-    height: 340px;
-    background: url('img/table.png') center / contain no-repeat;
+    height: 420px;
+    background: url('img/subTable.png') center / contain no-repeat;
     transition: all 1s ease-out;
 }
 
 /* 책상 위 소품들 */
-.desk-stuff {
+/* .desk-stuff {
     position: absolute;
     top: 67%;
     right: -100px;
@@ -251,7 +252,7 @@ body {
     background: url('img/stuff.png') center / contain no-repeat;
     z-index: 2;
     transition: all 1s ease-out;
-}
+} */
 
 /* 강아지 (침대와 그릇 포함) */
 .dog-area {
