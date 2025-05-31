@@ -292,25 +292,42 @@ body {
     width: 100%;
     height: 800px;
     pointer-events: none;
-    z-index: 60;
 }
 
-.plant-left {
+.plant-left1 {
     position: absolute;
-    bottom: 0;
-    left: -30px;
-    width: 220px;
-    height: 700px;
-    background: url('img/tree1-left.png') center bottom / contain no-repeat;
+    bottom: 5%;
+    width: 350px;
+    height: 100%;
+    background: url('img/treeLeft1.png') center bottom / contain no-repeat;
+    z-index: 30;
+}
+.plant-left2 {
+    position: absolute;
+    bottom: -48%;
+    width: 167px;
+    height: 568px;
+    background: url('img/treeLeft2.png') center bottom / contain no-repeat;
+    z-index: 55;
 }
 
-.plant-right {
+.plant-right1 {
     position: absolute;
-    bottom: 0;
-    right: -30px;
-    width: 220px;
-    height: 700px;
-    background: url('img/tree2-right.png') center bottom / contain no-repeat;
+    bottom: -1%;
+    right: 0;
+    width: 302px;
+    height: 347px;
+    background: url('img/treeRight1.png') center bottom / contain no-repeat;
+    z-index: 30;
+}
+.plant-right2 {
+    position: absolute;
+    bottom: -38%;
+    right: 0;
+    width: 240px;
+    height: 460px;
+    background: url('img/treeRight2.png') center bottom / contain no-repeat;
+    z-index: 55;
 }
 
 /* 스크롤 효과 */
