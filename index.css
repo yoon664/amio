@@ -48,13 +48,13 @@ body {
     background: url('img/header.png') center / contain no-repeat;
     background-size: 100% 100%;
     padding: 15px 80px;
-    min-width: 600px;
+    min-width: 1150px;
 }
 
 .nav ul {
     list-style: none;
     display: flex;
-    gap: 80px;
+    gap: 180px;
     margin: 0;
 }
 
@@ -268,7 +268,7 @@ body {
 .light-left {
     position: absolute;
     top: 0;
-    left: 15%;
+    left: 12%;
     width: 234px;
     height: 200px;
     background: url('img/light.png') center top / contain no-repeat;
