@@ -328,23 +328,26 @@ body {
 /* 스크롤 효과 */
 /* 강아지 포커스 상태 */
 .dog-focus .main-content {
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);  /* 원위치 유지 */
 }
 
 .dog-focus .dog-area {
-    transform: scale(1.5) translateX(-150%); 
+    transform: scale(1.5) translateX(-200%);
     z-index: 30;
 }
 
-.dog-focus .character,
+.dog-focus .character {
+    transform: scale(0.8) translateX(-30%);
+    opacity: 0.7;
+}
+
 .dog-focus .cat-tower {
-    transform: scale(0.8);
+    transform: scale(0.8) translateX(-30%);
     opacity: 0.7;
 }
 
 .dog-focus .logo,
-.dog-focus .subtitle-img,
-.dog-focus .speech-bubble-container {
+.dog-focus .subtitle-img {
     opacity: 0.3;
 }
 
@@ -359,23 +362,32 @@ body {
 
 /* 고양이 포커스 상태 */
 .cat-focus .main-content {
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); 
 }
 
 .cat-focus .cat-tower {
-    transform: scale(1.5) translateX(50%) translateY(30%);
+    transform: scale(1.5) translateX(200%) translateY(30%);
     z-index: 30;
 }
 
-.cat-focus .character,
-.cat-focus .dog-area {
-    transform: scale(0.8);
+.cat-focus .character {
+    transform: scale(0.8) translateX(30%);
     opacity: 0.7;
 }
 
+.cat-focus .dog-area {
+    transform: scale(0.8) translateX(30%);
+    opacity: 0.7;
+}
+
+.cat-focus .desk-table,
+.cat-focus .desk-stuff {
+    transform: scale(0.9) translateX(20%);
+    opacity: 0.8;
+}
+
 .cat-focus .logo,
-.cat-focus .subtitle-img,
-.cat-focus .speech-bubble-container {
+.cat-focus .subtitle-img {
     opacity: 0.3;
 }
 
