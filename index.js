@@ -60,7 +60,7 @@ function updateStage() {
             });
             heroSection.classList.add('cat-focus');
             break;
-        case 3: // 다음 섹션으로 이동
+        //case 3: // 다음 섹션으로 이동
             window.scrollTo({
                 top: window.innerHeight * 3,
                 behavior: 'smooth'
