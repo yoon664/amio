@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amio - 풀무원 아미오</title>
+    <title>Document</title>
     <style>
         * {
             margin: 0;
@@ -26,6 +26,12 @@
             left: 0;
             background: url('img/bg.png') center center / cover no-repeat;
             overflow: hidden;
+            transition: all 0.5s ease-out;
+        }
+
+        /* 스크롤 가능한 상태 */
+        .hero-section.scrollable {
+            position: relative;
         }
 
         /* 연한 녹색 오버레이 */
@@ -52,9 +58,9 @@
 
         .nav {
             background: url('img/header.png') center / contain no-repeat;
-            background-size: 100% 100%;
             padding: 15px 80px;
             min-width: 600px;
+            border-radius: 10px;
         }
 
         .nav ul {
@@ -79,7 +85,7 @@
         /* 메인 테이블 (앞쪽에 놓인) */
         .main-table {
             position: absolute;
-            top: 80%;
+            top: 90%;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
@@ -128,11 +134,11 @@
         /* 캣타워 (고양이들이 포함된 이미지) */
         .cat-tower {
             position: absolute;
-            top: 33%;
+            top: 35%;
             bottom: 0;
-            left: 2%;
-            width: 500px;
-            height: 600px;
+            left: -10%;
+            width: 520px;
+            height: 630px;
             background: url('img/고양이타워.png') center bottom / contain no-repeat;
             transition: all 1s ease-out;
             transform-origin: center bottom;
@@ -177,10 +183,11 @@
 
         .character {
             position: absolute;
-            top: -30%;
+            top: 1vw;
             width: 400px;
-            height: 500px;
+            height: 630px;
             background: url('img/staff.png') center / contain no-repeat;
+            background-color: #87CEEB;
             margin: 0 auto;
             transition: all 1s ease-out;
             transform-origin: center bottom;
@@ -192,30 +199,28 @@
             right: -280px;
             width: 340px;
             height: 140px;
-            transition: all 1s ease-out;
+            transition: all 0.5s ease-out;
         }
 
         .speech-bubble-bg {
             position: absolute;
-            top: 0;
-            left: 70%;
-            width: 100%;
-            height: 100%;
+            top: -25%;
+            left: 80%;
+            width: 380px;
+            height: 165px;
             background: url('img/말풍선1.png') center / contain no-repeat;
-            transition: all 1s ease-out;
         }
 
         .speech-bubble-text {
             position: absolute;
-            top: 50%;
-            left: 120%;
+            top: 35%;
+            left: 140%;
             transform: translate(-50%, -50%);
             width: 75%;
-            font-size: 14px;
+            font-size: 18px;
             line-height: 1.5;
-            color: #333;
-            text-align: center;
-            transition: all 1s ease-out;
+            color: #468402;
+            text-align: left;
         }
 
         /* 오른쪽 영역 - 강아지와 책상 */
@@ -227,7 +232,6 @@
             justify-content: center;
             align-items: flex-end;
             padding-bottom: 120px;
-            transition: all 1s ease-out;
         }
 
         .right-content {
@@ -240,32 +244,22 @@
         /* 책상 테이블 */
         .desk-table {
             position: absolute;
-            top: 25vw;
+            right: -100%;
+            top: 15vw;
             width: 430px;
-            height: 340px;
-            background: url('img/table.png') center / contain no-repeat;
+            height: 420px;
+            background: url('img/subTable.png') center / contain no-repeat;
             transition: all 1s ease-out;
-        }
-
-        /* 책상 위 소품들 */
-        .desk-stuff {
-            position: absolute;
-            top: 67%;
-            right: -100px;
-            width: 320px;
-            height: 125px;
-            background: url('img/stuff.png') center / contain no-repeat;
             z-index: 2;
-            transition: all 1s ease-out;
         }
 
         /* 강아지 (침대와 그릇 포함) */
         .dog-area {
             position: absolute;
-            top: 100%;
+            top:112%;
             bottom: 0;
-            left: -50%;
-            width: 280px;
+            left: -40%;
+            width: 120%;
             height: 200px;
             background: url('img/happypuppySet.png') center bottom / contain no-repeat;
             transition: all 1s ease-out;
@@ -310,48 +304,68 @@
             width: 100%;
             height: 800px;
             pointer-events: none;
-            z-index: 60;
         }
 
-        .plant-left {
+        .plant-left1 {
             position: absolute;
-            bottom: 0;
-            left: -30px;
-            width: 220px;
-            height: 700px;
-            background: url('img/tree1-left.png') center bottom / contain no-repeat;
+            bottom: 5%;
+            width: 350px;
+            height: 100%;
+            background: url('img/treeLeft1.png') center bottom / contain no-repeat;
+            z-index: 30;
         }
-
-        .plant-right {
+        .plant-left2 {
             position: absolute;
-            bottom: 0;
-            right: -30px;
-            width: 220px;
-            height: 700px;
-            background: url('img/tree2-right.png') center bottom / contain no-repeat;
+            bottom: -48%;
+            width: 167px;
+            height: 568px;
+            background: url('img/treeLeft2.png') center bottom / contain no-repeat;
+            z-index: 55;
         }
 
-        /* 스크롤 효과를 위한 클래스들 */
+        .plant-right1 {
+            position: absolute;
+            bottom: -1%;
+            right: 0;
+            width: 302px;
+            height: 347px;
+            background: url('img/treeRight1.png') center bottom / contain no-repeat;
+            z-index: 30;
+        }
+        .plant-right2 {
+            position: absolute;
+            bottom: -38%;
+            right: 0;
+            width: 240px;
+            height: 460px;
+            background: url('img/treeRight2.png') center bottom / contain no-repeat;
+            z-index: 55;
+        }
+
+        /* 스크롤 효과 */
         /* 강아지 포커스 상태 */
         .dog-focus .main-content {
-            transform: translate(-70%, -50%);
+            transform: translate(-50%, -50%);
         }
 
         .dog-focus .dog-area {
-            transform: scale(1.5);
+            transform: scale(1.5) translateX(-150%);
             z-index: 30;
         }
 
-        .dog-focus .character,
+        .dog-focus .character {
+            transform: scale(1.8) translateX(-100%);
+            opacity: 0;
+        }
+
         .dog-focus .cat-tower {
-            transform: scale(0.8);
-            opacity: 0.7;
+            transform: scale(1.8) translateX(-100%);
+            opacity: 0.70;
         }
 
         .dog-focus .logo,
-        .dog-focus .subtitle-img,
-        .dog-focus .speech-bubble-container {
-            opacity: 0.3;
+        .dog-focus .subtitle-img {
+            opacity: 1;
         }
 
         .dog-focus .left-area,
@@ -365,24 +379,27 @@
 
         /* 고양이 포커스 상태 */
         .cat-focus .main-content {
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%); 
         }
 
         .cat-focus .cat-tower {
-            transform: scale(1.5) translateX(50%) translateY(30%);
+            transform: scale(1.3) translateX(10%) translateY(20%);
             z-index: 30;
         }
 
-        .cat-focus .character,
+        .cat-focus .character {
+            transform: scale(1.8) translateX(100%);
+            opacity: 0;
+        }
+
         .cat-focus .dog-area {
-            transform: scale(0.8);
-            opacity: 0.7;
+            transform: scale(1.8) translateX(100%);
+            opacity: 0;
         }
 
         .cat-focus .logo,
-        .cat-focus .subtitle-img,
-        .cat-focus .speech-bubble-container {
-            opacity: 0.3;
+        .cat-focus .subtitle-img {
+            opacity: 1;
         }
 
         .cat-focus .right-area,
@@ -394,24 +411,67 @@
             z-index: 20;
         }
 
+        .dog-focus .speech-bubble-container,
+        .cat-focus .speech-bubble-container {
+            opacity: 0;
+            pointer-events: none;
+        }
+
         /* 스크롤 컨테이너 */
         .scroll-container {
-            height: 400vh;
             position: relative;
         }
 
         /* 다음 섹션 */
         .next-section {
-            position: absolute;
-            top: 300vh;
             width: 100%;
-            height: 100vh;
-            background: white;
-            padding: 50px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             font-size: 24px;
+            color: white;
+            padding: 50px;
+        }
+
+        .next-section h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .next-section p {
+            font-size: 1.2em;
+            text-align: center;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* 스크롤 인디케이터 */
+        .scroll-indicator {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .scroll-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-dot.active {
+            background: white;
         }
     </style>
 </head>
@@ -438,8 +498,10 @@
             </div>
             
             <div class="plants">
-                <div class="plant-left"></div>
-                <div class="plant-right"></div>
+                <div class="plant-left1"></div>
+                <div class="plant-left2"></div>
+                <div class="plant-right1"></div>
+                <div class="plant-right2"></div>
             </div>
 
             <!-- 메인 컨텐츠 -->
@@ -473,7 +535,6 @@
                 <!-- 오른쪽 영역 - 강아지와 책상 -->
                 <div class="right-area">
                     <div class="right-content">
-                        <div class="desk-stuff"></div>
                         <div class="desk-table"></div>
                         <div class="dog-area"></div>
                     </div>
@@ -484,26 +545,47 @@
             <div class="main-table"></div>
         </div>
 
-        <div class="next-section">
-            다음 섹션 내용
+        <!-- 다음 섹션 -->
+        <div class="next-section" id="nextSection">
+            <h1>다음 섹션</h1>
+            <p>
+                여기는 다음 섹션 내용입니다. 스크롤 효과를 통해 이 섹션으로 부드럽게 전환됩니다.
+                이제 일반적인 스크롤이 가능하며, 추가 컨텐츠를 자유롭게 추가할 수 있습니다.
+            </p>
         </div>
+    </div>
+
+    <!-- 스크롤 인디케이터 -->
+    <div class="scroll-indicator">
+        <div class="scroll-dot active" data-stage="0"></div>
+        <div class="scroll-dot" data-stage="1"></div>
+        <div class="scroll-dot" data-stage="2"></div>
+        <div class="scroll-dot" data-stage="3"></div>
     </div>
 
     <script>
         let scrollStage = 0;
         const heroSection = document.getElementById('heroSection');
+        const nextSection = document.getElementById('nextSection');
+        const scrollDots = document.querySelectorAll('.scroll-dot');
         let isScrolling = false;
-        
+
+        // 스크롤 인디케이터 업데이트
+        function updateScrollIndicator() {
+            scrollDots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === scrollStage);
+            });
+        }
+
         // 스크롤 이벤트 처리
         window.addEventListener('wheel', (e) => {
             if (isScrolling) return;
             
             const scrollPosition = window.scrollY;
-            const windowHeight = window.innerHeight;
             
-            // 다음 섹션에 도달했는지 확인
-            if (scrollPosition >= windowHeight * 2.5) {
-                return; // 다음 섹션에서는 스크롤 효과 비활성화
+            // 스크롤 가능한 상태에서는 일반 스크롤 허용
+            if (heroSection.classList.contains('scrollable')) {
+                return;
             }
             
             e.preventDefault();
@@ -525,10 +607,10 @@
                 isScrolling = false;
             }, 1000);
         }, { passive: false });
-        
+
         function updateStage() {
             // 모든 포커스 클래스 제거
-            heroSection.classList.remove('dog-focus', 'cat-focus');
+            heroSection.classList.remove('dog-focus', 'cat-focus', 'scrollable');
             
             switch(scrollStage) {
                 case 0: // 초기 상태 (staff 중앙)
@@ -551,15 +633,21 @@
                     });
                     heroSection.classList.add('cat-focus');
                     break;
-                case 3: // 다음 섹션으로 이동
-                    window.scrollTo({
-                        top: window.innerHeight * 3,
-                        behavior: 'smooth'
-                    });
+                case 3: // 스크롤 가능한 상태로 변경
+                    heroSection.classList.add('scrollable');
+                    // 다음 섹션으로 스크롤
+                    setTimeout(() => {
+                        window.scrollTo({
+                            top: window.innerHeight,
+                            behavior: 'smooth'
+                        });
+                    }, 100);
                     break;
             }
+            
+            updateScrollIndicator();
         }
-        
+
         // 키보드 네비게이션
         window.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowDown' || e.key === 'PageDown') {
@@ -576,6 +664,17 @@
                 }
             }
         });
+
+        // 스크롤 인디케이터 클릭 이벤트
+        scrollDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                scrollStage = index;
+                updateStage();
+            });
+        });
+
+        // 초기 상태 설정
+        updateScrollIndicator();
     </script>
 </body>
 </html>
