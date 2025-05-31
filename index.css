@@ -325,14 +325,14 @@ body {
     background: url('img/tree2-right.png') center bottom / contain no-repeat;
 }
 
-/* 스크롤 효과를 위한 클래스들 */
+/* 스크롤 효과 */
 /* 강아지 포커스 상태 */
 .dog-focus .main-content {
-    transform: translate(-70%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 .dog-focus .dog-area {
-    transform: scale(1.5);
+    transform: scale(1.5) translateX(-150%); 
     z-index: 30;
 }
 
@@ -386,6 +386,12 @@ body {
 
 .cat-focus .left-area {
     z-index: 20;
+}
+
+.dog-focus .speech-bubble-container,
+.cat-focus .speech-bubble-container {
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* 스크롤 컨테이너 */
