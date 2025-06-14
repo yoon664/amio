@@ -420,28 +420,30 @@ body.scroll-locked {
 .best-menu {
     position: relative;
     background: #f8f9fa;
-    padding: 100px 0;
+    padding: 80px 0;
 }
 
+/* 강아지 메뉴 섹션 */
 .dog-menu {
     position: relative;
-    margin-bottom: 300px;
+    margin-bottom: 400px;
 }
 
 .dog-scroll-menu {
     position: absolute;
     top: -20px;
-    left: 50px;
-    z-index: 10;
+    left: 200px;
+    z-index: 20;
 }
+
 
 .dog-scroll-menu h2 {
     display: inline-block;
-    margin: 0;
+    margin-left: 20px;
     margin-bottom: 10px;
     font-family: "Jua", sans-serif;
     font-weight: 600;
-    font-size: 50px;
+    font-size: 60px;
     font-style: normal;
 }
 
@@ -456,15 +458,15 @@ body.scroll-locked {
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
-    padding: 100px 0 20px 0;
-    margin: 0 0 0 150px;
-    max-width: 1500px;
+    padding: 60px 0 20px 0;
+    margin: 0 auto;
+    max-width: 1550px;
+    top: 80px;
     z-index: 5;
     
     /* 스크롤바 스타일링 */
     scrollbar-width: thin;
     scrollbar-color: #7CB342 #f0f0f0;
-    scroll
 }
 
 .dog-menu-scroll::-webkit-scrollbar {
@@ -485,12 +487,13 @@ body.scroll-locked {
     background: #689F38;
 }
 
+/* 제품 아이템 */
 .product-item {
     display: inline-block;
     vertical-align: top;
     white-space: normal;
-    margin-right: 30px;
-    width: 200px;
+    margin-right: 40px;
+    width: 280px;
     text-align: center;
     position: relative;
 }
@@ -500,8 +503,8 @@ body.scroll-locked {
 }
 
 .dog-menu-img, .cat-menu-img {
-    width: 220px;
-    height: 320px;
+    width: 180px;
+    height: 240px;
     margin: 0 auto 15px;
     position: relative;
     z-index: 10;
@@ -514,13 +517,15 @@ body.scroll-locked {
 }
 
 .dog-menu-info, .cat-menu-info {
-    text-align: center;
+    text-align: left;
     position: absolute;
-    bottom: -120px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: -150px;
+    left: 12%;
+    /* transform: translateX(-10%); */
     width: 100%;
-    z-index: 15;
+    z-index: 25;
+    padding: 15px;
+    border-radius: 10px;
 }
 
 .dog-menu-info img:first-child, .cat-menu-info img:first-child {
@@ -529,11 +534,12 @@ body.scroll-locked {
 }
 
 .dog-menu-info p, .cat-menu-info p {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.4;
-    margin: 8px 0;
+    margin: 10px 0;
     color: #333;
-    font-weight: 500;
+    font-weight: 600;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
 }
 
 .dog-menu-info img:last-child, .cat-menu-info img:last-child {
@@ -544,7 +550,6 @@ body.scroll-locked {
 /* 테이블 배경 이미지 */
 .menu-table-bg {
     position: absolute;
-    /* top: 40px; */
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -563,22 +568,23 @@ body.scroll-locked {
 /* 고양이 메뉴 섹션 */
 .cat-menu {
     position: relative;
-    margin-bottom: 150px;
+    margin-bottom: 400px;
 }
 
 .cat-scroll-menu {
     position: absolute;
     top: -20px;
-    left: 50px;
-    z-index: 10;
+    left: 200px;
+    z-index: 20;
 }
 
 .cat-scroll-menu h2 {
     display: inline-block;
+    margin-left: 20px;
     margin-bottom: 10px;
     font-family: "Jua", sans-serif;
     font-weight: 600;
-    font-size: 50px;
+    font-size: 60px;
     font-style: normal;
 }
 
@@ -594,8 +600,13 @@ body.scroll-locked {
     white-space: nowrap;
     padding: 60px 0 20px 0;
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 1550px;
+    top: 80px;
     z-index: 5;
+    
+    /* 스크롤바 스타일링 */
+    scrollbar-width: thin;
+    scrollbar-color: #7CB342 #f0f0f0;
     
     /* 스크롤바 스타일링 */
     scrollbar-width: thin;
@@ -623,7 +634,6 @@ body.scroll-locked {
 .cat-menu .menu-table-bg {
     background-image: url('img/대표메뉴테이블.png');
     position: absolute;
-    /* top: 40px; */
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -638,13 +648,13 @@ body.scroll-locked {
 /* 반응형 대응 */
 @media (max-width: 768px) {
     .product-item {
-        width: 160px;
-        margin-right: 20px;
+        width: 200px;
+        margin-right: 25px;
     }
     
     .dog-menu-img, .cat-menu-img {
-        width: 140px;
-        height: 200px;
+        width: 180px;
+        height: 280px;
     }
     
     .dog-menu-info p, .cat-menu-info p {
@@ -652,10 +662,14 @@ body.scroll-locked {
     }
     
     .dog-scroll-menu, .cat-scroll-menu {
-        left: 20px;
+        left: 80px;
     }
     
     .dog-menu-info, .cat-menu-info {
-        bottom: -100px;
+        bottom: -200px;
+        padding: 10px;
     }
-}
+    
+    .dog-menu-scroll, .cat-menu-scroll {
+        margin: 0 80px 0 0;
+    }
