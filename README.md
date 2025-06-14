@@ -43,3 +43,6 @@ Copyright ⓒ Pulmuone co.,Ltd All Rights Reserved
 ## color
 별점, 댓글
 #76ba36
+
+## font
+https://fonts.google.com/selection/embed
