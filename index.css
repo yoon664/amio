@@ -417,6 +417,7 @@ body.scroll-locked {
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /* 대표메뉴 가로스크롤 */
+
 .best-menu {
     position: relative;
     background: #f8f9fa;
@@ -426,7 +427,7 @@ body.scroll-locked {
 /* 강아지 메뉴 섹션 */
 .dog-menu {
     position: relative;
-    margin-bottom: 150px;
+    margin-bottom: 400px;
 }
 
 .dog-scroll-menu {
@@ -438,11 +439,11 @@ body.scroll-locked {
 
 .dog-scroll-menu h2 {
     display: inline-block;
-    margin: 0;
+    margin-left: 20px;
     margin-bottom: 10px;
     font-family: "Jua", sans-serif;
     font-weight: 600;
-    font-size: 50px;
+    font-size: 60px;
     font-style: normal;
 }
 
@@ -451,42 +452,42 @@ body.scroll-locked {
     width: auto;
 }
 
-/* 가로 스크롤 컨테이너 */
-.dog-menu-scroll {
+/* 제품 이미지 스크롤 컨테이너 */
+.dog-images-scroll {
     position: relative;
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
     padding: 60px 0 20px 0;
     margin: 0 auto;
-    max-width: 1200px;
-    z-index: 5;
+    max-width: 1550px;
+    top: 80px;
+    z-index: 15;
     
     /* 스크롤바 스타일링 */
     scrollbar-width: thin;
-    scrollbar-color: #7CB342 #f0f0f0;
+    scrollbar-color: #7CB342 transparent;
 }
 
-.dog-menu-scroll::-webkit-scrollbar {
+.dog-images-scroll::-webkit-scrollbar {
     height: 8px;
 }
 
-.dog-menu-scroll::-webkit-scrollbar-track {
+.dog-images-scroll::-webkit-scrollbar-track {
     background: transparent;
-    border-radius: 4px;
 }
 
-.dog-menu-scroll::-webkit-scrollbar-thumb {
+.dog-images-scroll::-webkit-scrollbar-thumb {
     background: #7CB342;
     border-radius: 4px;
 }
 
-.dog-menu-scroll::-webkit-scrollbar-thumb:hover {
+.dog-images-scroll::-webkit-scrollbar-thumb:hover {
     background: #689F38;
 }
 
-/* 제품 아이템 */
-.product-item {
+/* 제품 이미지 아이템 */
+.product-image-item {
     display: inline-block;
     vertical-align: top;
     white-space: normal;
@@ -496,44 +497,63 @@ body.scroll-locked {
     position: relative;
 }
 
-.product-item:last-child {
+.product-image-item:last-child {
     margin-right: 0;
 }
 
-.dog-menu-img, .cat-menu-img {
+.product-image-item img {
     width: 180px;
     height: 240px;
-    margin: 0 auto 15px;
-    position: relative;
-    z-index: 10;
-}
-
-.dog-menu-img img, .cat-menu-img img {
-    width: 100%;
-    height: 100%;
     object-fit: contain;
 }
 
-.dog-menu-info, .cat-menu-info {
-    text-align: center;
-    position: absolute;
-    bottom: -250px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
+/* 제품 정보 스크롤 컨테이너 */
+.dog-info-scroll {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 1550px;
+    top: 200px;
     z-index: 25;
+    
+    /* 스크롤바 숨김 */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.dog-info-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* 제품 정보 아이템 */
+.product-info-item {
+    display: inline-block;
+    vertical-align: top;
+    white-space: normal;
+    margin-right: 40px;
+    width: 280px;
+    text-align: left;
+    position: relative;
+    left: 12%;
     background: rgba(255, 255, 255, 0.95);
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.dog-menu-info img:first-child, .cat-menu-info img:first-child {
+.product-info-item:last-child {
+    margin-right: 0;
+}
+
+.product-info-item img:first-child {
     height: 25px;
     margin-bottom: 8px;
 }
 
-.dog-menu-info p, .cat-menu-info p {
+.product-info-item p {
     font-size: 16px;
     line-height: 1.4;
     margin: 10px 0;
@@ -542,7 +562,7 @@ body.scroll-locked {
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
 }
 
-.dog-menu-info img:last-child, .cat-menu-info img:last-child {
+.product-info-item img:last-child {
     height: 20px;
     margin-top: 8px;
 }
@@ -550,16 +570,16 @@ body.scroll-locked {
 /* 테이블 배경 이미지 */
 .menu-table-bg {
     position: absolute;
-    top: 40px;
+    top: 140px;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 1400px;
-    height: 200px;
+    max-width: 1920px;
+    height: 222px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    z-index: 1;
+    z-index: 8;
 }
 
 .dog-menu .menu-table-bg {
@@ -581,11 +601,11 @@ body.scroll-locked {
 
 .cat-scroll-menu h2 {
     display: inline-block;
-    margin: 0;
+    margin-left: 20px;
     margin-bottom: 10px;
     font-family: "Jua", sans-serif;
     font-weight: 600;
-    font-size: 50px;
+    font-size: 60px;
     font-style: normal;
 }
 
@@ -594,67 +614,89 @@ body.scroll-locked {
     width: auto;
 }
 
-.cat-menu-scroll {
+/* 고양이 제품 이미지 스크롤 컨테이너 */
+.cat-images-scroll {
     position: relative;
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
-    padding: 40px 0 20px 0;
+    padding: 60px 0 20px 0;
     margin: 0 auto;
-    width: 1400px;
+    max-width: 1550px;
+    top: 80px;
     z-index: 15;
     
     /* 스크롤바 스타일링 */
     scrollbar-width: thin;
-    scrollbar-color: #7CB342 #f0f0f0;
+    scrollbar-color: #7CB342 transparent;
 }
 
-.cat-menu-scroll::-webkit-scrollbar {
+.cat-images-scroll::-webkit-scrollbar {
     height: 8px;
 }
 
-.cat-menu-scroll::-webkit-scrollbar-track {
+.cat-images-scroll::-webkit-scrollbar-track {
     background: transparent;
-    border-radius: 4px;
 }
 
-.cat-menu-scroll::-webkit-scrollbar-thumb {
+.cat-images-scroll::-webkit-scrollbar-thumb {
     background: #7CB342;
     border-radius: 4px;
 }
 
-.cat-menu-scroll::-webkit-scrollbar-thumb:hover {
+.cat-images-scroll::-webkit-scrollbar-thumb:hover {
     background: #689F38;
+}
+
+/* 고양이 제품 정보 스크롤 컨테이너 */
+.cat-info-scroll {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 1550px;
+    top: 200px;
+    z-index: 25;
+    
+    /* 스크롤바 숨김 */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.cat-info-scroll::-webkit-scrollbar {
+    display: none;
 }
 
 .cat-menu .menu-table-bg {
     background-image: url('img/대표메뉴테이블.png');
     position: absolute;
-    top: 40px;
+    top: 140px;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 1400px;
-    height: 200px;
+    max-width: 1920px;
+    height: 222px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    z-index: 1;
+    z-index: 8;
 }
 
 /* 반응형 대응 */
 @media (max-width: 768px) {
-    .product-item {
+    .product-image-item, .product-info-item {
         width: 200px;
         margin-right: 25px;
     }
     
-    .dog-menu-img, .cat-menu-img {
-        width: 180px;
-        height: 280px;
+    .product-image-item img {
+        width: 140px;
+        height: 200px;
     }
     
-    .dog-menu-info p, .cat-menu-info p {
+    .product-info-item p {
         font-size: 12px;
     }
     
@@ -662,13 +704,14 @@ body.scroll-locked {
         left: 100px;
     }
     
-    .dog-menu-info, .cat-menu-info {
-        bottom: -200px;
+    .product-info-item {
         padding: 10px;
+        left: 5%;
     }
     
-    .dog-menu-scroll, .cat-menu-scroll {
-        width: 100%;
+    .dog-images-scroll, .cat-images-scroll,
+    .dog-info-scroll, .cat-info-scroll {
+        max-width: 100%;
         margin: 0 20px;
     }
 }
