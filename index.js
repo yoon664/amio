@@ -86,3 +86,132 @@ window.addEventListener('keydown', (e) => {
         }
     }
 });
+
+
+// 대표메뉴 가로 스크롤 기능
+function initHorizontalScroll() {
+    const dogScrollContainer = document.querySelector('.dog-menu-scroll');
+    const catScrollContainer = document.querySelector('.cat-menu-scroll');
+    
+    function handleWheelScroll(e, container) {
+        // 컨테이너 위에 마우스가 있을 때만 작동
+        if (container.matches(':hover')) {
+            e.preventDefault();
+            
+            // 휠 델타 값에 따라 스크롤 속도 조정
+            const scrollAmount = e.deltaY * 0.8;
+            container.scrollLeft += scrollAmount;
+        }
+    }
+    
+    // 강아지 메뉴 스크롤 이벤트
+    if (dogScrollContainer) {
+        dogScrollContainer.addEventListener('wheel', (e) => {
+            handleWheelScroll(e, dogScrollContainer);
+        }, { passive: false });
+    }
+    
+    // 고양이 메뉴 스크롤 이벤트
+    if (catScrollContainer) {
+        catScrollContainer.addEventListener('wheel', (e) => {
+            handleWheelScroll(e, catScrollContainer);
+        }, { passive: false });
+    }
+}
+
+// 터치 스크롤 지원 (모바일)
+function initTouchScroll() {
+    const scrollContainers = document.querySelectorAll('.dog-menu-scroll, .cat-menu-scroll');
+    
+    scrollContainers.forEach(container => {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        
+        container.addEventListener('mousedown', (e) => {
+            isDown = true;
+            container.style.cursor = 'grabbing';
+            startX = e.pageX - container.offsetLeft;
+            scrollLeft = container.scrollLeft;
+        });
+        
+        container.addEventListener('mouseleave', () => {
+            isDown = false;
+            container.style.cursor = 'grab';
+        });
+        
+        container.addEventListener('mouseup', () => {
+            isDown = false;
+            container.style.cursor = 'grab';
+        });
+        
+        container.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - container.offsetLeft;
+            const walk = (x - startX) * 2;
+            container.scrollLeft = scrollLeft - walk;
+        });
+        
+        // 초기 커서 설정
+        container.style.cursor = 'grab';
+    });
+}
+
+// 스크롤 위치 표시 (선택사항)
+function addScrollIndicator() {
+    const scrollContainers = document.querySelectorAll('.dog-menu-scroll, .cat-menu-scroll');
+    
+    scrollContainers.forEach(container => {
+        container.addEventListener('scroll', () => {
+            const scrollPercentage = (container.scrollLeft / (container.scrollWidth - container.clientWidth)) * 100;
+            
+        
+        });
+    });
+}
+
+// 페이지 로드 후 초기화
+document.addEventListener('DOMContentLoaded', () => {
+    initHorizontalScroll();
+    initTouchScroll();
+    addScrollIndicator();
+});
+
+// 기존 스크롤 이벤트와 충돌하지 않도록 수정
+window.addEventListener('wheel', (e) => {
+    // 메뉴 스크롤 영역에서는 기존 스크롤 로직을 건너뛰기
+    const dogMenu = document.querySelector('.dog-menu-scroll');
+    const catMenu = document.querySelector('.cat-menu-scroll');
+    
+    if ((dogMenu && dogMenu.matches(':hover')) || (catMenu && catMenu.matches(':hover'))) {
+        return; // 가로 스크롤 처리로 위임
+    }
+    
+    // 기존 스크롤 로직 실행
+    if (isScrolling) return;
+    
+    // 스크롤 가능한 상태에서는 일반 스크롤 허용
+    if (heroSection.classList.contains('scrollable')) {
+        return;
+    }
+    
+    e.preventDefault();
+    isScrolling = true;
+    
+    if (e.deltaY > 0) { // 아래로 스크롤
+        if (scrollStage < 3) {
+            scrollStage++;
+            updateStage();
+        }
+    } else { // 위로 스크롤
+        if (scrollStage > 0) {
+            scrollStage--;
+            updateStage();
+        }
+    }
+    
+    setTimeout(() => {
+        isScrolling = false;
+    }, 1000);
+}, { passive: false });

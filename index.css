@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+
 * {
     margin: 0;
     padding: 0;
@@ -408,7 +411,209 @@ body.scroll-locked {
     pointer-events: none;
 }
 
-/* 스크롤 컨테이너 */
-.scroll-container {
+
+/* 대표메뉴 가로스크롤 */
+.best-menu {
     position: relative;
+    background: #f8f9fa;
+    padding: 80px 0;
+}
+
+.dog-menu {
+    position: relative;
+    margin-bottom: 120px;
+}
+
+.dog-scroll-menu {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.dog-scroll-menu h2 {
+    display: inline-block;
+    margin: 0;
+    font-family: "Jua", sans-serif;
+    font-weight: 600;
+    font-size: 50px;
+    font-style: normal;
+}
+
+.dog-scroll-menu img {
+    height: 60px;
+    width: auto;
+}
+
+.dog-menu-scroll {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 20px 0 80px 0;
+    margin: 0 auto;
+    max-width: 1200px;
+    
+    /* 스크롤바 스타일링 */
+    scrollbar-width: thin;
+    scrollbar-color: #7CB342 #f0f0f0;
+}
+
+.dog-menu-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.dog-menu-scroll::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 4px;
+}
+
+.dog-menu-scroll::-webkit-scrollbar-thumb {
+    background: #7CB342;
+    border-radius: 4px;
+}
+
+.dog-menu-scroll::-webkit-scrollbar-thumb:hover {
+    background: #689F38;
+}
+
+.product-item {
+    display: inline-block;
+    vertical-align: top;
+    white-space: normal;
+    margin-right: 30px;
+    width: 200px;
+    text-align: center;
+}
+
+.product-item:last-child {
+    margin-right: 0;
+}
+
+.dog-menu-img, .cat-menu-img {
+    width: 180px;
+    height: 240px;
+    margin: 0 auto 15px;
+}
+
+.dog-menu-img img, .cat-menu-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.dog-menu-info, .cat-menu-info {
+    text-align: center;
+}
+
+.dog-menu-info img:first-child, .cat-menu-info img:first-child {
+    height: 25px;
+    margin-bottom: 8px;
+}
+
+.dog-menu-info p, .cat-menu-info p {
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 8px 0;
+    color: #333;
+    font-weight: 500;
+}
+
+.dog-menu-info img:last-child, .cat-menu-info img:last-child {
+    height: 20px;
+    margin-top: 8px;
+}
+
+/* 테이블 배경 이미지 */
+.menu-table-bg {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1400px;
+    height: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    z-index: -1;
+}
+
+.dog-menu .menu-table-bg {
+    background-image: url('img/대표메뉴테이블.png');
+}
+
+/* 고양이 메뉴 섹션 */
+.cat-menu {
+    position: relative;
+}
+
+.cat-scroll-menu {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.cat-scroll-menu h2 {
+    display: inline-block;
+    margin: 0;
+    font-family: "Jua", sans-serif;
+    font-weight: 600;
+    font-size: 50px;
+    font-style: normal;
+}
+
+.cat-scroll-menu img {
+    height: 60px;
+    width: auto;
+}
+
+.cat-menu-scroll {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 20px 0 80px 0;
+    margin: 0 auto;
+    max-width: 1200px;
+    
+    /* 스크롤바 스타일링 */
+    scrollbar-width: thin;
+    scrollbar-color: #7CB342 #f0f0f0;
+}
+
+.cat-menu-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.cat-menu-scroll::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 4px;
+}
+
+.cat-menu-scroll::-webkit-scrollbar-thumb {
+    background: #7CB342;
+    border-radius: 4px;
+}
+
+.cat-menu-scroll::-webkit-scrollbar-thumb:hover {
+    background: #689F38;
+}
+
+.cat-menu .menu-table-bg {
+    background-image: url('img/대표메뉴테이블.png');
+}
+
+/* 반응형 대응 */
+@media (max-width: 768px) {
+    .product-item {
+        width: 160px;
+        margin-right: 20px;
+    }
+    
+    .dog-menu-img, .cat-menu-img {
+        width: 140px;
+        height: 200px;
+    }
+    
+    .dog-menu-info p, .cat-menu-info p {
+        font-size: 12px;
+    }
 }
