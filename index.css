@@ -235,8 +235,8 @@ body.scroll-locked {
 /* 책상 테이블 */
 .desk-table {
     position: absolute;
-    right: -100%;
-    top: 15vw;
+    right: -105%;
+    top: 280px;
     width: 430px;
     height: 420px;
     background: url('img/subTable.png') center / contain no-repeat;
