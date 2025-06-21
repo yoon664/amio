@@ -82,14 +82,14 @@ body.scroll-locked {
 /* 메인 테이블 (앞쪽에 놓인) */
 .main-table {
     position: absolute;
-    top: 90%;
+    top: 51%;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
     max-width: 1920px;
-    height: 300px;
-    background: url('img/mainTable.png') center bottom / contain no-repeat;
+    height: 832px;
+    background: url('img/mainTable2.png') center bottom / contain no-repeat;
     z-index: 50;
 }
 
