@@ -58,6 +58,8 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
+
+// =====대표메뉴 가로스크롤===== //
 // 동기화 스크롤 기능
 function initSynchronizedScroll() {
     const dogImagesScroll = document.querySelector('.dog-images-scroll');
@@ -181,3 +183,74 @@ window.addEventListener('wheel', (e) => {
         isScrolling = false;
     }, 1000);
 }, { passive: false });
+
+
+// 클릭 이벤트
+// 식재료 데이터
+const ingredientData = {
+    chicken: {
+        image: 'img/닭고기.png',
+        text: '바르게 기른 동물복지 생닭고기를<br>사용하고 반려동물 첨가물 원칙을<br>지켜 올바 식단을 만듭니다.'
+    },
+    salmon: {
+        image: 'img/연어.png',
+        text: '자연담은 힘찬 연어 노르웨이산<br>연어로 싱싱함이 더해 옳바른<br>식단을 만드는데 주된 재료입니다.'
+    },
+    tea: {
+        image: 'img/차전자피.png',
+        text: '수의사가 제안하는 기능별<br>건강케어에 들어가는 차전자피<br>반려동물들의 변비를 치료합니다.'
+    },
+    egg: {
+        image: 'img/달걀.png',
+        text: '동물복지 농장에서 바르게 자란<br>닭들이 낳은 달걀을 사용해<br>자연담은 식단을 만듭니다.'
+    },
+    turkey: {
+        image: 'img/칠면조.png',
+        text: '바르게 기른 칠면조 고기를<br>사용하고 반려동물 첨가물<br>원칙을 지켜 식단을 만듭니다.'
+    },
+    salad: {
+        image: 'img/야채.png',
+        text: '내과 전문 수의사가 바르게<br>키운 채소들을 사용해 레시피를<br>설계하여 건강담은 식단을 만듭니다.'
+    }
+};
+
+// 원형 버튼 클릭 이벤트 초기화
+function initIngredientClick() {
+    const circleButtons = document.querySelectorAll('.circle-button');
+    const ingredientImg = document.getElementById('ingredient-image');
+    const ingredientContainer = document.querySelector('.click-recommend-img');
+    const bubbleText = document.querySelector('.bubble-text');
+
+    circleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const ingredient = this.getAttribute('data-ingredient');
+            const data = ingredientData[ingredient];
+
+            if (data) {
+                // 모든 버튼에서 active 클래스 제거
+                circleButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // 클릭된 버튼에 active 클래스 추가
+                this.classList.add('active');
+
+                // 이미지 변경
+                ingredientImg.src = data.image;
+                ingredientImg.alt = ingredient;
+
+                // 이미지 컨테이너 표시
+                ingredientContainer.classList.add('show');
+
+                // 말풍선 텍스트 변경
+                bubbleText.innerHTML = data.text;
+            }
+        });
+    });
+}
+
+// 기존 DOMContentLoaded 이벤트에 추가
+document.addEventListener('DOMContentLoaded', () => {
+    initSynchronizedScroll();
+    initHorizontalWheelScroll();
+    initDragScroll();
+    initIngredientClick();
+});

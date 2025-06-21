@@ -764,3 +764,65 @@ body.scroll-locked {
     text-align: left;
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
+
+/*  클릭버튼  */
+.click-circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+.circle-button {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: white;
+    border: 2px solid #7CB342;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 15;
+}
+
+.circle-button:hover {
+    /* background: #7CB342; */
+}
+
+.circle-button.active {
+    background: #7CB342;
+    transform: scale(1.1);
+}
+
+.circle-button:nth-child(1) { top: 35.8%; left: 24%; }  /* 닭고기 */
+.circle-button:nth-child(2) { top: 35.8%; left: 29.8%; }  /* 연어 */
+.circle-button:nth-child(3) { top: 35.8%; left: 36%; }  /* 차전자피 */
+.circle-button:nth-child(4) { top: 35.8%; left: 42%; }  /* 달걀 */
+.circle-button:nth-child(5) { top: 40.8%; left: 28%; }  /* 칠면조 */
+.circle-button:nth-child(6) { top: 40.8%; left: 39.4%; }  /* 채소 */
+
+.click-recommend-img {
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+    width: 180px;
+    height: 180px;
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 25;
+}
+
+.click-recommend-img.show {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.05);
+}
+
+.click-recommend-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+}
