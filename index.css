@@ -20,7 +20,7 @@ body {
     width: 100%;
     height: 100vh;
     position: relative;
-    background: url('img/bg.png') center center / cover no-repeat;
+    background: url('img/mainBg.png') center center / cover no-repeat;
     overflow: hidden;
     transition: all 0.5s ease-out;
 }
@@ -29,19 +29,6 @@ body.scroll-locked {
     height: 100vh;
 }
 
-/* 연한 녹색 오버레이 */
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* background: rgba(124, 179, 66, 0.1); */
-    background: url('img/bg_green.png') center center / cover no-repeat;
-    z-index: 1;
-    pointer-events: none;
-}
 
 /* 네비게이션 */
 .nav-container {
