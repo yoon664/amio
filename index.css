@@ -590,7 +590,7 @@ body.scroll-locked {
 /* 고양이 메뉴 섹션 */
 .cat-menu {
     position: relative;
-    margin-bottom: 300px; 
+    margin-bottom: 100px; 
     /* 개는 400 */
 }
 
@@ -722,9 +722,38 @@ body.scroll-locked {
 /* 대표메뉴 가로스크롤 */
 
 .click-recommend {
-    /* height: 100vw; */
     position: relative;
-    background: #f8f9fa;
-    padding: 100px 0;
+    /* padding: 100px 0; */
     background-repeat: no-repeat;
+}
+
+/* 말풍선 */
+.bubble-container {
+    top: -60px;
+    right: -280px;
+    width: 340px;
+    height: 140px;
+    transition: all 0.5s ease-out;
+}
+
+.bubble-bg {
+    position: absolute;
+    top: -25%;
+    left: 80%;
+    width: 380px;
+    height: 165px;
+    background: url('img/말풍선1.png') center / contain no-repeat;
+}
+
+.bubble-text {
+    position: absolute;
+    top: 35%;
+    left: 140%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #468402;
+    text-align: left;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
