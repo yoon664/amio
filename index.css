@@ -722,7 +722,9 @@ body.scroll-locked {
 /* 대표메뉴 가로스크롤 */
 
 .click-recommend {
+    height: 100vw;
     position: relative;
     background: #f8f9fa;
     padding: 100px 0;
+    background-repeat: no-repeat;
 }
