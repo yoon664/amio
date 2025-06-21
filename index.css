@@ -214,6 +214,7 @@ body.scroll-locked {
     transform: translate(-50%, -50%);
     width: 75%;
     font-size: 18px;
+    font-weight: 600;
     line-height: 1.5;
     color: #468402;
     text-align: left;
@@ -729,40 +730,37 @@ body.scroll-locked {
 
 .click-recommend img {
     position: relative;
-    z-index: 1;
+    /* z-index: 1; */
     display: block;
 }
 
 .bubble-container {
     position: absolute;
-    top: -60px;
-    /* right: -280px; */
+    top: 22%;
+    right: 20%;
     width: 340px;
     height: 140px;
-    transition: all 0.5s ease-out;
-    z-index: 100;
+    /* transition: all 0.5s ease-out; */
+    /* z-index: 50; */
 }
 
 .bubble-bg {
     position: absolute;
-    top: -25%;
-    left: 20%;
     width: 380px;
     height: 165px;
     background: url('img/말풍선1.png') center / contain no-repeat;
-    z-index: 101;
+    /* z-index: 101; */
 }
 
 .bubble-text {
     position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 75%;
+    top: 40%;
+    left: 27%;
+    width: 100%;
     font-size: 18px;
+    font-weight: 600;
     line-height: 1.5;
     color: #468402;
     text-align: left;
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-    z-index: 102;
 }
