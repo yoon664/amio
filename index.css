@@ -421,13 +421,14 @@ body.scroll-locked {
 .best-menu {
     position: relative;
     background: #f8f9fa;
-    padding: 80px 0;
+    padding: 100px 0;
 }
 
 /* 강아지 메뉴 섹션 */
 .dog-menu {
     position: relative;
     margin-bottom: 400px;
+    margin-top: 300px;
 }
 
 .dog-scroll-menu {
@@ -589,7 +590,8 @@ body.scroll-locked {
 /* 고양이 메뉴 섹션 */
 .cat-menu {
     position: relative;
-    margin-bottom: 400px;
+    margin-bottom: 300px; 
+    /* 개는 400 */
 }
 
 .cat-scroll-menu {
