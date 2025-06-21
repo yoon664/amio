@@ -777,10 +777,9 @@ body.scroll-locked {
 
 .circle-button {
     position: absolute;
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
     background: white;
-    border: 2px solid #7CB342;
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -788,11 +787,10 @@ body.scroll-locked {
 }
 
 .circle-button:hover {
-    /* background: #7CB342; */
+    transform: scale(1.5);
 }
 
 .circle-button.active {
-    /* background: #7CB342; */
     transform: scale(1);
 }
 
