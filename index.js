@@ -45,9 +45,14 @@ window.addEventListener('keydown', (e) => {
     
     if (e.key === 'ArrowDown' || e.key === 'PageDown') {
         e.preventDefault();
-        if (scrollStage < 3) {
+        if (scrollStage < 2) {
             scrollStage++;
             updateStage();
+        } else if (scrollStage === 2) {
+            // 고양이 상태에서 한 번 더 누르면 일반 스크롤로 전환
+            document.body.classList.remove('scroll-locked');
+            heroSection.classList.add('scrollable');
+            scrollStage = 3; // 상태 업데이트
         }
     } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
         e.preventDefault();
@@ -57,7 +62,6 @@ window.addEventListener('keydown', (e) => {
         }
     }
 });
-
 
 // =====대표메뉴 가로스크롤===== //
 // 동기화 스크롤 기능
@@ -139,13 +143,6 @@ function initDragScroll() {
     });
 }
 
-// 페이지 로드 후 초기화
-document.addEventListener('DOMContentLoaded', () => {
-    initSynchronizedScroll();
-    initHorizontalWheelScroll();
-    initDragScroll();
-});
-
 // 메인 스크롤 이벤트 처리
 window.addEventListener('wheel', (e) => {
     // 메뉴 스크롤 영역에서는 기존 스크롤 로직을 건너뛰기
@@ -168,9 +165,15 @@ window.addEventListener('wheel', (e) => {
     isScrolling = true;
     
     if (e.deltaY > 0) { // 아래로 스크롤
-        if (scrollStage < 3) {
+        if (scrollStage < 2) {
             scrollStage++;
             updateStage();
+        } else if (scrollStage === 2) {
+            // 고양이 상태에서 한 번 더 스크롤하면 일반 스크롤로 전환
+            document.body.classList.remove('scroll-locked');
+            heroSection.classList.add('scrollable');
+            scrollStage = 3; // 상태 업데이트
+            return; // 일반 스크롤 허용
         }
     } else { // 위로 스크롤
         if (scrollStage > 0) {
@@ -183,7 +186,6 @@ window.addEventListener('wheel', (e) => {
         isScrolling = false;
     }, 1000);
 }, { passive: false });
-
 
 // 클릭 이벤트
 // 식재료 데이터
@@ -247,7 +249,7 @@ function initIngredientClick() {
     });
 }
 
-// 기존 DOMContentLoaded 이벤트에 추가
+// 페이지 로드 후 초기화
 document.addEventListener('DOMContentLoaded', () => {
     initSynchronizedScroll();
     initHorizontalWheelScroll();
