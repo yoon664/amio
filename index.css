@@ -792,8 +792,8 @@ body.scroll-locked {
 }
 
 .circle-button.active {
-    background: #7CB342;
-    transform: scale(1.1);
+    /* background: #7CB342; */
+    transform: scale(1);
 }
 
 .circle-button:nth-child(1) { top: 35.8%; left: 24%; }  /* 닭고기 */

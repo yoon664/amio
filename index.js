@@ -193,7 +193,7 @@ const ingredientData = {
         text: '바르게 기른 동물복지 생닭고기를<br>사용하고 반려동물 첨가물 원칙을<br>지켜 올바 식단을 만듭니다.'
     },
     salmon: {
-        image: 'img/연어.png',
+        image: 'img/생연어.png',
         text: '자연담은 힘찬 연어 노르웨이산<br>연어로 싱싱함이 더해 옳바른<br>식단을 만드는데 주된 재료입니다.'
     },
     tea: {
