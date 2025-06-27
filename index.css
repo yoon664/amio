@@ -1231,3 +1231,112 @@ body.scroll-locked {
         margin: 0 20px !important;
     }
 }
+
+/* ==================================== footer ==================================== */
+.footer {
+    position: relative;
+    height: 100vw;
+}
+.center-area2 {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    transition: all 1s ease-out;
+    top: 5%;
+}
+
+/* 캐릭터 */
+.character-container2 {
+    position: relative;
+    transition: all 1s ease-out;
+}
+
+.character2 {
+    position: absolute;
+    top: 1vw;
+    width: 400px;
+    height: 630px;
+    background: url('img/staff.png') center / contain no-repeat;
+    margin: 0 auto;
+    transition: all 1s ease-out;
+    transform-origin: center bottom;
+}
+
+/* 말풍선 */
+.speech-bubble-container2 {
+    top: -60px;
+    right: -280px;
+    width: 380px;
+    height: 140px;
+    transition: all 0.5s ease-out;
+}
+
+.speech-bubble-bg2 {
+    position: absolute;
+    top: -25%;
+    left: 80%;
+    width: 380px;
+    height: 166px;
+    background: url('img/말풍선99.png') center / contain no-repeat;
+}
+
+.speech-bubble-text2 {
+    position: absolute;
+    top: 35%;
+    left: 137%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #ffffff;
+    text-align: left;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+.main-table2 {
+    position: absolute;
+    top: 10%;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1920px;
+    height: 832px;
+    background: url('img/mainTable2.png') center bottom / contain no-repeat;
+    z-index: 30;
+}
+
+.review-card {
+    position: absolute;
+    top: 14%;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1605px;
+    height: 634px;
+    background: url('img/reviwall.png') center bottom / contain no-repeat;
+    z-index: 50;
+}
+
+.footer-bg {
+    position: absolute;
+    top: 38%;
+    z-index: 40;
+    width: 100%;
+    height: 100%;
+}
+.footer-info {
+    position: absolute;
+    z-index: 50;
+    width: 100%;
+    min-width: 1083px;
+    height: 611px;
+    top: 3%;
+}
