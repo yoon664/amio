@@ -13,13 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 모든 초기화 함수 실행
     initScrollEvents();
-    initSynchronizedScroll();
-    initHorizontalWheelScroll();
-    initDragScroll();
+    initSwiperMenus(); // 기존 3개 스크롤 함수 대신 이것만 호출
     initIngredientClick();
 });
 
-// 스크롤 관련 이벤트 초기화
+// 스크롤 관련 이벤트 초기화 (기존과 동일)
 function initScrollEvents() {
     // 스크롤 위치 감지하여 상태 리셋
     window.addEventListener('scroll', () => {
@@ -63,14 +61,6 @@ function initScrollEvents() {
     window.addEventListener('wheel', (e) => {
         // heroSection이 존재하지 않으면 return
         if (!heroSection) return;
-        
-        // 메뉴 스크롤 영역에서는 기존 스크롤 로직을 건너뛰기
-        const dogImages = document.querySelector('.dog-images-scroll');
-        const catImages = document.querySelector('.cat-images-scroll');
-        
-        if ((dogImages && dogImages.matches(':hover')) || (catImages && catImages.matches(':hover'))) {
-            return; // 가로 스크롤 처리로 위임
-        }
         
         // 기존 스크롤 로직 실행
         if (isScrolling) return;
@@ -131,87 +121,103 @@ function updateStage() {
     }
 }
 
-// =====대표메뉴 가로스크롤===== //
-// 동기화 스크롤 기능
-function initSynchronizedScroll() {
-    const dogImagesScroll = document.querySelector('.dog-images-scroll');
-    const dogInfoScroll = document.querySelector('.dog-info-scroll');
-    const catImagesScroll = document.querySelector('.cat-images-scroll');
-    const catInfoScroll = document.querySelector('.cat-info-scroll');
-    
-    // 강아지 메뉴 동기화
-    if (dogImagesScroll && dogInfoScroll) {
-        dogImagesScroll.addEventListener('scroll', () => {
-            dogInfoScroll.scrollLeft = dogImagesScroll.scrollLeft;
-        });
+// =====Swiper 메뉴 초기화===== //
+function initSwiperMenus() {
+    // Swiper CSS 동적 로드
+    if (!document.querySelector('link[href*="swiper-bundle.min.css"]')) {
+        const swiperCSS = document.createElement('link');
+        swiperCSS.rel = 'stylesheet';
+        swiperCSS.href = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
+        document.head.appendChild(swiperCSS);
     }
-    
-    // 고양이 메뉴 동기화
-    if (catImagesScroll && catInfoScroll) {
-        catImagesScroll.addEventListener('scroll', () => {
-            catInfoScroll.scrollLeft = catImagesScroll.scrollLeft;
-        });
+
+    // Swiper JS 동적 로드
+    if (!window.Swiper) {
+        const swiperJS = document.createElement('script');
+        swiperJS.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+        swiperJS.onload = initSwiper;
+        document.head.appendChild(swiperJS);
+    } else {
+        initSwiper();
     }
 }
 
-// 마우스 휠로 가로 스크롤 기능
-function initHorizontalWheelScroll() {
-    const scrollContainers = document.querySelectorAll('.dog-images-scroll, .cat-images-scroll');
-    
-    scrollContainers.forEach(container => {
-        container.addEventListener('wheel', (e) => {
-            // 컨테이너 위에 마우스가 있을 때만 작동
-            if (container.matches(':hover')) {
-                e.preventDefault();
-                
-                // 휠 델타 값에 따라 스크롤 속도 조정
-                const scrollAmount = e.deltaY * 0.8;
-                container.scrollLeft += scrollAmount;
-            }
-        }, { passive: false });
+function initSwiper() {
+    // 강아지 이미지 Swiper와 정보 Swiper 연동
+    const dogImagesSwiper = new Swiper('.dog-images-scroll', {
+        slidesPerView: 'auto',
+        spaceBetween: 40,
+        freeMode: {
+            enabled: true,
+            sticky: false,
+            momentumRatio: 1,
+            momentumVelocityRatio: 1,
+        },
+        grabCursor: true,
+        mousewheel: false,
+        scrollbar: {
+            el: '.dog-images-scroll .swiper-scrollbar',
+            draggable: true,
+            dragSize: 'auto',
+        },
     });
+
+    const dogInfoSwiper = new Swiper('.dog-info-scroll', {
+        slidesPerView: 'auto',
+        spaceBetween: 40,
+        freeMode: {
+            enabled: true,
+            sticky: false,
+            momentumRatio: 1,
+            momentumVelocityRatio: 1,
+        },
+        allowTouchMove: false, // 터치 비활성화 (이미지에만 반응)
+        mousewheel: false,
+    });
+
+    // 강아지 이미지 ↔ 정보 동기화
+    dogImagesSwiper.controller.control = dogInfoSwiper;
+    dogInfoSwiper.controller.control = dogImagesSwiper;
+
+    // 고양이 이미지 Swiper와 정보 Swiper 연동
+    const catImagesSwiper = new Swiper('.cat-images-scroll', {
+        slidesPerView: 'auto',
+        spaceBetween: 40,
+        freeMode: {
+            enabled: true,
+            sticky: false,
+            momentumRatio: 1,
+            momentumVelocityRatio: 1,
+        },
+        grabCursor: true,
+        mousewheel: false,
+        scrollbar: {
+            el: '.cat-images-scroll .swiper-scrollbar',
+            draggable: true,
+            dragSize: 'auto',
+        },
+    });
+
+    const catInfoSwiper = new Swiper('.cat-info-scroll', {
+        slidesPerView: 'auto',
+        spaceBetween: 40,
+        freeMode: {
+            enabled: true,
+            sticky: false,
+            momentumRatio: 1,
+            momentumVelocityRatio: 1,
+        },
+        allowTouchMove: false, // 터치 비활성화 (이미지에만 반응)
+        mousewheel: false,
+    });
+
+    // 고양이 이미지 ↔ 정보 동기화
+    catImagesSwiper.controller.control = catInfoSwiper;
+    catInfoSwiper.controller.control = catImagesSwiper;
 }
 
-// 터치 및 드래그 스크롤 지원
-function initDragScroll() {
-    const scrollContainers = document.querySelectorAll('.dog-images-scroll, .cat-images-scroll');
-    
-    scrollContainers.forEach(container => {
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-        
-        container.addEventListener('mousedown', (e) => {
-            isDown = true;
-            container.style.cursor = 'grabbing';
-            startX = e.pageX - container.offsetLeft;
-            scrollLeft = container.scrollLeft;
-        });
-        
-        container.addEventListener('mouseleave', () => {
-            isDown = false;
-            container.style.cursor = 'grab';
-        });
-        
-        container.addEventListener('mouseup', () => {
-            isDown = false;
-            container.style.cursor = 'grab';
-        });
-        
-        container.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - container.offsetLeft;
-            const walk = (x - startX) * 2;
-            container.scrollLeft = scrollLeft - walk;
-        });
-        
-        // 초기 커서 설정
-        container.style.cursor = 'grab';
-    });
-}
 
-// 식재료 데이터
+// 식재료 데이터 (기존과 동일)
 const ingredientData = {
     chicken: {
         image: 'img/닭고기.png',
@@ -239,7 +245,7 @@ const ingredientData = {
     }
 };
 
-// 원형 버튼 클릭 이벤트 초기화
+// 원형 버튼 클릭 이벤트 초기화 (기존과 동일)
 function initIngredientClick() {
     const circleButtons = document.querySelectorAll('.circle-button');
     const ingredientImg = document.getElementById('ingredient-image');

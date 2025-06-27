@@ -736,6 +736,12 @@ body.scroll-locked {
     z-index: 8;
 }
 
+.dog-images-scroll,
+.cat-images-scroll {
+    transform: translateY(-10px);
+}
+
+
 /* 반응형 대응 */
 @media (max-width: 768px) {
     .product-image-item, .product-info-item {
@@ -768,8 +774,9 @@ body.scroll-locked {
     }
 }
 
+
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
-/* 대표메뉴 가로스크롤 */
+/* 클릭 이벤트 */
 
 .click-recommend {
     position: relative;
@@ -886,3 +893,341 @@ body.scroll-locked {
     object-fit: contain;
 }
 
+
+/* 기존 CSS 끝에 추가할 Swiper 스타일 복원 코드 */
+
+/* Swiper 기본 스타일 무효화 및 기존 스타일 복원 */
+.dog-images-scroll.swiper,
+.cat-images-scroll.swiper {
+    /* 기존 스타일 강제 적용 */
+    position: relative !important;
+    overflow: hidden !important; /* Swiper 작동을 위해 hidden으로 변경 */
+    white-space: nowrap !important;
+    padding: 60px 0 20px 0 !important;
+    margin: 0 auto !important;
+    max-width: 1550px !important;
+    top: 80px !important;
+    z-index: 15 !important;
+    
+    /* Swiper 기본 스타일 무효화 */
+    width: auto !important;
+    height: auto !important;
+}
+
+/* 스크롤바 스타일링 복원 (Swiper scrollbar 사용) */
+.dog-images-scroll .swiper-scrollbar,
+.cat-images-scroll .swiper-scrollbar {
+    background: transparent !important;
+    height: 8px !important;
+    border-radius: 4px !important;
+    bottom: 15px !important; /* 기존 위치와 비슷하게 조정 */
+}
+
+.dog-images-scroll .swiper-scrollbar-drag,
+.cat-images-scroll .swiper-scrollbar-drag {
+    background: #7CB342 !important;
+    border-radius: 4px !important;
+    cursor: grab !important;
+}
+
+.dog-images-scroll .swiper-scrollbar-drag:hover,
+.cat-images-scroll .swiper-scrollbar-drag:hover {
+    background: #689F38 !important;
+}
+
+/* swiper-wrapper 스타일 조정 */
+.dog-images-scroll .swiper-wrapper,
+.cat-images-scroll .swiper-wrapper {
+    /* Swiper transform 허용 (스와이프 기능을 위해) */
+    /* transform: none !important; - 제거 */
+    /* transition: none !important; - 제거 */
+    
+    /* 기존 레이아웃 스타일 적용 */
+    display: flex !important;
+    align-items: flex-start !important;
+    width: auto !important;
+    height: auto !important;
+    
+    /* 기존 inline-block 레이아웃 모방 */
+    white-space: nowrap !important;
+}
+
+/* swiper-slide 스타일 조정 */
+.swiper-slide.product-image-item {
+    /* Swiper 기본 스타일 무효화 */
+    width: auto !important;
+    height: auto !important;
+    flex-shrink: 0 !important;
+    
+    /* 기존 product-image-item 스타일 강제 적용 */
+    display: inline-block !important;
+    vertical-align: top !important;
+    white-space: normal !important;
+    margin-right: 40px !important;
+    width: 280px !important;
+    text-align: center !important;
+    position: relative !important;
+}
+
+.swiper-slide.product-image-item:last-child {
+    margin-right: 0 !important;
+}
+
+.swiper-slide.product-image-item img {
+    width: 180px !important;
+    height: 240px !important;
+    object-fit: contain !important;
+}
+
+/* 기존 정보 스크롤 스타일 확실히 유지 (Swiper 적용) */
+.dog-info-scroll.swiper,
+.cat-info-scroll.swiper {
+    position: relative !important;
+    overflow: hidden !important; /* Swiper를 위해 hidden */
+    white-space: nowrap !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    max-width: 1550px !important;
+    top: 120px !important;
+    z-index: 25 !important;
+    
+    /* Swiper 기본 스타일 무효화 */
+    width: auto !important;
+    height: auto !important;
+}
+
+/* 정보 Swiper wrapper 스타일 */
+.dog-info-scroll .swiper-wrapper,
+.cat-info-scroll .swiper-wrapper {
+    display: flex !important;
+    align-items: flex-start !important;
+    white-space: nowrap !important;
+}
+
+/* 정보 swiper-slide 스타일 조정 */
+.swiper-slide.product-info-item {
+    /* Swiper 기본 스타일 무효화 */
+    width: auto !important;
+    height: auto !important;
+    flex-shrink: 0 !important;
+    
+    /* 기존 product-info-item 스타일 강제 적용 */
+    display: inline-block !important;
+    vertical-align: top !important;
+    white-space: normal !important;
+    margin-right: 40px !important;
+    width: 280px !important;
+    text-align: left !important;
+    position: relative !important;
+    left: 5% !important;
+    border-radius: 10px !important;
+}
+
+/* 기존 product-info-item 스타일 확실히 유지 (Swiper와 일반 둘 다 대응) */
+.product-info-item,
+.swiper-slide.product-info-item {
+    display: inline-block !important;
+    vertical-align: top !important;
+    white-space: normal !important;
+    margin-right: 40px !important;
+    width: 280px !important;
+    text-align: left !important;
+    position: relative !important;
+    left: 5% !important;
+    border-radius: 10px !important;
+    
+    /* Swiper 기본 스타일 무효화 */
+    flex-shrink: 0 !important;
+    height: auto !important;
+}
+
+.product-info-item:last-child,
+.swiper-slide.product-info-item:last-child {
+    margin-right: 0 !important;
+}
+
+.product-info-item img:first-child,
+.swiper-slide.product-info-item img:first-child {
+    height: 25px !important;
+    margin-bottom: 8px !important;
+}
+
+.product-info-item p,
+.swiper-slide.product-info-item p {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+    color: #333 !important;
+    font-weight: 800 !important;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
+}
+
+.product-info-item img:last-child,
+.swiper-slide.product-info-item img:last-child {
+    height: 20px !important;
+    margin-top: 8px !important;
+}
+
+/* 기존 메뉴 섹션 스타일 확실히 유지 */
+.dog-menu {
+    position: relative !important;
+    margin-bottom: 400px !important;
+    margin-top: 300px !important;
+}
+
+.cat-menu {
+    position: relative !important;
+    margin-bottom: 100px !important;
+}
+
+.dog-scroll-menu,
+.cat-scroll-menu {
+    position: absolute !important;
+    top: -20px !important;
+    left: 200px !important;
+    z-index: 20 !important;
+}
+
+.dog-scroll-menu h2,
+.cat-scroll-menu h2 {
+    display: inline-block !important;
+    margin-left: 20px !important;
+    margin-bottom: 10px !important;
+    font-family: "Jua", sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 60px !important;
+    font-style: normal !important;
+}
+
+.dog-scroll-menu img,
+.cat-scroll-menu img {
+    height: 60px !important;
+    width: auto !important;
+}
+
+/* 기존 테이블 배경 스타일 확실히 유지 */
+.menu-table-bg {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 100% !important;
+    max-width: 1920px !important;
+    height: 222px !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    z-index: 8 !important;
+}
+
+.dog-menu .menu-table-bg {
+    background-image: url('img/대표메뉴테이블.png') !important;
+}
+
+.cat-menu .menu-table-bg {
+    background-image: url('img/대표메뉴테이블.png') !important;
+}
+
+/* Swiper 모든 특수 기능 비활성화 */
+.swiper-slide {
+    /* 모든 transform 효과 제거 */
+    transform: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    
+    /* 3D 효과 비활성화 */
+    transform-style: flat !important;
+    backface-visibility: visible !important;
+    perspective: none !important;
+}
+
+.swiper-wrapper {
+    /* wrapper의 특수 효과 비활성화 */
+    transition: none !important;
+    transform-style: flat !important;
+    perspective: none !important;
+    
+    /* 기본 flex 레이아웃만 유지 */
+    display: flex !important;
+    align-items: flex-start !important;
+}
+
+.swiper-container {
+    /* 컨테이너 특수 효과 비활성화 */
+    overflow: hidden !important;
+    transform-style: flat !important;
+    perspective: none !important;
+}
+
+/* Swiper 애니메이션 클래스들 무효화 */
+.swiper-slide-active,
+.swiper-slide-next,
+.swiper-slide-prev,
+.swiper-slide-duplicate,
+.swiper-slide-duplicate-active,
+.swiper-slide-duplicate-next,
+.swiper-slide-duplicate-prev {
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Swiper 특수 효과 클래스들 무효화 */
+.swiper-slide-shadow,
+.swiper-slide-shadow-left,
+.swiper-slide-shadow-right,
+.swiper-slide-shadow-top,
+.swiper-slide-shadow-bottom {
+    display: none !important;
+}
+
+/* 모든 Swiper 애니메이션 완전 비활성화 */
+.swiper,
+.swiper *,
+.swiper::before,
+.swiper::after,
+.swiper-wrapper,
+.swiper-slide {
+    animation: none !important;
+    transition: none !important;
+    transform-origin: center center !important;
+    will-change: auto !important;
+}
+
+/* 반응형 대응도 확실히 유지 (Swiper 적용 버전) */
+@media (max-width: 768px) {
+    .swiper-slide.product-image-item, 
+    .product-info-item,
+    .swiper-slide.product-info-item {
+        width: 200px !important;
+        margin-right: 25px !important;
+    }
+    
+    .swiper-slide.product-image-item img {
+        width: 140px !important;
+        height: 200px !important;
+    }
+    
+    .product-info-item p,
+    .swiper-slide.product-info-item p {
+        font-size: 12px !important;
+    }
+    
+    .dog-scroll-menu, 
+    .cat-scroll-menu {
+        left: 100px !important;
+    }
+    
+    .product-info-item,
+    .swiper-slide.product-info-item {
+        padding: 10px !important;
+        left: 5% !important;
+    }
+    
+    .dog-images-scroll.swiper, 
+    .cat-images-scroll.swiper,
+    .dog-info-scroll.swiper, 
+    .cat-info-scroll.swiper {
+        max-width: 100% !important;
+        margin: 0 20px !important;
+    }
+}
