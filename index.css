@@ -355,7 +355,9 @@ body.scroll-locked {
 
 .dog-focus .logo,
 .dog-focus .subtitle-img {
-    opacity: 1;
+    opacity: 0.3;
+    z-index: 1;
+    position: relative;
 }
 
 .dog-focus .left-area,
@@ -389,7 +391,9 @@ body.scroll-locked {
 
 .cat-focus .logo,
 .cat-focus .subtitle-img {
-    opacity: 1;
+    opacity: 0.3;
+    z-index: 1;
+    position: relative;
 }
 
 .cat-focus .right-area,
@@ -406,6 +410,60 @@ body.scroll-locked {
     opacity: 0;
     pointer-events: none;
 }
+
+/* 스크롤 포커스별 추가 이미지들 */
+.dog-focus-image,
+.cat-focus-image {
+    position: absolute;
+    opacity: 0;
+    /* transform: translateY(30px) scale(1); */
+    transition: all 1s ease-out;
+    z-index: 9;
+    pointer-events: none;
+}
+
+/* 강아지 포커스 이미지 - 정 가운데 배치 */
+.dog-focus-image {
+    top: 44%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(30px) scale(1);
+    width: 882px;
+    height: 464px;
+}
+
+.dog-focus-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 고양이 포커스 이미지 - 정 가운데 배치 */
+.cat-focus-image {
+    top: 44%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(30px) scale(1);
+    width: 882px;
+    height: 464px;
+}
+
+.cat-focus-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 강아지 포커스 상태일 때 */
+.dog-focus .dog-focus-image {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0) scale(1);
+}
+
+/* 고양이 포커스 상태일 때 */
+.cat-focus .cat-focus-image {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0) scale(1);
+}
+
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /* 대표메뉴 가로스크롤 */
