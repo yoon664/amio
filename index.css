@@ -356,8 +356,6 @@ body.scroll-locked {
 .dog-focus .logo,
 .dog-focus .subtitle-img {
     opacity: 0.3;
-    z-index: 1;
-    position: relative;
 }
 
 .dog-focus .left-area,
@@ -375,7 +373,7 @@ body.scroll-locked {
 }
 
 .cat-focus .cat-tower {
-    transform: scale(1.8) translateX(-10%) translateY(60%);
+    transform: scale(1.8) translateX(-14%) translateY(60%);
     z-index: 20;
 }
 
@@ -392,8 +390,6 @@ body.scroll-locked {
 .cat-focus .logo,
 .cat-focus .subtitle-img {
     opacity: 0.3;
-    z-index: 1;
-    position: relative;
 }
 
 .cat-focus .right-area,
@@ -417,14 +413,14 @@ body.scroll-locked {
     position: absolute;
     opacity: 0;
     /* transform: translateY(30px) scale(1); */
-    transition: all 1s ease-out;
-    z-index: 9;
+    transition: all 0.7s linear;
+    z-index: 10;
     pointer-events: none;
 }
 
 /* 강아지 포커스 이미지 - 정 가운데 배치 */
 .dog-focus-image {
-    top: 44%;
+    top: 42%;
     left: 50%;
     transform: translate(-50%, -50%) translateY(30px) scale(1);
     width: 882px;
@@ -439,7 +435,7 @@ body.scroll-locked {
 
 /* 고양이 포커스 이미지 - 정 가운데 배치 */
 .cat-focus-image {
-    top: 44%;
+    top: 42%;
     left: 50%;
     transform: translate(-50%, -50%) translateY(30px) scale(1);
     width: 882px;
@@ -464,6 +460,9 @@ body.scroll-locked {
     transform: translate(-50%, -50%) translateY(0) scale(1);
 }
 
+.dog-focus .cat-focus {
+    z-index: 30;
+}
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /* 대표메뉴 가로스크롤 */
