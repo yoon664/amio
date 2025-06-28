@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     heroSection = document.getElementById('heroSection');
     
     // 페이지 로드 시 스크롤 잠금
-    document.body.classList.add('scroll-locked');
+    // document.body.classList.add('scroll-locked');
     
     // 모든 초기화 함수 실행
     initScrollEvents();
@@ -27,7 +27,7 @@ function initScrollEvents() {
             scrollStage = 2; // 고양이 포커스 상태로 돌아감
             heroSection.classList.remove('scrollable');
             heroSection.classList.add('cat-focus');
-            document.body.classList.add('scroll-locked');
+            // document.body.classList.add('scroll-locked');
         }
     });
 
