@@ -1348,7 +1348,57 @@ body.scroll-locked {
     position: absolute;
     z-index: 50;
     width: 100%;
-    min-width: 1083px;
-    height: 611px;
-    top: 3%;
+    top: 760%;
+}
+
+.footer-info ul {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    margin: 25px 0;
+    padding: 0;
+    list-style: none;
+    justify-content: center;
+}
+
+.footer-social {
+    display: flex;
+    position: absolute;
+    z-index: 50;
+    width: 100%;
+    top: 850%;
+    justify-content: center;
+}
+
+.footer-social ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 25px;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+  
+.footer-info a,
+.footer-social a {
+    text-decoration: none;
+    color: #ffff;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+.footer-info li a {
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.footer-end {
+    position: absolute;
+    z-index: 50;
+    width: 100%;
+    top: 990%;
+    align-self: flex-start;
+    color: #ffff;
+    font-size: 20px;
+    line-height: 2;
 }

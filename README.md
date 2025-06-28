@@ -1,3 +1,32 @@
+## footer
+
+㈜풀무원은 통신판매중개자이며 통신판매의 당사자가 아닙니다. 
+㈜풀무원은 상품, 거래정보 및 거래에 대하여 책임을 지지 않습니다.
+Copyright ⓒ Pulmuone co.,Ltd All Rights Reserved
+
+## color
+별점, 댓글
+#76ba36
+
+## font
+https://fonts.google.com/selection/embed
+
+## js
+swiper.js
+
+## 참고
+https://careerpod.jp/
+
+## svg 사이트
+https://icons8.com/icons/set/link
+https://www.svgviewer.dev/s/492227/link
+
+## sanrio
+https://yoon664.github.io/sanrio_po/
+
+## 팀플
+https://clean4u.r-e.kr/
+
 ## 말풍선 내용
 좌측에 식재료들을 눌러
 식재료들의 정보를 확인해보세요.
@@ -31,26 +60,3 @@
 아미오를 이용해주신 고객님들의
 리얼 후기를 보여드리고 있습니다.
 아미오를 이용하고 후기를 남겨보세요.
-
-
-## footer
-
-㈜풀무원은 통신판매중개자이며 통신판매의 당사자가 아닙니다. 
-㈜풀무원은 상품, 거래정보 및 거래에 대하여 책임을 지지 않습니다.
-Copyright ⓒ Pulmuone co.,Ltd All Rights Reserved
-
-## color
-별점, 댓글
-#76ba36
-
-## font
-https://fonts.google.com/selection/embed
-
-## js
-swiper.js
-
-## 참고
-https://careerpod.jp/
-
-## sanrio
-https://yoon664.github.io/sanrio_po/
