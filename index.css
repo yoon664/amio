@@ -470,8 +470,9 @@ body.scroll-locked {
 .best-menu {
     position: relative;
     background: #f8f9fa;
-    padding: 100px 0;
+    padding-top: 100px;
     z-index: 30;
+    background-image: url('img/bg\ copy.png');
 }
 
 /* 강아지 메뉴 섹션 */
@@ -521,7 +522,7 @@ body.scroll-locked {
 }
 
 .dog-images-scroll::-webkit-scrollbar {
-    height: 8px;
+    /* height: 8px; */
 }
 
 .dog-images-scroll::-webkit-scrollbar-track {
@@ -640,7 +641,7 @@ body.scroll-locked {
 /* 고양이 메뉴 섹션 */
 .cat-menu {
     position: relative;
-    margin-bottom: 100px; 
+    margin-bottom: 0px; 
     /* 개는 400 */
 }
 
@@ -920,7 +921,7 @@ body.scroll-locked {
     background: transparent !important;
     height: 8px !important;
     border-radius: 4px !important;
-    bottom: 15px !important; /* 기존 위치와 비슷하게 조정 */
+    /* bottom: 15px !important; */
 }
 
 .dog-images-scroll .swiper-scrollbar-drag,
@@ -1232,12 +1233,29 @@ body.scroll-locked {
     }
 }
 
-/* ==================================== footer ==================================== */
-.footer {
-    position: relative;
-    height: 80vw;
-    background-image: url('img/footerbgbg.png');
+.amio-sns {
+    transform: translateY(-200px);
 }
+
+/* ==================================== footer ==================================== */
+
+.footer {
+    transform: translateY(-100px);
+    position: relative;
+    /* min-height: 1920px; */
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: -220px;
+    left: 0;
+    width: 100%;
+    height: calc(100% + 100px); /* 높이도 늘리기 */
+    background: url('img/footerbgbg.png') center top / 100% auto no-repeat;
+    z-index: -1; /* 내용물 뒤로 보내기 */
+}
+
 .center-area2 {
     flex: 1;
     height: 100%;
@@ -1249,6 +1267,7 @@ body.scroll-locked {
     text-align: center;
     transition: all 1s ease-out;
     top: 5%;
+    
 }
 
 /* 캐릭터 */
@@ -1302,14 +1321,10 @@ body.scroll-locked {
 
 .main-table2 {
     position: absolute;
-    top: 10%;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    top: -200%;
+    /* bottom: 50%; */
     width: 100%;
-    /* max-width: 1920px; */
-    /* height: 832px; */
-    height: 100%;
+    height: 1920px;
     background: url('img/Group\ 48.png') center bottom / contain no-repeat;
     z-index: 30;
 }
