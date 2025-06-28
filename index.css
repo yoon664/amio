@@ -522,7 +522,7 @@ body.scroll-locked {
 }
 
 .dog-images-scroll::-webkit-scrollbar {
-    /* height: 8px; */
+    height: 8px;
 }
 
 .dog-images-scroll::-webkit-scrollbar-track {
@@ -1242,7 +1242,7 @@ body.scroll-locked {
 .footer {
     transform: translateY(-100px);
     position: relative;
-    /* min-height: 1920px; */
+    height: 100%;
 }
 
 .footer::before {
@@ -1251,9 +1251,10 @@ body.scroll-locked {
     top: -220px;
     left: 0;
     width: 100%;
-    height: calc(100% + 100px); /* 높이도 늘리기 */
+    height: calc(100%);
+    height: 1860px;
     background: url('img/footerbgbg.png') center top / 100% auto no-repeat;
-    z-index: -1; /* 내용물 뒤로 보내기 */
+    z-index: -1;
 }
 
 .center-area2 {
