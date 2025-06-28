@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollEvents();
     initSwiperMenus(); // 기존 3개 스크롤 함수 대신 이것만 호출
     initIngredientClick();
+    
 });
 
 // 스크롤 관련 이벤트 초기화 (기존과 동일)
