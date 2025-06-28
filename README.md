@@ -51,3 +51,6 @@ https://fonts.google.com/selection/embed
 
 ## js
 swiper.js
+
+## sanrio
+https://yoon664.github.io/sanrio_po/
