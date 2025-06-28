@@ -1235,7 +1235,8 @@ body.scroll-locked {
 /* ==================================== footer ==================================== */
 .footer {
     position: relative;
-    height: 100vw;
+    height: 80vw;
+    background-image: url('img/footerbgbg.png');
 }
 .center-area2 {
     flex: 1;
@@ -1306,9 +1307,10 @@ body.scroll-locked {
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 1920px;
-    height: 832px;
-    background: url('img/mainTable2.png') center bottom / contain no-repeat;
+    /* max-width: 1920px; */
+    /* height: 832px; */
+    height: 100%;
+    background: url('img/Group\ 48.png') center bottom / contain no-repeat;
     z-index: 30;
 }
 
@@ -1321,17 +1323,11 @@ body.scroll-locked {
     width: 100%;
     max-width: 1605px;
     height: 634px;
-    background: url('img/reviwall.png') center bottom / contain no-repeat;
+    /* background: url('img/reviwall.png') center bottom / contain no-repeat; */
     z-index: 50;
 }
 
-.footer-bg {
-    position: absolute;
-    top: 38%;
-    z-index: 40;
-    width: 100%;
-    height: 100%;
-}
+
 .footer-info {
     position: absolute;
     z-index: 50;
