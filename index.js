@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 모든 초기화 함수 실행
     initScrollEvents();
-    initSwiperMenus(); // 기존 3개 스크롤 함수 대신 이것만 호출
+    initSwiperMenus(); // 모든 스와이퍼 초기화
     initIngredientClick();
     
 });
@@ -122,7 +122,7 @@ function updateStage() {
     }
 }
 
-// =====Swiper 메뉴 초기화===== //
+// =====모든 Swiper 초기화===== //
 function initSwiperMenus() {
     // Swiper CSS 동적 로드
     if (!document.querySelector('link[href*="swiper-bundle.min.css"]')) {
@@ -136,14 +136,19 @@ function initSwiperMenus() {
     if (!window.Swiper) {
         const swiperJS = document.createElement('script');
         swiperJS.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
-        swiperJS.onload = initSwiper;
+        swiperJS.onload = () => {
+            initProductSwiper(); // 기존 강아지/고양이 제품 스와이퍼
+            initReviewSwiper();   // 새로운 리뷰 카드 스와이퍼
+        };
         document.head.appendChild(swiperJS);
     } else {
-        initSwiper();
+        initProductSwiper(); // 기존 강아지/고양이 제품 스와이퍼
+        initReviewSwiper();   // 새로운 리뷰 카드 스와이퍼
     }
 }
 
-function initSwiper() {
+// 기존 강아지/고양이 제품 스와이퍼
+function initProductSwiper() {
     // 강아지 이미지 Swiper와 정보 Swiper 연동
     const dogImagesSwiper = new Swiper('.dog-images-scroll', {
         slidesPerView: 'auto',
@@ -217,6 +222,84 @@ function initSwiper() {
     catInfoSwiper.controller.control = catImagesSwiper;
 }
 
+// 새로운 리뷰 카드 스와이퍼 (별도 함수)
+function initReviewSwiper() {
+    // 리뷰 카드 컨테이너가 존재하는지 확인
+    const reviewContainer = document.querySelector('.review-card-swiper');
+    if (!reviewContainer) {
+        console.warn('리뷰 카드 스와이퍼 컨테이너를 찾을 수 없습니다.');
+        return;
+    }
+
+    const reviewSwiper = new Swiper('.review-card-swiper', {
+        // 기본 설정
+        slidesPerView: 'auto',
+        spaceBetween: 30,
+        centeredSlides: true,
+        
+        // 무한 루프
+        loop: true,
+        
+        // 터치 설정
+        grabCursor: true,
+        touchRatio: 1,
+        touchAngle: 45,
+        
+        // 키보드 네비게이션
+        keyboard: {
+            enabled: true,
+            onlyInViewport: true,
+        },
+        
+        // 마우스휠 네비게이션
+        mousewheel: {
+            releaseOnEdges: true,
+        },
+        
+        // 반응형 설정
+        breakpoints: {
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 20,
+            },
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 25,
+            },
+            768: {
+                slidesPerView: 2.5,
+                spaceBetween: 30,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+            },
+            1200: {
+                slidesPerView: 'auto',
+                spaceBetween: 30,
+            }
+        },
+        
+        // 효과 설정
+        effect: 'slide',
+        speed: 600,
+        
+        // 이벤트 콜백
+        on: {
+            slideChange: function () {
+                console.log('현재 리뷰 슬라이드:', this.activeIndex);
+            },
+            reachEnd: function () {
+                console.log('리뷰 마지막 슬라이드에 도달');
+            },
+            reachBeginning: function () {
+                console.log('리뷰 첫 번째 슬라이드에 도달');
+            }
+        },
+    });
+
+    console.log('리뷰 카드 스와이퍼 초기화 완료');
+}
 
 // 식재료 데이터 (기존과 동일)
 const ingredientData = {
@@ -283,4 +366,6 @@ function initIngredientClick() {
             }
         });
     });
+
+    console.log('식재료 클릭 이벤트 초기화 완료');
 }
