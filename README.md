@@ -1,7 +1,4 @@
 ## 말풍선 내용
-
-
-
 좌측에 식재료들을 눌러
 식재료들의 정보를 확인해보세요.
 
@@ -51,6 +48,9 @@ https://fonts.google.com/selection/embed
 
 ## js
 swiper.js
+
+## 참고
+https://careerpod.jp/
 
 ## sanrio
 https://yoon664.github.io/sanrio_po/
