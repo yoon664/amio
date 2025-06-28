@@ -1381,7 +1381,7 @@ body.scroll-locked {
     z-index: 30;
 }
 
-.review-card {
+.review-card-swiper {
     position: absolute;
     top: 14%;
     bottom: 0;
