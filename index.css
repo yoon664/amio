@@ -1364,7 +1364,7 @@ body.scroll-locked {
     transform: translate(-50%, -50%);
     width: 75%;
     font-size: 19px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.5;
     color: #ffffff;
     text-align: left;
