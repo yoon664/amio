@@ -1,22 +1,117 @@
+// 전역 변수들을 먼저 선언
 let scrollStage = 0;
-const heroSection = document.getElementById('heroSection');
+let heroSection;
 let isScrolling = false;
 
-// 페이지 로드 시 스크롤 잠금
-document.body.classList.add('scroll-locked');
-
-// 스크롤 위치 감지하여 상태 리셋
-window.addEventListener('scroll', () => {
-    if (window.scrollY === 0 && scrollStage === 3) {
-        // 맨 위로 돌아왔을 때 상태 리셋
-        scrollStage = 2; // 고양이 포커스 상태로 돌아감
-        heroSection.classList.remove('scrollable');
-        heroSection.classList.add('cat-focus');
-        document.body.classList.add('scroll-locked');
-    }
+// DOM이 로드된 후 초기화
+document.addEventListener('DOMContentLoaded', () => {
+    // DOM 요소 참조 설정
+    heroSection = document.getElementById('heroSection');
+    
+    // 페이지 로드 시 스크롤 잠금
+    document.body.classList.add('scroll-locked');
+    
+    // 모든 초기화 함수 실행
+    initScrollEvents();
+    initSynchronizedScroll();
+    initHorizontalWheelScroll();
+    initDragScroll();
+    initIngredientClick();
 });
 
+// 스크롤 관련 이벤트 초기화
+function initScrollEvents() {
+    // 스크롤 위치 감지하여 상태 리셋
+    window.addEventListener('scroll', () => {
+        if (window.scrollY === 0 && scrollStage === 3) {
+            // 맨 위로 돌아왔을 때 상태 리셋
+            scrollStage = 2; // 고양이 포커스 상태로 돌아감
+            heroSection.classList.remove('scrollable');
+            heroSection.classList.add('cat-focus');
+            document.body.classList.add('scroll-locked');
+        }
+    });
+
+    // 키보드 네비게이션
+    window.addEventListener('keydown', (e) => {
+        // 스크롤 가능한 상태에서는 키보드 네비게이션 비활성화
+        if (heroSection.classList.contains('scrollable')) {
+            return;
+        }
+        
+        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+            e.preventDefault();
+            if (scrollStage < 2) {
+                scrollStage++;
+                updateStage();
+            } else if (scrollStage === 2) {
+                // 고양이 상태에서 한 번 더 누르면 일반 스크롤로 전환
+                document.body.classList.remove('scroll-locked');
+                heroSection.classList.add('scrollable');
+                scrollStage = 3; // 상태 업데이트
+            }
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+            e.preventDefault();
+            if (scrollStage > 0) {
+                scrollStage--;
+                updateStage();
+            }
+        }
+    });
+
+    // 메인 휠 이벤트 처리
+    window.addEventListener('wheel', (e) => {
+        // heroSection이 존재하지 않으면 return
+        if (!heroSection) return;
+        
+        // 메뉴 스크롤 영역에서는 기존 스크롤 로직을 건너뛰기
+        const dogImages = document.querySelector('.dog-images-scroll');
+        const catImages = document.querySelector('.cat-images-scroll');
+        
+        if ((dogImages && dogImages.matches(':hover')) || (catImages && catImages.matches(':hover'))) {
+            return; // 가로 스크롤 처리로 위임
+        }
+        
+        // 기존 스크롤 로직 실행
+        if (isScrolling) return;
+        
+        // 스크롤 가능한 상태에서는 일반 스크롤 허용
+        if (heroSection.classList.contains('scrollable')) {
+            return;
+        }
+        
+        e.preventDefault();
+        isScrolling = true;
+        
+        if (e.deltaY > 0) { // 아래로 스크롤
+            if (scrollStage < 2) {
+                scrollStage++;
+                updateStage();
+            } else if (scrollStage === 2) {
+                // 고양이 상태에서 한 번 더 스크롤하면 일반 스크롤로 전환
+                document.body.classList.remove('scroll-locked');
+                heroSection.classList.add('scrollable');
+                scrollStage = 3; // 상태 업데이트
+                isScrolling = false; // 즉시 해제
+                return; // 일반 스크롤 허용
+            }
+        } else { // 위로 스크롤
+            if (scrollStage > 0) {
+                scrollStage--;
+                updateStage();
+            }
+        }
+        
+        setTimeout(() => {
+            isScrolling = false;
+        }, 1000);
+    }, { passive: false });
+}
+
 function updateStage() {
+    // heroSection이 존재하지 않으면 return
+    if (!heroSection) return;
+    
     // 모든 포커스 클래스 제거
     heroSection.classList.remove('dog-focus', 'cat-focus', 'scrollable');
     
@@ -35,29 +130,6 @@ function updateStage() {
             break;
     }
 }
-
-// 키보드 네비게이션
-window.addEventListener('keydown', (e) => {
-    // 스크롤 가능한 상태에서는 키보드 네비게이션 비활성화
-    if (heroSection.classList.contains('scrollable')) {
-        return;
-    }
-    
-    if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-        e.preventDefault();
-        if (scrollStage < 3) {
-            scrollStage++;
-            updateStage();
-        }
-    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-        e.preventDefault();
-        if (scrollStage > 0) {
-            scrollStage--;
-            updateStage();
-        }
-    }
-});
-
 
 // =====대표메뉴 가로스크롤===== //
 // 동기화 스크롤 기능
@@ -139,53 +211,6 @@ function initDragScroll() {
     });
 }
 
-// 페이지 로드 후 초기화
-document.addEventListener('DOMContentLoaded', () => {
-    initSynchronizedScroll();
-    initHorizontalWheelScroll();
-    initDragScroll();
-});
-
-// 메인 스크롤 이벤트 처리
-window.addEventListener('wheel', (e) => {
-    // 메뉴 스크롤 영역에서는 기존 스크롤 로직을 건너뛰기
-    const dogImages = document.querySelector('.dog-images-scroll');
-    const catImages = document.querySelector('.cat-images-scroll');
-    
-    if ((dogImages && dogImages.matches(':hover')) || (catImages && catImages.matches(':hover'))) {
-        return; // 가로 스크롤 처리로 위임
-    }
-    
-    // 기존 스크롤 로직 실행
-    if (isScrolling) return;
-    
-    // 스크롤 가능한 상태에서는 일반 스크롤 허용
-    if (heroSection && heroSection.classList.contains('scrollable')) {
-        return;
-    }
-    
-    e.preventDefault();
-    isScrolling = true;
-    
-    if (e.deltaY > 0) { // 아래로 스크롤
-        if (scrollStage < 3) {
-            scrollStage++;
-            updateStage();
-        }
-    } else { // 위로 스크롤
-        if (scrollStage > 0) {
-            scrollStage--;
-            updateStage();
-        }
-    }
-    
-    setTimeout(() => {
-        isScrolling = false;
-    }, 1000);
-}, { passive: false });
-
-
-// 클릭 이벤트
 // 식재료 데이터
 const ingredientData = {
     chicken: {
@@ -221,6 +246,12 @@ function initIngredientClick() {
     const ingredientContainer = document.querySelector('.click-recommend-img');
     const bubbleText = document.querySelector('.bubble-text');
 
+    // 요소들이 존재하는지 확인
+    if (!circleButtons.length || !ingredientImg || !ingredientContainer || !bubbleText) {
+        console.warn('일부 식재료 클릭 요소들을 찾을 수 없습니다.');
+        return;
+    }
+
     circleButtons.forEach(button => {
         button.addEventListener('click', function() {
             const ingredient = this.getAttribute('data-ingredient');
@@ -246,11 +277,3 @@ function initIngredientClick() {
         });
     });
 }
-
-// 기존 DOMContentLoaded 이벤트에 추가
-document.addEventListener('DOMContentLoaded', () => {
-    initSynchronizedScroll();
-    initHorizontalWheelScroll();
-    initDragScroll();
-    initIngredientClick();
-});
