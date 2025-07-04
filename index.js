@@ -222,7 +222,7 @@ function initProductSwiper() {
     catInfoSwiper.controller.control = catImagesSwiper;
 }
 
-// 새로운 리뷰 카드 스와이퍼 (별도 함수)
+// 새로운 리뷰 카드 스와이퍼
 function initReviewSwiper() {
     // 리뷰 카드 컨테이너가 존재하는지 확인
     const reviewContainer = document.querySelector('.review-card-swiper');
@@ -231,74 +231,52 @@ function initReviewSwiper() {
         return;
     }
 
+    // 자동재생 설정 (필요에 따라 변경 가능)
+    const autoplayEnabled = true; // false로 변경하면 자동재생 비활성화
+
     const reviewSwiper = new Swiper('.review-card-swiper', {
         // 기본 설정
-        slidesPerView: 'auto',
-        spaceBetween: 30,
-        centeredSlides: true,
+        slidesPerView: 3, // 한 번에 3개 카드 표시
+        spaceBetween: -130, // 음수로 카드들이 겹치도록 설정
+        centeredSlides: false,
+        initialSlide: 0, // 첫 번째 슬라이드부터 시작 (review1)
         
-        // 무한 루프
+        // 무한 루프 설정
         loop: true,
+        loopedSlides: 5, // 실제 슬라이드 개수
         
-        // 터치 설정
+        // 터치 설정만 유지
         grabCursor: true,
         touchRatio: 1,
-        touchAngle: 45,
         
-        // 키보드 네비게이션
-        keyboard: {
-            enabled: true,
-            onlyInViewport: true,
-        },
+        // 슬라이드 전환 설정
+        slidesPerGroup: 1, // 한 번에 1개씩 이동
+        speed: 800,
         
-        // 마우스휠 네비게이션
-        mousewheel: {
-            releaseOnEdges: true,
-        },
-        
-        // 반응형 설정
-        breakpoints: {
-            320: {
-                slidesPerView: 1,
-                spaceBetween: 20,
-            },
-            640: {
-                slidesPerView: 2,
-                spaceBetween: 25,
-            },
-            768: {
-                slidesPerView: 2.5,
-                spaceBetween: 30,
-            },
-            1024: {
-                slidesPerView: 3,
-                spaceBetween: 30,
-            },
-            1200: {
-                slidesPerView: 'auto',
-                spaceBetween: 30,
+        // 자동 재생 (조건부 설정)
+        ...(autoplayEnabled && {
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
             }
-        },
-        
-        // 효과 설정
-        effect: 'slide',
-        speed: 600,
+        }),
         
         // 이벤트 콜백
         on: {
+            init: function() {
+                console.log('리뷰 카드 스와이퍼 초기화됨');
+                console.log('초기 순서: review1, review2, review3, review4, review5');
+            },
             slideChange: function () {
-                console.log('현재 리뷰 슬라이드:', this.activeIndex);
-            },
-            reachEnd: function () {
-                console.log('리뷰 마지막 슬라이드에 도달');
-            },
-            reachBeginning: function () {
-                console.log('리뷰 첫 번째 슬라이드에 도달');
+                const currentReview = this.realIndex + 1;
+                console.log('현재 리뷰 슬라이드:', currentReview);
             }
         },
     });
 
     console.log('리뷰 카드 스와이퍼 초기화 완료');
+    return reviewSwiper;
 }
 
 // 식재료 데이터 (기존과 동일)

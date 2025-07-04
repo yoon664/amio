@@ -1439,90 +1439,97 @@ body.scroll-locked {
     font-size: 20px;
     line-height: 2;
 }
-/* 
-.review-card-swiper {
-    position: absolute;
-    top: 14%;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 1605px;
-    height: 634px;
-    z-index: 50;
-    display: flex;
-    flex-direction: row;
-} */
 
-/* === 리뷰 카드 Swiper 스타일 (네비게이션 없음) === */
+
+/* === 리뷰 카드 Swiper 스타일 === */
 .review-card-swiper.swiper {
     position: absolute !important;
-    top: 14% !important;
+    top: 2vw !important;
     bottom: 0 !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: 100% !important;
-    max-width: 1605px !important;
-    height: 634px !important;
+    /* max-width: 1605px !important; */
+    height: 900px !important;
     z-index: 50 !important;
     overflow: hidden !important;
+    padding: 0 50px !important;
 }
 
 .review-card-swiper .swiper-wrapper {
     display: flex !important;
     align-items: center !important;
     height: 100% !important;
+    transition-timing-function: ease-out !important;
 }
 
 .review-card-swiper .swiper-slide {
-    width: auto !important;
-    height: 100% !important;
+    position: relative !important;
+    width: 450px !important; 
+    height: 600px !important; 
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    margin-right: 30px !important;
     flex-shrink: 0 !important;
+    cursor: pointer !important;
 }
 
+/* 기본 이미지 스타일 */
 .review-card-swiper .swiper-slide img {
-    max-width: 100% !important;
-    max-height: 100% !important;
     object-fit: contain !important;
-    /* border-radius: 15px !important; */
-    /* box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important; */
-    transition: all 0.3s ease !important;
+    pointer-events: none !important;
 }
 
-.review-card-swiper .swiper-slide img:hover {
-    transform: translateY(-5px) !important;
-    /* box-shadow: 0 15px 40px rgba(0,0,0,0.2) !important; */
+.review-card-swiper .swiper-slide:nth-child(1) {
+    z-index: 10 !important;
 }
 
-/* 슬라이드 효과 */
-.review-card-swiper .swiper-slide {
-    transform: scale(1) !important;
-    opacity: 1 !important;
-    transition: all 0.4s ease !important;
+
+.review-card-swiper .swiper-slide:nth-child(2) {
+    z-index: 20 !important;
 }
 
-.review-card-swiper .swiper-slide-active {
-    transform: scale(1) !important;
-    opacity: 1 !important;
+
+.review-card-swiper .swiper-slide:nth-child(3) {
+    z-index: 30 !important;
 }
 
-.review-card-swiper .swiper-slide-next,
-.review-card-swiper .swiper-slide-prev {
-    transform: scale(1) !important;
-    opacity: 1 !important;
+.review-card-swiper .swiper-slide:nth-child(4) {
+    z-index: 20 !important;
 }
 
-/* 반응형 */
-@media (max-width: 768px) {
-    .review-card-swiper.swiper {
-        height: 400px !important;
-    }
-    
-    .review-card-swiper .swiper-slide {
-        margin-right: 20px !important;
-    }
+
+.review-card-swiper .swiper-slide:nth-child(5) {
+    z-index: 10 !important;
+}
+
+/* === 개별 카드 크기 및 위치 조정 === */
+.review-card-swiper .swiper-slide[data-swiper-slide-index="0"] img {
+    width: 437px !important;
+    height: 464px !important;
+    transform: translateX(30px) translateY(200px) !important; 
+}
+
+.review-card-swiper .swiper-slide[data-swiper-slide-index="1"] img {
+    width: 381px !important;
+    height: 432px !important;
+    transform: translateX(0px) translateY(50px) !important; 
+}
+
+.review-card-swiper .swiper-slide[data-swiper-slide-index="2"] img {
+    width: 304px !important;
+    height: 375px !important;
+    transform: translateX(0px) translateY(0px) !important; 
+}
+
+.review-card-swiper .swiper-slide[data-swiper-slide-index="3"] img {
+    width: 381px !important;
+    height: 432px !important;
+    transform: translateX(0px) translateY(50px) !important; 
+}
+
+.review-card-swiper .swiper-slide[data-swiper-slide-index="4"] img {
+    width: 437px !important;
+    height: 462px !important;
+    transform: translateX(-30px) translateY(200px) !important;
 }
