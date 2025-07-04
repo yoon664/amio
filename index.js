@@ -222,7 +222,7 @@ function initProductSwiper() {
     catInfoSwiper.controller.control = catImagesSwiper;
 }
 
-// 새로운 리뷰 카드 스와이퍼
+// 리뷰 카드 스와이퍼
 function initReviewSwiper() {
     // 리뷰 카드 컨테이너가 존재하는지 확인
     const reviewContainer = document.querySelector('.review-card-swiper');

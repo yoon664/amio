@@ -1286,6 +1286,65 @@ body.scroll-locked {
 
 .amio-sns {
     transform: translateY(-200px);
+    position: relative;
+}
+
+.amio-sns-social {
+    /* position: absolute; */
+    display: inline-block;
+    margin-left: 400px;
+    margin-bottom: 10px;
+    font-family: "Jua", sans-serif;
+    font-weight: 600;
+    font-size: 40px;
+    font-style: normal;
+    transform: translateY(-750px);
+    color: #17730B;
+}
+.amio-sns-social P {
+    /* position: absolute; */
+    display: inline-block;
+    /* margin-left: 20px; */
+    /* margin-bottom: 10px; */
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
+    font-weight: 500;
+    font-size: 30px;
+    font-style: normal;
+    transform: translateY(50px);
+    color: #468402;
+}
+
+.sns-img1{
+    position: absolute;
+    transform: translateY(-680px);
+    margin-left: 400px;
+    z-index: 10;
+}
+.sns-img1 li {
+    /* position: absolute; */
+    display: inline-block;
+    margin-left: 40px;
+    /* margin-bottom: 10px; */
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
+    font-weight: 600;
+    font-size: 25px;
+    font-style: normal;
+    transform: translateY(-54px);
+    z-index: 15;
+
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+.sns-img1 li a {
+    text-decoration: none;
+    color: #17730B;
+}
+.sns-img2{
+    position: absolute;
+    transform: translateY(-750px);
+    margin-left: 660px;
+    z-index: 5;
 }
 
 /* ==================================== footer ==================================== */
