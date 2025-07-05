@@ -1,125 +1,55 @@
 // 전역 변수들을 먼저 선언
-let scrollStage = 0;
 let heroSection;
-let isScrolling = false;
 
 // DOM이 로드된 후 초기화
 document.addEventListener('DOMContentLoaded', () => {
     // DOM 요소 참조 설정
     heroSection = document.getElementById('heroSection');
     
-    // 페이지 로드 시 스크롤 잠금
-    // document.body.classList.add('scroll-locked');
-    
     // 모든 초기화 함수 실행
     initScrollEvents();
     initSwiperMenus(); // 모든 스와이퍼 초기화
     initIngredientClick();
-    
 });
 
-// 스크롤 관련 이벤트 초기화 (기존과 동일)
+// 스크롤 기반 애니메이션 이벤트 초기화
 function initScrollEvents() {
-    // 스크롤 위치 감지하여 상태 리셋
+    // 스크롤 이벤트 리스너
     window.addEventListener('scroll', () => {
-        if (window.scrollY === 0 && scrollStage === 3) {
-            // 맨 위로 돌아왔을 때 상태 리셋
-            scrollStage = 2; // 고양이 포커스 상태로 돌아감
-            heroSection.classList.remove('scrollable');
-            heroSection.classList.add('cat-focus');
-            // document.body.classList.add('scroll-locked');
-        }
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        
+        // 스크롤 위치에 따른 상태 변경
+        updateScrollStage(scrollY, windowHeight);
     });
 
-    // 키보드 네비게이션
-    window.addEventListener('keydown', (e) => {
-        // 스크롤 가능한 상태에서는 키보드 네비게이션 비활성화
-        if (heroSection.classList.contains('scrollable')) {
-            return;
-        }
-        
-        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-            e.preventDefault();
-            if (scrollStage < 2) {
-                scrollStage++;
-                updateStage();
-            } else if (scrollStage === 2) {
-                // 고양이 상태에서 한 번 더 누르면 일반 스크롤로 전환
-                document.body.classList.remove('scroll-locked');
-                heroSection.classList.add('scrollable');
-                scrollStage = 3; // 상태 업데이트
-            }
-        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-            e.preventDefault();
-            if (scrollStage > 0) {
-                scrollStage--;
-                updateStage();
-            }
-        }
+    // 리사이즈 이벤트 (반응형 대응)
+    window.addEventListener('resize', () => {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        updateScrollStage(scrollY, windowHeight);
     });
-
-    // 메인 휠 이벤트 처리
-    window.addEventListener('wheel', (e) => {
-        // heroSection이 존재하지 않으면 return
-        if (!heroSection) return;
-        
-        // 기존 스크롤 로직 실행
-        if (isScrolling) return;
-        
-        // 스크롤 가능한 상태에서는 일반 스크롤 허용
-        if (heroSection.classList.contains('scrollable')) {
-            return;
-        }
-        
-        e.preventDefault();
-        isScrolling = true;
-        
-        if (e.deltaY > 0) { // 아래로 스크롤
-            if (scrollStage < 2) {
-                scrollStage++;
-                updateStage();
-            } else if (scrollStage === 2) {
-                // 고양이 상태에서 한 번 더 스크롤하면 일반 스크롤로 전환
-                document.body.classList.remove('scroll-locked');
-                heroSection.classList.add('scrollable');
-                scrollStage = 3; // 상태 업데이트
-                isScrolling = false; // 즉시 해제
-                return; // 일반 스크롤 허용
-            }
-        } else { // 위로 스크롤
-            if (scrollStage > 0) {
-                scrollStage--;
-                updateStage();
-            }
-        }
-        
-        setTimeout(() => {
-            isScrolling = false;
-        }, 1000);
-    }, { passive: false });
 }
 
-function updateStage() {
+function updateScrollStage(scrollY, windowHeight) {
     // heroSection이 존재하지 않으면 return
     if (!heroSection) return;
     
     // 모든 포커스 클래스 제거
-    heroSection.classList.remove('dog-focus', 'cat-focus', 'scrollable');
+    heroSection.classList.remove('dog-focus', 'cat-focus');
     
-    switch(scrollStage) {
-        case 0: // 초기 상태 (staff 중앙)
-            break;
-        case 1: // 강아지 포커스
-            heroSection.classList.add('dog-focus');
-            break;
-        case 2: // 고양이 포커스
-            heroSection.classList.add('cat-focus');
-            break;
-        case 3: // 스크롤 가능한 상태로 변경
-            heroSection.classList.add('scrollable');
-            document.body.classList.remove('scroll-locked'); // 스크롤 잠금 해제
-            break;
+    // 스크롤 위치에 따른 상태 결정
+    if (scrollY < windowHeight * 0.3) {
+        // 초기 상태 (0 ~ 30vh)
+        // 클래스 없음 (기본 상태)
+    } else if (scrollY < windowHeight * 0.8) {
+        // 강아지 포커스 상태 (30vh ~ 80vh)
+        heroSection.classList.add('dog-focus');
+    } else if (scrollY < windowHeight * 1.3) {
+        // 고양이 포커스 상태 (80vh ~ 130vh)
+        heroSection.classList.add('cat-focus');
     }
+    // 130vh 이후는 일반 스크롤 (클래스 없음)
 }
 
 // =====모든 Swiper 초기화===== //

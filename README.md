@@ -2,7 +2,7 @@
 
 1. wheel -> 애니메이션으로만
 
-2. 원 커지는거 
+<!-- 2. 원 커지는거  -->
 
 3. 
 swiper circle rotate card slider

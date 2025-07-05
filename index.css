@@ -1075,7 +1075,7 @@ body.scroll-locked {
     width: 280px !important;
     text-align: left !important;
     position: relative !important;
-    left: 5% !important;
+    /* left: 5% !important; */
     border-radius: 10px !important;
 }
 
