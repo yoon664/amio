@@ -543,7 +543,7 @@ body.scroll-locked {
     display: inline-block;
     vertical-align: top;
     white-space: normal;
-    margin-right: 40px;
+    /* margin-right: 40px; */
     width: 280px;
     text-align: center;
     position: relative;
