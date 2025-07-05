@@ -1,128 +1,58 @@
 // 전역 변수들을 먼저 선언
-let scrollStage = 0;
 let heroSection;
-let isScrolling = false;
 
 // DOM이 로드된 후 초기화
 document.addEventListener('DOMContentLoaded', () => {
     // DOM 요소 참조 설정
     heroSection = document.getElementById('heroSection');
     
-    // 페이지 로드 시 스크롤 잠금
-    document.body.classList.add('scroll-locked');
-    
     // 모든 초기화 함수 실행
     initScrollEvents();
-    initSwiperMenus(); // 기존 3개 스크롤 함수 대신 이것만 호출
+    initSwiperMenus(); // 모든 스와이퍼 초기화
     initIngredientClick();
-    
 });
 
-// 스크롤 관련 이벤트 초기화 (기존과 동일)
+// 스크롤 기반 애니메이션 이벤트 초기화
 function initScrollEvents() {
-    // 스크롤 위치 감지하여 상태 리셋
+    // 스크롤 이벤트 리스너
     window.addEventListener('scroll', () => {
-        if (window.scrollY === 0 && scrollStage === 3) {
-            // 맨 위로 돌아왔을 때 상태 리셋
-            scrollStage = 2; // 고양이 포커스 상태로 돌아감
-            heroSection.classList.remove('scrollable');
-            heroSection.classList.add('cat-focus');
-            document.body.classList.add('scroll-locked');
-        }
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        
+        // 스크롤 위치에 따른 상태 변경
+        updateScrollStage(scrollY, windowHeight);
     });
 
-    // 키보드 네비게이션
-    window.addEventListener('keydown', (e) => {
-        // 스크롤 가능한 상태에서는 키보드 네비게이션 비활성화
-        if (heroSection.classList.contains('scrollable')) {
-            return;
-        }
-        
-        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-            e.preventDefault();
-            if (scrollStage < 2) {
-                scrollStage++;
-                updateStage();
-            } else if (scrollStage === 2) {
-                // 고양이 상태에서 한 번 더 누르면 일반 스크롤로 전환
-                document.body.classList.remove('scroll-locked');
-                heroSection.classList.add('scrollable');
-                scrollStage = 3; // 상태 업데이트
-            }
-        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-            e.preventDefault();
-            if (scrollStage > 0) {
-                scrollStage--;
-                updateStage();
-            }
-        }
+    // 리사이즈 이벤트 (반응형 대응)
+    window.addEventListener('resize', () => {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        updateScrollStage(scrollY, windowHeight);
     });
-
-    // 메인 휠 이벤트 처리
-    window.addEventListener('wheel', (e) => {
-        // heroSection이 존재하지 않으면 return
-        if (!heroSection) return;
-        
-        // 기존 스크롤 로직 실행
-        if (isScrolling) return;
-        
-        // 스크롤 가능한 상태에서는 일반 스크롤 허용
-        if (heroSection.classList.contains('scrollable')) {
-            return;
-        }
-        
-        e.preventDefault();
-        isScrolling = true;
-        
-        if (e.deltaY > 0) { // 아래로 스크롤
-            if (scrollStage < 2) {
-                scrollStage++;
-                updateStage();
-            } else if (scrollStage === 2) {
-                // 고양이 상태에서 한 번 더 스크롤하면 일반 스크롤로 전환
-                document.body.classList.remove('scroll-locked');
-                heroSection.classList.add('scrollable');
-                scrollStage = 3; // 상태 업데이트
-                isScrolling = false; // 즉시 해제
-                return; // 일반 스크롤 허용
-            }
-        } else { // 위로 스크롤
-            if (scrollStage > 0) {
-                scrollStage--;
-                updateStage();
-            }
-        }
-        
-        setTimeout(() => {
-            isScrolling = false;
-        }, 1000);
-    }, { passive: false });
 }
 
-function updateStage() {
+function updateScrollStage(scrollY, windowHeight) {
     // heroSection이 존재하지 않으면 return
     if (!heroSection) return;
     
     // 모든 포커스 클래스 제거
-    heroSection.classList.remove('dog-focus', 'cat-focus', 'scrollable');
+    heroSection.classList.remove('dog-focus', 'cat-focus');
     
-    switch(scrollStage) {
-        case 0: // 초기 상태 (staff 중앙)
-            break;
-        case 1: // 강아지 포커스
-            heroSection.classList.add('dog-focus');
-            break;
-        case 2: // 고양이 포커스
-            heroSection.classList.add('cat-focus');
-            break;
-        case 3: // 스크롤 가능한 상태로 변경
-            heroSection.classList.add('scrollable');
-            document.body.classList.remove('scroll-locked'); // 스크롤 잠금 해제
-            break;
+    // 스크롤 위치에 따른 상태 결정
+    if (scrollY < windowHeight * 0.3) {
+        // 초기 상태 (0 ~ 30vh)
+        // 클래스 없음 (기본 상태)
+    } else if (scrollY < windowHeight * 0.5) {
+        // 강아지 포커스 상태 (30vh ~ 80vh)
+        heroSection.classList.add('dog-focus');
+    } else if (scrollY < windowHeight * 1) {
+        // 고양이 포커스 상태 (80vh ~ 130vh)
+        heroSection.classList.add('cat-focus');
     }
+    // 130vh 이후는 일반 스크롤 (클래스 없음)
 }
 
-// =====Swiper 메뉴 초기화===== //
+// =====모든 Swiper 초기화===== //
 function initSwiperMenus() {
     // Swiper CSS 동적 로드
     if (!document.querySelector('link[href*="swiper-bundle.min.css"]')) {
@@ -136,14 +66,19 @@ function initSwiperMenus() {
     if (!window.Swiper) {
         const swiperJS = document.createElement('script');
         swiperJS.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
-        swiperJS.onload = initSwiper;
+        swiperJS.onload = () => {
+            initProductSwiper(); // 기존 강아지/고양이 제품 스와이퍼
+            initReviewSwiper();   // 새로운 리뷰 카드 스와이퍼
+        };
         document.head.appendChild(swiperJS);
     } else {
-        initSwiper();
+        initProductSwiper(); // 기존 강아지/고양이 제품 스와이퍼
+        initReviewSwiper();   // 새로운 리뷰 카드 스와이퍼
     }
 }
 
-function initSwiper() {
+// 기존 강아지/고양이 제품 스와이퍼
+function initProductSwiper() {
     // 강아지 이미지 Swiper와 정보 Swiper 연동
     const dogImagesSwiper = new Swiper('.dog-images-scroll', {
         slidesPerView: 'auto',
@@ -217,6 +152,69 @@ function initSwiper() {
     catInfoSwiper.controller.control = catImagesSwiper;
 }
 
+// 리뷰 카드 스와이퍼 (중앙 정렬 + 부드러운 효과)
+function initReviewSwiper() {
+    // 리뷰 카드 컨테이너가 존재하는지 확인
+    const reviewContainer = document.querySelector('.review-card-swiper');
+    if (!reviewContainer) {
+        console.warn('리뷰 카드 스와이퍼 컨테이너를 찾을 수 없습니다.');
+        return;
+    }
+
+    // 자동재생 설정 (필요에 따라 변경 가능)
+    const autoplayEnabled = true; // false로 변경하면 자동재생 비활성화
+
+    const reviewSwiper = new Swiper('.review-card-swiper', {
+        // 기본 설정 (중앙 정렬로 수정)
+        slidesPerView: 3, // 한 번에 3개 카드 표시
+        spaceBetween: -130, // 음수로 카드들이 겹치도록 설정
+        centeredSlides: true, // 중앙 정렬로 변경 (새로고침 시 중앙에 위치)
+        initialSlide: 0, // 첫 번째 슬라이드부터 시작 (review1)
+        
+        // 무한 루프 설정
+        loop: true,
+        loopedSlides: 5, // 실제 슬라이드 개수
+        
+        // 터치 설정
+        grabCursor: true,
+        touchRatio: 1,
+        resistance: true,
+        resistanceRatio: 0.85,
+        
+        // 슬라이드 전환 설정 (더 부드럽게)
+        slidesPerGroup: 1, // 한 번에 1개씩 이동
+        speed: 1000, // 조금 더 느리게 (부드러운 효과)
+        
+        // 부드러운 전환을 위한 설정
+        freeMode: false,
+        freeModeSticky: false,
+        
+        // 자동 재생 (조건부 설정)
+        ...(autoplayEnabled && {
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            }
+        }),
+        
+        // 이벤트 콜백
+        on: {
+            init: function() {
+                console.log('리뷰 카드 스와이퍼 초기화됨');
+                console.log('초기 순서: review1, review2, review3, review4, review5');
+                console.log('중앙 정렬 활성화됨');
+            },
+            slideChange: function () {
+                const currentReview = this.realIndex + 1;
+                console.log('현재 리뷰 슬라이드:', currentReview);
+            }
+        },
+    });
+
+    console.log('리뷰 카드 스와이퍼 초기화 완료');
+    return reviewSwiper;
+}
 
 // 식재료 데이터 (기존과 동일)
 const ingredientData = {
@@ -283,4 +281,6 @@ function initIngredientClick() {
             }
         });
     });
+
+    console.log('식재료 클릭 이벤트 초기화 완료');
 }
