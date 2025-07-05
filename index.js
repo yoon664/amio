@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // DOM 요소 참조 설정
     heroSection = document.getElementById('heroSection');
     
+    // CSS에서 히어로 섹션 높이 설정
+    
     // 모든 초기화 함수 실행
     initScrollEvents();
     initSwiperMenus(); // 모든 스와이퍼 초기화
@@ -17,39 +19,62 @@ function initScrollEvents() {
     // 스크롤 이벤트 리스너
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
-        const windowHeight = window.innerHeight;
-        
-        // 스크롤 위치에 따른 상태 변경
-        updateScrollStage(scrollY, windowHeight);
+        updateScrollStage(scrollY);
     });
 
     // 리사이즈 이벤트 (반응형 대응)
     window.addEventListener('resize', () => {
         const scrollY = window.scrollY;
-        const windowHeight = window.innerHeight;
-        updateScrollStage(scrollY, windowHeight);
+        updateScrollStage(scrollY);
     });
 }
 
-function updateScrollStage(scrollY, windowHeight) {
+function updateScrollStage(scrollY) {
     // heroSection이 존재하지 않으면 return
     if (!heroSection) return;
+    
+    const windowHeight = window.innerHeight;
+    const heroHeight = windowHeight * 3; // 300vh
+    
+    // 히어로 섹션의 고정 요소들 가져오기
+    const fixedElements = heroSection.querySelectorAll('.nav-container, .hanging-lights, .main-content, .main-table, .dog-focus-image, .cat-focus-image');
     
     // 모든 포커스 클래스 제거
     heroSection.classList.remove('dog-focus', 'cat-focus');
     
     // 스크롤 위치에 따른 상태 결정
-    if (scrollY < windowHeight * 0.3) {
-        // 초기 상태 (0 ~ 30vh)
-        // 클래스 없음 (기본 상태)
-    } else if (scrollY < windowHeight * 0.8) {
-        // 강아지 포커스 상태 (30vh ~ 80vh)
-        heroSection.classList.add('dog-focus');
+    if (scrollY < windowHeight * 0.5) {
+        // 초기 상태 (0vh ~ 100vh)
+        // fixed 상태 유지
+        fixedElements.forEach(el => {
+            el.style.position = 'fixed';
+            el.style.display = '';
+        });
     } else if (scrollY < windowHeight * 1.3) {
-        // 고양이 포커스 상태 (80vh ~ 130vh)
+        // 강아지 포커스 상태 (100vh ~ 200vh)
+        heroSection.classList.add('dog-focus');
+        // fixed 상태 유지
+        fixedElements.forEach(el => {
+            el.style.position = 'fixed';
+            el.style.display = '';
+        });
+    } else if (scrollY < windowHeight * 2.5) {
+        // 고양이 포커스 상태 (200vh ~ 280vh)
         heroSection.classList.add('cat-focus');
+        // fixed 상태 유지
+        fixedElements.forEach(el => {
+            el.style.position = 'fixed';
+            el.style.display = '';
+        });
+    } else {
+        // 애니메이션 완료 (280vh 이후) - fixed 해제하여 자연스럽게 다음 섹션으로
+        fixedElements.forEach(el => {
+            el.style.position = 'absolute';
+            el.style.display = 'none';
+        });
+        // 클래스도 제거하여 초기 상태로
+        heroSection.classList.remove('dog-focus', 'cat-focus');
     }
-    // 130vh 이후는 일반 스크롤 (클래스 없음)
 }
 
 // =====모든 Swiper 초기화===== //

@@ -2,7 +2,6 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
-
 * {
     margin: 0;
     padding: 0;
@@ -15,28 +14,18 @@ body {
     overflow-x: hidden;
 }
 
-/* 첫 번째 섹션 컨테이너 */
+/* =========================== 히어로 섹션 (산리오 스타일) =========================== */
 .hero-section {
     width: 100%;
-    min-height: 100vh;
-    height: auto;
+    height: 300vh; /* 300vh로 설정하여 스크롤 길이 확보 */
     position: relative;
     background: url('img/mainBg.png') center center / cover no-repeat;
     overflow: visible;
-    transition: all 0.5s ease-out;
-    padding-bottom: 200px; 
 }
 
-body.scroll-locked {
-    overflow: hidden;
-    height: 100vh;
-}
-
-
-
-/* 네비게이션 */
-.nav-container {
-    position: absolute;
+/* 네비게이션 - 화면에 고정 */
+.hero-section .nav-container {
+    position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
@@ -70,9 +59,9 @@ body.scroll-locked {
     opacity: 0.8;
 }
 
-/* 메인 테이블 (앞쪽에 놓인) */
-.main-table {
-    position: absolute;
+/* 메인 테이블 - 화면에 고정 */
+.hero-section .main-table {
+    position: fixed;
     top: 50%;
     bottom: 0;
     left: 50%;
@@ -84,9 +73,9 @@ body.scroll-locked {
     z-index: 50;
 }
 
-/* 메인 컨텐츠 영역 */
-.main-content {
-    position: absolute;
+/* 메인 컨텐츠 영역 - 화면에 고정 */
+.hero-section .main-content {
+    position: fixed;
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -119,7 +108,6 @@ body.scroll-locked {
     transition: all 1s ease-out;
 }
 
-/* 캣타워 (고양이들이 포함된 이미지) */
 .cat-tower {
     position: absolute;
     top: 35%;
@@ -145,7 +133,6 @@ body.scroll-locked {
     transition: all 1s ease-out;
 }
 
-/* 로고 */
 .logo {
     margin-bottom: 10px;
     width: 450px;
@@ -154,7 +141,6 @@ body.scroll-locked {
     transition: all 1s ease-out;
 }
 
-/* 서브타이틀 텍스트 이미지 */
 .subtitle-img {
     width: 380px;
     height: 80px;
@@ -163,7 +149,6 @@ body.scroll-locked {
     transition: all 1s ease-out;
 }
 
-/* 캐릭터 */
 .character-container {
     position: relative;
     transition: all 1s ease-out;
@@ -221,7 +206,6 @@ body.scroll-locked {
     justify-content: center;
     align-items: flex-end;
     padding-bottom: 120px;
-    /* transition: all 1s ease-out; */
 }
 
 .right-content {
@@ -231,7 +215,6 @@ body.scroll-locked {
     transition: all 1s ease-out;
 }
 
-/* 책상 테이블 */
 .desk-table {
     position: absolute;
     right: -105%;
@@ -243,10 +226,9 @@ body.scroll-locked {
     z-index: 2;
 }
 
-/* 강아지 (침대와 그릇 포함) */
 .dog-area {
     position: absolute;
-    top:112%;
+    top: 112%;
     bottom: 0;
     left: -40%;
     width: 120%;
@@ -256,9 +238,9 @@ body.scroll-locked {
     transform-origin: center bottom;
 }
 
-/* 장식 요소들 - 매달린 조명 */
-.hanging-lights {
-    position: absolute;
+/* 장식 요소들 - 매달린 조명 - 화면에 고정 */
+.hero-section .hanging-lights {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -304,6 +286,7 @@ body.scroll-locked {
     background: url('img/treeLeft1.png') center bottom / contain no-repeat;
     z-index: 30;
 }
+
 .plant-left2 {
     position: absolute;
     bottom: -48%;
@@ -322,6 +305,7 @@ body.scroll-locked {
     background: url('img/treeRight1.png') center bottom / contain no-repeat;
     z-index: 30;
 }
+
 .plant-right2 {
     position: absolute;
     bottom: -38%;
@@ -332,10 +316,33 @@ body.scroll-locked {
     z-index: 1000;
 }
 
-/* 스크롤 효과 */
+/* 포커스 이미지들 - 화면에 고정 */
+.hero-section .dog-focus-image,
+.hero-section .cat-focus-image {
+    position: fixed;
+    opacity: 0;
+    transition: all 0.7s linear;
+    z-index: 10;
+    pointer-events: none;
+    top: 42%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(30px) scale(1);
+    width: 882px;
+    height: 464px;
+}
+
+.dog-focus-image img,
+.cat-focus-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* =========================== 스크롤 애니메이션 효과 =========================== */
+
 /* 강아지 포커스 상태 */
 .dog-focus .main-content {
-    transform: translate(-50%, -50%);  /* 원위치 유지 */
+    transform: translate(-50%, -50%);
 }
 
 .dog-focus .dog-area {
@@ -367,9 +374,14 @@ body.scroll-locked {
     z-index: 20;
 }
 
+.dog-focus .dog-focus-image {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0) scale(1);
+}
+
 /* 고양이 포커스 상태 */
 .cat-focus .main-content {
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
 }
 
 .cat-focus .cat-tower {
@@ -401,78 +413,25 @@ body.scroll-locked {
     z-index: 20;
 }
 
+.cat-focus .cat-focus-image {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0) scale(1);
+}
+
 .dog-focus .speech-bubble-container,
 .cat-focus .speech-bubble-container {
     opacity: 0;
     pointer-events: none;
 }
 
-/* 스크롤 포커스별 추가 이미지들 */
-.dog-focus-image,
-.cat-focus-image {
-    position: absolute;
-    opacity: 0;
-    /* transform: translateY(30px) scale(1); */
-    transition: all 0.7s linear;
-    z-index: 10;
-    pointer-events: none;
-}
-
-/* 강아지 포커스 이미지 - 정 가운데 배치 */
-.dog-focus-image {
-    top: 42%;
-    left: 50%;
-    transform: translate(-50%, -50%) translateY(30px) scale(1);
-    width: 882px;
-    height: 464px;
-}
-
-.dog-focus-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-/* 고양이 포커스 이미지 - 정 가운데 배치 */
-.cat-focus-image {
-    top: 42%;
-    left: 50%;
-    transform: translate(-50%, -50%) translateY(30px) scale(1);
-    width: 882px;
-    height: 464px;
-}
-
-.cat-focus-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-/* 강아지 포커스 상태일 때 */
-.dog-focus .dog-focus-image {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateY(0) scale(1);
-}
-
-/* 고양이 포커스 상태일 때 */
-.cat-focus .cat-focus-image {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateY(0) scale(1);
-}
-
-.dog-focus .cat-focus {
-    z-index: 30;
-}
-
-/* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
-/* 대표메뉴 가로스크롤 */
-
+/* =========================== 대표메뉴 섹션 =========================== */
 .best-menu {
     position: relative;
     background: #f8f9fa;
     padding-top: 100px;
     z-index: 30;
     background-image: url('img/bg\ copy.png');
+    /* 히어로 섹션 300vh 이후에 시작 */
 }
 
 /* 강아지 메뉴 섹션 */
