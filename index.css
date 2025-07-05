@@ -1621,12 +1621,14 @@ body.scroll-locked {
     align-items: center !important;
     flex-shrink: 0 !important;
     cursor: pointer !important;
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
 /* 기본 이미지 스타일 */
 .review-card-swiper .swiper-slide img {
     object-fit: contain !important;
     pointer-events: none !important;
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
 .review-card-swiper .swiper-slide:nth-child(1) {
@@ -1681,4 +1683,20 @@ body.scroll-locked {
     width: 437px !important;
     height: 462px !important;
     transform: translateX(-30px) translateY(200px) !important;
+}
+
+
+.review-card-swiper .swiper-slide {
+    transform: translateY(40px) !important; 
+}
+
+.review-card-swiper .swiper-slide-prev,
+.review-card-swiper .swiper-slide-next {
+    transform: translateY(20px) !important; 
+    z-index: 20 !important;
+}
+
+.review-card-swiper .swiper-slide-active {
+    transform: translateY(0px) !important;
+    z-index: 30 !important;
 }
