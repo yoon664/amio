@@ -222,7 +222,7 @@ function initProductSwiper() {
     catInfoSwiper.controller.control = catImagesSwiper;
 }
 
-// 리뷰 카드 스와이퍼
+// 리뷰 카드 스와이퍼 (중앙 정렬 + 부드러운 효과)
 function initReviewSwiper() {
     // 리뷰 카드 컨테이너가 존재하는지 확인
     const reviewContainer = document.querySelector('.review-card-swiper');
@@ -235,23 +235,29 @@ function initReviewSwiper() {
     const autoplayEnabled = true; // false로 변경하면 자동재생 비활성화
 
     const reviewSwiper = new Swiper('.review-card-swiper', {
-        // 기본 설정
+        // 기본 설정 (중앙 정렬로 수정)
         slidesPerView: 3, // 한 번에 3개 카드 표시
         spaceBetween: -130, // 음수로 카드들이 겹치도록 설정
-        centeredSlides: false,
+        centeredSlides: true, // 중앙 정렬로 변경 (새로고침 시 중앙에 위치)
         initialSlide: 0, // 첫 번째 슬라이드부터 시작 (review1)
         
         // 무한 루프 설정
         loop: true,
         loopedSlides: 5, // 실제 슬라이드 개수
         
-        // 터치 설정만 유지
+        // 터치 설정
         grabCursor: true,
         touchRatio: 1,
+        resistance: true,
+        resistanceRatio: 0.85,
         
-        // 슬라이드 전환 설정
+        // 슬라이드 전환 설정 (더 부드럽게)
         slidesPerGroup: 1, // 한 번에 1개씩 이동
-        speed: 800,
+        speed: 1000, // 조금 더 느리게 (부드러운 효과)
+        
+        // 부드러운 전환을 위한 설정
+        freeMode: false,
+        freeModeSticky: false,
         
         // 자동 재생 (조건부 설정)
         ...(autoplayEnabled && {
@@ -267,6 +273,7 @@ function initReviewSwiper() {
             init: function() {
                 console.log('리뷰 카드 스와이퍼 초기화됨');
                 console.log('초기 순서: review1, review2, review3, review4, review5');
+                console.log('중앙 정렬 활성화됨');
             },
             slideChange: function () {
                 const currentReview = this.realIndex + 1;

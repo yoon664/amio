@@ -843,7 +843,7 @@ body.scroll-locked {
     z-index: 15;
 }
 
-.circle-button:hover {
+.circle-button {
     position: absolute;
     width: 24px;
     height: 24px;
@@ -870,11 +870,14 @@ body.scroll-locked {
         display: block;
         width: 100%;
         height: 100%;
-        background-color: white;
+        /* background-color: white; */
         border-radius: 15px;
         box-shadow: 0 0 8px rgba(0,0,0,.3);
         animation: pulse-dot 1.25s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
     }
+}
+.circle-button:hover {
+    background: #01a4e9;
 }
 
 @keyframes pulse-ring {
@@ -945,8 +948,6 @@ body.scroll-locked {
     object-fit: contain;
 }
 
-
-/* 기존 CSS 끝에 추가할 Swiper 스타일 복원 코드 */
 
 /* Swiper 기본 스타일 무효화 및 기존 스타일 복원 */
 .dog-images-scroll.swiper,
@@ -1590,7 +1591,7 @@ body.scroll-locked {
 }
 
 
-/* === 리뷰 카드 Swiper 스타일 === */
+/* === 리뷰 카드 Swiper 스타일 (평평한 이미지용) === */
 .review-card-swiper.swiper {
     position: absolute !important;
     top: 2vw !important;
@@ -1598,7 +1599,6 @@ body.scroll-locked {
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: 100% !important;
-    /* max-width: 1605px !important; */
     height: 900px !important;
     z-index: 50 !important;
     overflow: hidden !important;
@@ -1621,25 +1621,24 @@ body.scroll-locked {
     align-items: center !important;
     flex-shrink: 0 !important;
     cursor: pointer !important;
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    transition: all 0.6s ease !important;
 }
 
 /* 기본 이미지 스타일 */
 .review-card-swiper .swiper-slide img {
     object-fit: contain !important;
     pointer-events: none !important;
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    transition: all 0.6s ease !important;
 }
 
+/* === 화면 위치별 Z-INDEX 설정 === */
 .review-card-swiper .swiper-slide:nth-child(1) {
     z-index: 10 !important;
 }
 
-
 .review-card-swiper .swiper-slide:nth-child(2) {
     z-index: 20 !important;
 }
-
 
 .review-card-swiper .swiper-slide:nth-child(3) {
     z-index: 30 !important;
@@ -1649,54 +1648,18 @@ body.scroll-locked {
     z-index: 20 !important;
 }
 
-
 .review-card-swiper .swiper-slide:nth-child(5) {
     z-index: 10 !important;
 }
 
-/* === 개별 카드 크기 및 위치 조정 === */
-.review-card-swiper .swiper-slide[data-swiper-slide-index="0"] img {
-    width: 437px !important;
-    height: 464px !important;
-    transform: translateX(30px) translateY(200px) !important; 
+/* === 개별 카드 크기 조정 === */
+.review-card-swiper .swiper-slide img {
+    width: 380px !important; /* 통일된 너비 */
+    height: 500px !important; /* 통일된 높이 */
 }
 
-.review-card-swiper .swiper-slide[data-swiper-slide-index="1"] img {
-    width: 381px !important;
-    height: 432px !important;
-    transform: translateX(0px) translateY(50px) !important; 
-}
-
-.review-card-swiper .swiper-slide[data-swiper-slide-index="2"] img {
-    width: 304px !important;
-    height: 375px !important;
-    transform: translateX(0px) translateY(0px) !important; 
-}
-
-.review-card-swiper .swiper-slide[data-swiper-slide-index="3"] img {
-    width: 381px !important;
-    height: 432px !important;
-    transform: translateX(0px) translateY(50px) !important; 
-}
-
-.review-card-swiper .swiper-slide[data-swiper-slide-index="4"] img {
-    width: 437px !important;
-    height: 462px !important;
-    transform: translateX(-30px) translateY(200px) !important;
-}
-
-
-.review-card-swiper .swiper-slide {
-    transform: translateY(40px) !important; 
-}
-
-.review-card-swiper .swiper-slide-prev,
-.review-card-swiper .swiper-slide-next {
-    transform: translateY(20px) !important; 
-    z-index: 20 !important;
-}
-
-.review-card-swiper .swiper-slide-active {
-    transform: translateY(0px) !important;
-    z-index: 30 !important;
+/* === 호버 효과 === */
+.review-card-swiper .swiper-slide:hover img {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2) !important;
 }
