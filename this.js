@@ -9,17 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
     heroSection = document.getElementById('heroSection');
     
     // 페이지 로드 시 스크롤 잠금
-    document.body.classList.add('scroll-locked');
+    // document.body.classList.add('scroll-locked');
     
     // 모든 초기화 함수 실행
     initScrollEvents();
-    initSynchronizedScroll();
-    initHorizontalWheelScroll();
-    initDragScroll();
+    initSwiperMenus(); // 모든 스와이퍼 초기화
     initIngredientClick();
+    
 });
 
-// 스크롤 관련 이벤트 초기화
+// 스크롤 관련 이벤트 초기화 (기존과 동일)
 function initScrollEvents() {
     // 스크롤 위치 감지하여 상태 리셋
     window.addEventListener('scroll', () => {
@@ -28,7 +27,7 @@ function initScrollEvents() {
             scrollStage = 2; // 고양이 포커스 상태로 돌아감
             heroSection.classList.remove('scrollable');
             heroSection.classList.add('cat-focus');
-            document.body.classList.add('scroll-locked');
+            // document.body.classList.add('scroll-locked');
         }
     });
 
@@ -63,14 +62,6 @@ function initScrollEvents() {
     window.addEventListener('wheel', (e) => {
         // heroSection이 존재하지 않으면 return
         if (!heroSection) return;
-        
-        // 메뉴 스크롤 영역에서는 기존 스크롤 로직을 건너뛰기
-        const dogImages = document.querySelector('.dog-images-scroll');
-        const catImages = document.querySelector('.cat-images-scroll');
-        
-        if ((dogImages && dogImages.matches(':hover')) || (catImages && catImages.matches(':hover'))) {
-            return; // 가로 스크롤 처리로 위임
-        }
         
         // 기존 스크롤 로직 실행
         if (isScrolling) return;
@@ -131,87 +122,184 @@ function updateStage() {
     }
 }
 
-// =====대표메뉴 가로스크롤===== //
-// 동기화 스크롤 기능
-function initSynchronizedScroll() {
-    const dogImagesScroll = document.querySelector('.dog-images-scroll');
-    const dogInfoScroll = document.querySelector('.dog-info-scroll');
-    const catImagesScroll = document.querySelector('.cat-images-scroll');
-    const catInfoScroll = document.querySelector('.cat-info-scroll');
-    
-    // 강아지 메뉴 동기화
-    if (dogImagesScroll && dogInfoScroll) {
-        dogImagesScroll.addEventListener('scroll', () => {
-            dogInfoScroll.scrollLeft = dogImagesScroll.scrollLeft;
-        });
+// =====모든 Swiper 초기화===== //
+function initSwiperMenus() {
+    // Swiper CSS 동적 로드
+    if (!document.querySelector('link[href*="swiper-bundle.min.css"]')) {
+        const swiperCSS = document.createElement('link');
+        swiperCSS.rel = 'stylesheet';
+        swiperCSS.href = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
+        document.head.appendChild(swiperCSS);
     }
-    
-    // 고양이 메뉴 동기화
-    if (catImagesScroll && catInfoScroll) {
-        catImagesScroll.addEventListener('scroll', () => {
-            catInfoScroll.scrollLeft = catImagesScroll.scrollLeft;
-        });
+
+    // Swiper JS 동적 로드
+    if (!window.Swiper) {
+        const swiperJS = document.createElement('script');
+        swiperJS.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+        swiperJS.onload = () => {
+            initProductSwiper(); // 기존 강아지/고양이 제품 스와이퍼
+            initReviewSwiper();   // 새로운 리뷰 카드 스와이퍼
+        };
+        document.head.appendChild(swiperJS);
+    } else {
+        initProductSwiper(); // 기존 강아지/고양이 제품 스와이퍼
+        initReviewSwiper();   // 새로운 리뷰 카드 스와이퍼
     }
 }
 
-// 마우스 휠로 가로 스크롤 기능
-function initHorizontalWheelScroll() {
-    const scrollContainers = document.querySelectorAll('.dog-images-scroll, .cat-images-scroll');
-    
-    scrollContainers.forEach(container => {
-        container.addEventListener('wheel', (e) => {
-            // 컨테이너 위에 마우스가 있을 때만 작동
-            if (container.matches(':hover')) {
-                e.preventDefault();
-                
-                // 휠 델타 값에 따라 스크롤 속도 조정
-                const scrollAmount = e.deltaY * 0.8;
-                container.scrollLeft += scrollAmount;
+// 기존 강아지/고양이 제품 스와이퍼
+function initProductSwiper() {
+    // 강아지 이미지 Swiper와 정보 Swiper 연동
+    const dogImagesSwiper = new Swiper('.dog-images-scroll', {
+        slidesPerView: 'auto',
+        spaceBetween: 40,
+        freeMode: {
+            enabled: true,
+            sticky: false,
+            momentumRatio: 1,
+            momentumVelocityRatio: 1,
+        },
+        grabCursor: true,
+        mousewheel: false,
+        scrollbar: {
+            el: '.dog-images-scroll .swiper-scrollbar',
+            draggable: true,
+            dragSize: 'auto',
+        },
+    });
+
+    const dogInfoSwiper = new Swiper('.dog-info-scroll', {
+        slidesPerView: 'auto',
+        spaceBetween: 40,
+        freeMode: {
+            enabled: true,
+            sticky: false,
+            momentumRatio: 1,
+            momentumVelocityRatio: 1,
+        },
+        allowTouchMove: false, // 터치 비활성화 (이미지에만 반응)
+        mousewheel: false,
+    });
+
+    // 강아지 이미지 ↔ 정보 동기화
+    dogImagesSwiper.controller.control = dogInfoSwiper;
+    dogInfoSwiper.controller.control = dogImagesSwiper;
+
+    // 고양이 이미지 Swiper와 정보 Swiper 연동
+    const catImagesSwiper = new Swiper('.cat-images-scroll', {
+        slidesPerView: 'auto',
+        spaceBetween: 40,
+        freeMode: {
+            enabled: true,
+            sticky: false,
+            momentumRatio: 1,
+            momentumVelocityRatio: 1,
+        },
+        grabCursor: true,
+        mousewheel: false,
+        scrollbar: {
+            el: '.cat-images-scroll .swiper-scrollbar',
+            draggable: true,
+            dragSize: 'auto',
+        },
+    });
+
+    const catInfoSwiper = new Swiper('.cat-info-scroll', {
+        slidesPerView: 'auto',
+        spaceBetween: 40,
+        freeMode: {
+            enabled: true,
+            sticky: false,
+            momentumRatio: 1,
+            momentumVelocityRatio: 1,
+        },
+        allowTouchMove: false, // 터치 비활성화 (이미지에만 반응)
+        mousewheel: false,
+    });
+
+    // 고양이 이미지 ↔ 정보 동기화
+    catImagesSwiper.controller.control = catInfoSwiper;
+    catInfoSwiper.controller.control = catImagesSwiper;
+}
+
+// 리뷰 카드 스와이퍼 (기존 설정 + 아치형 효과)
+function initReviewSwiper() {
+    // 리뷰 카드 컨테이너가 존재하는지 확인
+    const reviewContainer = document.querySelector('.review-card-swiper');
+    if (!reviewContainer) {
+        console.warn('리뷰 카드 스와이퍼 컨테이너를 찾을 수 없습니다.');
+        return;
+    }
+
+    // 자동재생 설정 (필요에 따라 변경 가능)
+    const autoplayEnabled = true; // false로 변경하면 자동재생 비활성화
+
+    const reviewSwiper = new Swiper('.review-card-swiper', {
+        // 기본 설정 (기존 유지)
+        slidesPerView: 3, // 한 번에 3개 카드 표시
+        spaceBetween: -130, // 음수로 카드들이 겹치도록 설정
+        centeredSlides: false,
+        initialSlide: 0, // 첫 번째 슬라이드부터 시작 (review1)
+        
+        // 무한 루프 설정
+        loop: true,
+        loopedSlides: 5, // 실제 슬라이드 개수
+        
+        // 터치 설정만 유지
+        grabCursor: true,
+        touchRatio: 1,
+        
+        // 슬라이드 전환 설정
+        slidesPerGroup: 1, // 한 번에 1개씩 이동
+        speed: 800,
+        
+        // 해가 뜨고 지는 듯한 아치형 효과 추가
+        effect: 'creative',
+        creativeEffect: {
+            prev: {
+                shadow: false,
+                translate: [0, 50, -200], // x, y, z 이동 (아래로 살짝)
+                rotate: [0, 0, -10], // 살짝 기울임
+                scale: 0.9,
+                opacity: 0.8,
+            },
+            next: {
+                shadow: false,
+                translate: [0, 50, -200], // x, y, z 이동 (아래로 살짝)
+                rotate: [0, 0, 10], // 살짝 기울임
+                scale: 0.9,
+                opacity: 0.8,
+            },
+            limitProgress: 2, // 효과가 적용되는 슬라이드 수
+        },
+        
+        // 자동 재생 (조건부 설정)
+        ...(autoplayEnabled && {
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
             }
-        }, { passive: false });
+        }),
+        
+        // 이벤트 콜백
+        on: {
+            init: function() {
+                console.log('리뷰 카드 스와이퍼 초기화됨');
+                console.log('초기 순서: review1, review2, review3, review4, review5');
+            },
+            slideChange: function () {
+                const currentReview = this.realIndex + 1;
+                console.log('현재 리뷰 슬라이드:', currentReview);
+            }
+        },
     });
+
+    console.log('리뷰 카드 스와이퍼 초기화 완료');
+    return reviewSwiper;
 }
 
-// 터치 및 드래그 스크롤 지원
-function initDragScroll() {
-    const scrollContainers = document.querySelectorAll('.dog-images-scroll, .cat-images-scroll');
-    
-    scrollContainers.forEach(container => {
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-        
-        container.addEventListener('mousedown', (e) => {
-            isDown = true;
-            container.style.cursor = 'grabbing';
-            startX = e.pageX - container.offsetLeft;
-            scrollLeft = container.scrollLeft;
-        });
-        
-        container.addEventListener('mouseleave', () => {
-            isDown = false;
-            container.style.cursor = 'grab';
-        });
-        
-        container.addEventListener('mouseup', () => {
-            isDown = false;
-            container.style.cursor = 'grab';
-        });
-        
-        container.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - container.offsetLeft;
-            const walk = (x - startX) * 2;
-            container.scrollLeft = scrollLeft - walk;
-        });
-        
-        // 초기 커서 설정
-        container.style.cursor = 'grab';
-    });
-}
-
-// 식재료 데이터
+// 식재료 데이터 (기존과 동일)
 const ingredientData = {
     chicken: {
         image: 'img/닭고기.png',
@@ -239,7 +327,7 @@ const ingredientData = {
     }
 };
 
-// 원형 버튼 클릭 이벤트 초기화
+// 원형 버튼 클릭 이벤트 초기화 (기존과 동일)
 function initIngredientClick() {
     const circleButtons = document.querySelectorAll('.circle-button');
     const ingredientImg = document.getElementById('ingredient-image');
@@ -276,4 +364,6 @@ function initIngredientClick() {
             }
         });
     });
+
+    console.log('식재료 클릭 이벤트 초기화 완료');
 }
