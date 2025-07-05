@@ -1,3 +1,15 @@
+# 250705
+
+1. wheel -> 애니메이션으로만
+
+2. 원 커지는거 
+
+3. 
+swiper circle rotate card slider
+https://codepen.io/AdventurousDeveloper/pen/dyVMbdj
+https://codepen.io/GreenSock/pen/JjZdPWj
+
+
 ## footer
 
 ㈜풀무원은 통신판매중개자이며 통신판매의 당사자가 아닙니다. 
