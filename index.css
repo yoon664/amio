@@ -1269,48 +1269,116 @@ body {
     line-height: 2;
 }
 
-/* === 리뷰 카드 Swiper 스타일 === */
-.review-card-swiper.swiper {
+/* === 리뷰 카드 원형 배치 스타일 === */
+.review-card-swiper {
     position: absolute !important;
-    top: 2vw !important;
+    top: 10vw !important;
     bottom: 0 !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: 100% !important;
-    height: 900px !important;
+    height: 1800px !important;
     z-index: 50 !important;
     overflow: hidden !important;
     padding: 0 50px !important;
 }
 
-.review-card-swiper .swiper-wrapper {
-    display: flex !important;
-    align-items: center !important;
-    height: 100% !important;
-    transition-timing-function: ease-out !important;
+.circular-cards-container {
+    position: relative;
+    width: 1200px;
+    height: 1200px;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-.review-card-swiper .swiper-slide {
-    position: relative !important;
-    width: 450px !important; 
-    height: 600px !important; 
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    flex-shrink: 0 !important;
-    cursor: pointer !important;
-    transition: all 0.6s ease !important;
+.card-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+    cursor: grab;
 }
 
-.review-card-swiper .swiper-slide img {
-    object-fit: contain !important;
-    pointer-events: none !important;
-    transition: all 0.6s ease !important;
-    width: 380px !important;
-    height: 500px !important;
+.card-container:active {
+    cursor: grabbing;
 }
 
-.review-card-swiper .swiper-slide:hover img {
-    transform: translateY(-5px) !important;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2) !important;
+.review-card {
+    position: absolute;
+    width: 261px;
+    height: 325px;
+    /* background: white; */
+    border-radius: 10px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    /* border: 2px solid #ddd; */
+    opacity: 0;
+    visibility: hidden;
+    transform-origin: center;
+}
+
+.review-card.visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.review-card:hover {
+    z-index: 15;
+    /* transform: scale(1.1) !important; */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.review-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+
+.drag-hint {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+@keyframes dealReviewCard {
+    0% {
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2) rotate(180deg);
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0.3;
+    }
+}
+
+.review-card.dealing {
+    animation: dealReviewCard 0.8s ease-out forwards;
 }

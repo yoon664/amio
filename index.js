@@ -224,3 +224,183 @@ function initIngredientClick() {
 
     console.log('식재료 클릭 이벤트 초기화 완료');
 }
+
+// 기존 initReviewSwiper 함수를 이 함수로 교체하세요
+
+function initReviewSwiper() {
+    // 원형 카드 배치 초기화
+    initCircularReviewCards();
+}
+
+// 원형 리뷰 카드 배치 함수
+function initCircularReviewCards() {
+    let cardImages = [];
+    let isDragging = false;
+    let startAngle = 0;
+    let currentRotation = 0;
+    let lastMouseAngle = 0;
+    const cardCount = 16;
+    const visibleCardCount = 5;
+
+    // 카드 이미지 배열 설정
+    function loadCardImage() {
+        cardImages = [
+            'img/1.png',
+            'img/2.png', 
+            'img/3.png',
+            'img/4.png',
+            'img/5.png'
+        ];
+    }
+
+    // 마우스 위치를 각도로 변환
+    function getAngleFromMouse(clientX, clientY) {
+        const container = document.querySelector('.circular-cards-container');
+        if (!container) return 0;
+        
+        const rect = container.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const deltaX = clientX - centerX;
+        const deltaY = clientY - centerY;
+        
+        return Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+    }
+
+    // 보이는 카드 업데이트
+    function updateVisibleCards() {
+        const cards = document.querySelectorAll('.review-card');
+        const centerIndex = Math.round(-currentRotation / (360 / cardCount)) % cardCount;
+        const normalizedCenterIndex = centerIndex < 0 ? centerIndex + cardCount : centerIndex;
+        
+        cards.forEach((card, index) => {
+            card.classList.remove('visible');
+            
+            // 중앙을 기준으로 앞뒤 2개씩, 총 5개 카드가 보이도록
+            const distanceFromCenter = Math.min(
+                Math.abs(index - normalizedCenterIndex),
+                cardCount - Math.abs(index - normalizedCenterIndex)
+            );
+            
+            if (distanceFromCenter <= 2) {
+                card.classList.add('visible');
+            }
+        });
+    }
+
+    // 카드 생성 및 배치
+    function createCards() {
+        loadCardImage();
+        
+        const container = document.getElementById('reviewCardContainer');
+        if (!container) return;
+
+        const centerX = 600;
+        const centerY = 600;
+        const radius = 620;
+
+        for (let i = 0; i < cardCount; i++) {
+            const card = document.createElement('div');
+            card.className = 'review-card';
+            
+            // 각도 계산 (12시 방향부터 시작)
+            const angle = (360 / cardCount) * i - 90;
+            const radian = (angle * Math.PI) / 180;
+            
+            const x = centerX + Math.cos(radian) * radius;
+            const y = centerY + Math.sin(radian) * radius;
+            
+            card.style.left = (x - 125) + 'px';
+            card.style.top = (y - 162.5) + 'px';
+            
+            // 카드가 중앙을 향하도록 회전
+            const rotationAngle = angle + 90;
+            card.style.transform = `rotate(${rotationAngle}deg)`;
+            
+            // 5개 이미지를 순환해서 사용
+            const imageIndex = i % 5;
+            const cardImageSrc = cardImages[imageIndex];
+            
+            card.innerHTML = `
+                <img src="${cardImageSrc}" alt="고객 리뷰${i + 1}" onerror="this.style.display='none'">
+            `;
+            
+            // 카드 클릭 이벤트
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                console.log(`리뷰 카드 ${i + 1} 클릭됨`);
+            });
+            
+            container.appendChild(card);
+            
+            setTimeout(() => {
+                card.classList.add('dealing');
+            }, i * 100);
+        }
+        
+        // 초기 보이는 카드 설정
+        setTimeout(() => {
+            updateVisibleCards();
+        }, cardCount * 100 + 1000);
+    }
+
+    // 드래그 이벤트
+    function handleMouseDown(e) {
+        const container = document.querySelector('.circular-cards-container');
+        if (!container || !container.contains(e.target)) return;
+        
+        isDragging = true;
+        startAngle = getAngleFromMouse(e.clientX, e.clientY);
+        lastMouseAngle = startAngle;
+        const hint = document.querySelector('.drag-hint');
+        if (hint) hint.style.display = 'none';
+    }
+
+    function handleMouseMove(e) {
+        if (!isDragging) return;
+        
+        const mouseAngle = getAngleFromMouse(e.clientX, e.clientY);
+        let deltaAngle = mouseAngle - lastMouseAngle;
+        
+        // 각도 차이가 180도보다 크면 반대 방향으로 계산
+        if (deltaAngle > 180) deltaAngle -= 360;
+        if (deltaAngle < -180) deltaAngle += 360;
+        
+        currentRotation += deltaAngle;
+        lastMouseAngle = mouseAngle;
+        
+        const container = document.getElementById('reviewCardContainer');
+        if (container) {
+            container.style.transform = `rotate(${currentRotation}deg)`;
+        }
+        
+        updateVisibleCards();
+    }
+
+    function handleMouseUp() {
+        isDragging = false;
+        
+        // 스냅 기능: 가장 가까운 카드 위치로 맞춤
+        const snapAngle = 360 / cardCount;
+        const snappedRotation = Math.round(currentRotation / snapAngle) * snapAngle;
+        currentRotation = snappedRotation;
+        
+        const container = document.getElementById('reviewCardContainer');
+        if (container) {
+            container.style.transform = `rotate(${currentRotation}deg)`;
+        }
+        
+        updateVisibleCards();
+    }
+
+    // 이벤트 리스너 등록 (마우스 드래그만)
+    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    // 페이지 로드시 카드 생성
+    createCards();
+
+    console.log('원형 리뷰 카드 초기화 완료');
+}
