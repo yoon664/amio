@@ -1323,6 +1323,12 @@ body {
 .review-card.visible {
     opacity: 1 !important;
     visibility: visible !important;
+    z-index: 10;
+}
+
+.review-card.center-card {
+    z-index: 50 !important;
+    transform-origin: center;
 }
 
 .review-card:hover {
@@ -1382,3 +1388,4 @@ body {
 .review-card.dealing {
     animation: dealReviewCard 0.8s ease-out forwards;
 }
+

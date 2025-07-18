@@ -225,7 +225,6 @@ function initIngredientClick() {
     console.log('식재료 클릭 이벤트 초기화 완료');
 }
 
-// 기존 initReviewSwiper 함수를 이 함수로 교체하세요
 
 function initReviewSwiper() {
     // 원형 카드 배치 초기화
@@ -285,6 +284,10 @@ function initCircularReviewCards() {
             
             if (distanceFromCenter <= 2) {
                 card.classList.add('visible');
+
+                if (distanceFromCenter === 0) {
+                card.classList.add('center-card');
+                }
             }
         });
     }
@@ -338,6 +341,8 @@ function initCircularReviewCards() {
                 card.classList.add('dealing');
             }, i * 100);
         }
+
+        // currentRotation = -(360 / cardCount);
         
         // 초기 보이는 카드 설정
         setTimeout(() => {
