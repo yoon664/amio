@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // DOM 요소 참조 설정
     heroSection = document.getElementById('heroSection');
     
-    // CSS에서 히어로 섹션 높이 설정
+    // 히어로 섹션 높이는 그대로 유지 (100vh)
     
     // 모든 초기화 함수 실행
     initScrollEvents();
@@ -19,62 +19,39 @@ function initScrollEvents() {
     // 스크롤 이벤트 리스너
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
-        updateScrollStage(scrollY);
+        const windowHeight = window.innerHeight;
+        
+        // 스크롤 위치에 따른 상태 변경
+        updateScrollStage(scrollY, windowHeight);
     });
 
     // 리사이즈 이벤트 (반응형 대응)
     window.addEventListener('resize', () => {
         const scrollY = window.scrollY;
-        updateScrollStage(scrollY);
+        const windowHeight = window.innerHeight;
+        updateScrollStage(scrollY, windowHeight);
     });
 }
 
-function updateScrollStage(scrollY) {
+function updateScrollStage(scrollY, windowHeight) {
     // heroSection이 존재하지 않으면 return
     if (!heroSection) return;
-    
-    const windowHeight = window.innerHeight;
-    const heroHeight = windowHeight * 3; // 300vh
-    
-    // 히어로 섹션의 고정 요소들 가져오기
-    const fixedElements = heroSection.querySelectorAll('.nav-container, .hanging-lights, .main-content, .main-table, .dog-focus-image, .cat-focus-image');
     
     // 모든 포커스 클래스 제거
     heroSection.classList.remove('dog-focus', 'cat-focus');
     
-    // 스크롤 위치에 따른 상태 결정
-    if (scrollY < windowHeight * 0.5) {
-        // 초기 상태 (0vh ~ 100vh)
-        // fixed 상태 유지
-        fixedElements.forEach(el => {
-            el.style.position = 'fixed';
-            el.style.display = '';
-        });
-    } else if (scrollY < windowHeight * 1.3) {
-        // 강아지 포커스 상태 (100vh ~ 200vh)
+    // 스크롤 위치에 따른 상태 결정 (기존 100vh 높이 기준)
+    if (scrollY < windowHeight * 0.3) {
+        // 초기 상태 (0vh ~ 30vh)
+        // 클래스 없음 (기본 상태)
+    } else if (scrollY < windowHeight * 0.65) {
+        // 강아지 포커스 상태 (30vh ~ 65vh)
         heroSection.classList.add('dog-focus');
-        // fixed 상태 유지
-        fixedElements.forEach(el => {
-            el.style.position = 'fixed';
-            el.style.display = '';
-        });
-    } else if (scrollY < windowHeight * 2.5) {
-        // 고양이 포커스 상태 (200vh ~ 280vh)
+    } else if (scrollY < windowHeight * 1.0) {
+        // 고양이 포커스 상태 (65vh ~ 100vh)
         heroSection.classList.add('cat-focus');
-        // fixed 상태 유지
-        fixedElements.forEach(el => {
-            el.style.position = 'fixed';
-            el.style.display = '';
-        });
-    } else {
-        // 애니메이션 완료 (280vh 이후) - fixed 해제하여 자연스럽게 다음 섹션으로
-        fixedElements.forEach(el => {
-            el.style.position = 'absolute';
-            el.style.display = 'none';
-        });
-        // 클래스도 제거하여 초기 상태로
-        heroSection.classList.remove('dog-focus', 'cat-focus');
     }
+    // 100vh 이후는 자연스럽게 다음 섹션으로 이동
 }
 
 // =====모든 Swiper 초기화===== //
@@ -177,69 +154,7 @@ function initProductSwiper() {
     catInfoSwiper.controller.control = catImagesSwiper;
 }
 
-// 리뷰 카드 스와이퍼 (중앙 정렬 + 부드러운 효과)
-function initReviewSwiper() {
-    // 리뷰 카드 컨테이너가 존재하는지 확인
-    const reviewContainer = document.querySelector('.review-card-swiper');
-    if (!reviewContainer) {
-        console.warn('리뷰 카드 스와이퍼 컨테이너를 찾을 수 없습니다.');
-        return;
-    }
 
-    // 자동재생 설정 (필요에 따라 변경 가능)
-    const autoplayEnabled = true; // false로 변경하면 자동재생 비활성화
-
-    const reviewSwiper = new Swiper('.review-card-swiper', {
-        // 기본 설정 (중앙 정렬로 수정)
-        slidesPerView: 3, // 한 번에 3개 카드 표시
-        spaceBetween: -130, // 음수로 카드들이 겹치도록 설정
-        centeredSlides: true, // 중앙 정렬로 변경 (새로고침 시 중앙에 위치)
-        initialSlide: 0, // 첫 번째 슬라이드부터 시작 (review1)
-        
-        // 무한 루프 설정
-        loop: true,
-        loopedSlides: 5, // 실제 슬라이드 개수
-        
-        // 터치 설정
-        grabCursor: true,
-        touchRatio: 1,
-        resistance: true,
-        resistanceRatio: 0.85,
-        
-        // 슬라이드 전환 설정 (더 부드럽게)
-        slidesPerGroup: 1, // 한 번에 1개씩 이동
-        speed: 1000, // 조금 더 느리게 (부드러운 효과)
-        
-        // 부드러운 전환을 위한 설정
-        freeMode: false,
-        freeModeSticky: false,
-        
-        // 자동 재생 (조건부 설정)
-        ...(autoplayEnabled && {
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-            }
-        }),
-        
-        // 이벤트 콜백
-        on: {
-            init: function() {
-                console.log('리뷰 카드 스와이퍼 초기화됨');
-                console.log('초기 순서: review1, review2, review3, review4, review5');
-                console.log('중앙 정렬 활성화됨');
-            },
-            slideChange: function () {
-                const currentReview = this.realIndex + 1;
-                console.log('현재 리뷰 슬라이드:', currentReview);
-            }
-        },
-    });
-
-    console.log('리뷰 카드 스와이퍼 초기화 완료');
-    return reviewSwiper;
-}
 
 // 식재료 데이터 (기존과 동일)
 const ingredientData = {
