@@ -14,45 +14,162 @@ document.addEventListener('DOMContentLoaded', () => {
     initIngredientClick();
 });
 
-// 스크롤 기반 애니메이션 이벤트 초기화
 function initScrollEvents() {
-    // 스크롤 이벤트 리스너
-    window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY;
-        const windowHeight = window.innerHeight;
-        
-        // 스크롤 위치에 따른 상태 변경
-        updateScrollStage(scrollY, windowHeight);
-    });
-
-    // 리사이즈 이벤트 (반응형 대응)
-    window.addEventListener('resize', () => {
-        const scrollY = window.scrollY;
-        const windowHeight = window.innerHeight;
-        updateScrollStage(scrollY, windowHeight);
-    });
-}
-
-function updateScrollStage(scrollY, windowHeight) {
-    // heroSection이 존재하지 않으면 return
-    if (!heroSection) return;
+    let isScrollLocked = false;
+    let currentStage = 0; // 0: 초기, 1: 강아지, 2: 고양이, 3: 완료
     
-    // 모든 포커스 클래스 제거
-    heroSection.classList.remove('dog-focus', 'cat-focus');
-    
-    // 스크롤 위치에 따른 상태 결정 (기존 100vh 높이 기준)
-    if (scrollY < windowHeight * 0.3) {
-        // 초기 상태 (0vh ~ 30vh)
-        // 클래스 없음 (기본 상태)
-    } else if (scrollY < windowHeight * 0.65) {
-        // 강아지 포커스 상태 (30vh ~ 65vh)
-        heroSection.classList.add('dog-focus');
-    } else if (scrollY < windowHeight * 1.0) {
-        // 고양이 포커스 상태 (65vh ~ 100vh)
-        heroSection.classList.add('cat-focus');
+    // 애니메이션 완료를 감지하는 함수
+    function waitForAnimationComplete() {
+        return new Promise(resolve => {
+            setTimeout(resolve, 1000);
+        });
     }
-    // 100vh 이후는 자연스럽게 다음 섹션으로 이동
+    
+    // 스크롤 잠금/해제 함수
+    function setScrollLock(locked) {
+        isScrollLocked = locked;
+    }
+    
+    // 다음 단계로 이동하는 함수
+    async function goToNextStage() {
+        if (isScrollLocked) return;
+        
+        setScrollLock(true);
+        
+        if (currentStage === 0) {
+            // 초기 → 강아지
+            currentStage = 1;
+            heroSection.classList.add('dog-focus');
+            await waitForAnimationComplete();
+        } else if (currentStage === 1) {
+            // 강아지 → 고양이
+            currentStage = 2;
+            heroSection.classList.remove('dog-focus');
+            heroSection.classList.add('cat-focus');
+            await waitForAnimationComplete();
+        } else if (currentStage === 2) {
+            // 고양이 → 다음 섹션으로 스크롤
+            currentStage = 3;
+            setScrollLock(false); // 잠금만 해제하고 자연스러운 스크롤 허용
+            return;
+        }
+        
+        setScrollLock(false);
+    }
+    
+    // 이전 단계로 이동하는 함수
+    async function goToPrevStage() {
+        if (isScrollLocked) return;
+        
+        // 이미 다음 섹션에 있으면 히어로 섹션으로 돌아가기
+        if (currentStage === 3) {
+            currentStage = 2;
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            setTimeout(() => {
+                heroSection.classList.add('cat-focus');
+            }, 300);
+            return;
+        }
+        
+        setScrollLock(true);
+        
+        if (currentStage === 2) {
+            // 고양이 → 강아지
+            currentStage = 1;
+            heroSection.classList.remove('cat-focus');
+            heroSection.classList.add('dog-focus');
+            await waitForAnimationComplete();
+        } else if (currentStage === 1) {
+            // 강아지 → 초기
+            currentStage = 0;
+            heroSection.classList.remove('dog-focus');
+            await waitForAnimationComplete();
+        } else if (currentStage === 0) {
+            // 이미 맨 위
+            setScrollLock(false);
+            return;
+        }
+        
+        setScrollLock(false);
+    }
+    
+    window.addEventListener('wheel', (e) => {
+        // 히어로 섹션에서만 특별 처리
+        if (window.scrollY < window.innerHeight * 1.1) {
+            // currentStage가 3(완료)이면 정상 스크롤 허용
+            if (currentStage === 3) {
+                return; // preventDefault 하지 않음 - 정상 스크롤 허용
+            }
+            
+            if (!isScrollLocked) {
+                e.preventDefault();
+                
+                if (e.deltaY > 0) {
+                    goToNextStage();
+                } else {
+                    goToPrevStage();
+                }
+            } else {
+                e.preventDefault();
+            }
+        }
+    }, { passive: false });
+    
+    // 키보드 이벤트
+    window.addEventListener('keydown', (e) => {
+        if (window.scrollY < window.innerHeight * 1.1) {
+            if (e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                goToNextStage();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                goToPrevStage();
+            }
+        }
+    });
+    
+    // 스크롤 이벤트 - 상태 감지
+    window.addEventListener('scroll', () => {
+        if (window.scrollY >= window.innerHeight * 1.1) {
+            // 다음 섹션에 있음
+            if (currentStage !== 3) {
+                currentStage = 3;
+            }
+            setScrollLock(false);
+            if (heroSection) {
+                heroSection.classList.remove('dog-focus', 'cat-focus');
+            }
+        } else {
+            // 히어로 섹션에 있음
+            if (currentStage === 3) {
+                currentStage = 2; // 다시 고양이 상태로
+                heroSection.classList.add('cat-focus');
+            }
+        }
+    });
 }
+
+// function updateScrollStage(scrollY, windowHeight) {
+//     // heroSection이 존재하지 않으면 return
+//     if (!heroSection) return;
+    
+//     // 모든 포커스 클래스 제거
+//     heroSection.classList.remove('dog-focus', 'cat-focus');
+    
+//     // 구간을 더 길게 확장 (기존의 2배)
+//     if (scrollY < windowHeight * 0.1) {
+//         // 초기 상태 (0vh ~ 60vh)
+//     } else if (scrollY < windowHeight * 0.5) {
+//         // 강아지 포커스 상태 (60vh ~ 130vh)
+//         heroSection.classList.add('dog-focus');
+//     } else if (scrollY < windowHeight * 2.0) {
+//         // 고양이 포커스 상태 (130vh ~ 200vh)
+//         heroSection.classList.add('cat-focus');
+//     }
+// }
 
 // =====모든 Swiper 초기화===== //
 function initSwiperMenus() {
