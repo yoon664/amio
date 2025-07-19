@@ -921,10 +921,10 @@ body {
 }
 .circle-button:hover {
     border-radius: 45px;
-    background: #01a4e9;
+    background: #50a500;
 }
 .circle-button:hover:after {
-    background-color: #01a4e9;
+    background-color: #50a500;
 }
 
 @keyframes pulse-ring {
