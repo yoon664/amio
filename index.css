@@ -901,7 +901,7 @@ body {
         margin-left: -100%;
         margin-top: -100%;
         border-radius: 45px;
-        background-color: #01a4e9;
+        background-color: #50a500;
         animation: pulse-ring 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
     }
   
@@ -913,9 +913,9 @@ body {
         display: block;
         width: 100%;
         height: 100%;
-        background-color: white;
+        background-color: #fff;
+        border:1px solid #50a500;
         border-radius: 15px;
-        box-shadow: 0 0 8px rgba(0,0,0,.3);
         animation: pulse-dot 1.25s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
     }
 }
@@ -929,7 +929,7 @@ body {
 
 @keyframes pulse-ring {
   0% {
-    transform: scale(.33);
+    transform: scale(.2);
   }
   80%, 100% {
     opacity: 0;
@@ -938,13 +938,13 @@ body {
 
 @keyframes pulse-dot {
   0% {
-    transform: scale(.8);
+    transform: scale(.95);
   }
   50% {
     transform: scale(1);
   }
   100% {
-    transform: scale(.8);
+    transform: scale(.95);
   }
 }
 
@@ -1388,5 +1388,6 @@ body {
 
 .review-card.dealing {
     animation: dealReviewCard 0.8s ease-out forwards;
+    pointer-events: none;
 }
 
