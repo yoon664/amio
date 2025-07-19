@@ -799,8 +799,9 @@ body {
     overflow: hidden !important;
     white-space: nowrap !important;
     padding: 0 !important;
-    margin: 0 auto !important;
-    max-width: 1550px !important;
+    margin-left: 185px;
+    margin-right: 0;
+    max-width: 1716px ;
     top: 120px !important;
     z-index: 25 !important;
     width: auto !important;
@@ -825,7 +826,7 @@ body {
     width: 280px !important;
     text-align: left !important;
     position: relative !important;
-    left: 5% !important;
+    left: 5%;
     border-radius: 10px !important;
 }
 
@@ -834,7 +835,91 @@ body {
     width: 1550px !important;
 }
 
-/* 나머지 CSS들은 보존된 것과 동일 */
+
+/* 통합된 제품 스와이퍼 */
+.dog-products-scroll.swiper,
+.cat-products-scroll.swiper {
+    position: relative !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    padding: 60px 0 20px 0 !important;
+    margin: 0 auto !important;
+    max-width: 1550px !important;
+    top: 80px !important;
+    z-index: 15 !important;
+    width: auto !important;
+    height: auto !important;
+    margin-left: 185px !important;
+}
+
+/* 통합된 제품 아이템 */
+.swiper-slide.product-combined-item {
+    width: 280px !important;
+    height: auto !important;
+    flex-shrink: 0 !important;
+    display: inline-block !important;
+    vertical-align: top !important;
+    white-space: normal !important;
+    margin-right: 40px !important;
+    text-align: center !important;
+    position: relative !important;
+}
+
+/* 제품 이미지 영역 */
+.product-combined-item .product-image {
+    margin-bottom: 60px; /* 이미지와 정보 사이 간격 */
+}
+
+.product-combined-item .product-image img {
+    width: 180px !important;
+    height: 240px !important;
+    object-fit: contain !important;
+}
+
+/* 제품 정보 영역 */
+.product-combined-item .product-info {
+    text-align: left;
+    padding: 0 20px; /* 좌우 여백 */
+}
+
+.product-combined-item .product-info img:first-child {
+    height: 25px;
+    margin-bottom: 8px;
+}
+
+.product-combined-item .product-info p {
+    font-size: 16px;
+    line-height: 1.4;
+    color: #333;
+    font-weight: 800;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    margin: 8px 0;
+}
+
+.product-combined-item .product-info img:last-child {
+    height: 20px;
+    margin-top: 8px;
+}
+
+/* 스크롤바 스타일 */
+.dog-products-scroll .swiper-scrollbar,
+.cat-products-scroll .swiper-scrollbar {
+    background: transparent !important;
+    height: 8px !important;
+    border-radius: 4px !important;
+}
+
+.dog-products-scroll .swiper-scrollbar-drag,
+.cat-products-scroll .swiper-scrollbar-drag {
+    background: #7CB342 !important;
+    border-radius: 4px !important;
+    cursor: grab !important;
+}
+
+.dog-products-scroll .swiper-scrollbar-drag:hover,
+.cat-products-scroll .swiper-scrollbar-drag:hover {
+    background: #689F38 !important;
+}
 
 /* 클릭 이벤트 */
 .click-recommend {
