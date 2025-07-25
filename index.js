@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 히어로 섹션 높이를 250vh로 설정하되, 내부 배치는 100vh 기준 유지
     if (heroSection) {
-        heroSection.style.minHeight = '250vh';
+        heroSection.style.minHeight = '200vh';
         heroSection.style.position = 'relative';
         
         const mainContent = heroSection.querySelector('.main-content');
@@ -218,7 +218,7 @@ function initScrollEvents() {
             dogFocusImage.style.opacity = Math.max(0, dogImageOpacity);
         }
         
-        // 고양이 ID카드 이미지 나타남
+        // 🖼️ 고양이 ID카드 이미지 나타남
         if (catFocusImage && catProgress > 0) {
             const catImageOpacity = Math.max(0, (catProgress - 0.3) / 0.7); // 30% 지점부터 나타남
             const catImageScale = 0.8 + (catImageOpacity * 0.2); // 0.8 → 1.0으로 확대
@@ -306,7 +306,7 @@ function initSwiperMenus() {
     }
 }
 
-// 기존 강아지/고양이 제품 스와이퍼
+// 수정된 강아지/고양이 제품 스와이퍼
 function initProductSwiper() {
     // 강아지 통합 제품 스와이퍼 (이미지 + 정보 결합)
     const dogProductsSwiper = new Swiper('.dog-products-scroll', {
@@ -327,8 +327,8 @@ function initProductSwiper() {
         },
     });
 
-    // 고양이 이미지 Swiper와 정보 Swiper 연동
-    const catImagesSwiper = new Swiper('.cat-images-scroll', {
+    // 고양이 통합 제품 스와이퍼 (이미지 + 정보 결합) - 새로 추가
+    const catProductsSwiper = new Swiper('.cat-products-scroll', {
         slidesPerView: 'auto',
         spaceBetween: 40,
         freeMode: {
@@ -340,28 +340,13 @@ function initProductSwiper() {
         grabCursor: true,
         mousewheel: false,
         scrollbar: {
-            el: '.cat-images-scroll .swiper-scrollbar',
+            el: '.cat-products-scroll .swiper-scrollbar',
             draggable: true,
             dragSize: 'auto',
         },
     });
 
-    const catInfoSwiper = new Swiper('.cat-info-scroll', {
-        slidesPerView: 'auto',
-        spaceBetween: 40,
-        freeMode: {
-            enabled: true,
-            sticky: false,
-            momentumRatio: 1,
-            momentumVelocityRatio: 1,
-        },
-        allowTouchMove: false, // 터치 비활성화 (이미지에만 반응)
-        mousewheel: false,
-    });
-
-    // 고양이 이미지 ↔ 정보 동기화
-    catImagesSwiper.controller.control = catInfoSwiper;
-    catInfoSwiper.controller.control = catImagesSwiper;
+    console.log('Product Swiper 초기화 완료');
 }
 
 // 식재료 데이터

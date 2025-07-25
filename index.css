@@ -636,6 +636,7 @@ body {
 
 .dog-menu .menu-table-bg {
     background-image: url('img/대표메뉴테이블.png');
+    top: 75%;
 }
 
 /* 고양이 메뉴 섹션 */
@@ -733,6 +734,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     z-index: 8;
+    top: 72%;
 }
 
 .dog-images-scroll,
@@ -861,7 +863,7 @@ body {
     padding: 60px 0 20px 0 !important;
     margin: 0 auto !important;
     /* max-width: 1550px !important; */
-    top: 210px !important;
+    top: 100px !important;
     z-index: 15 !important;
     width: auto !important;
     height: auto !important;
@@ -919,11 +921,18 @@ body {
 }
 
 /* 스크롤바 스타일 */
-.dog-products-scroll .swiper-scrollbar,
-.cat-products-scroll .swiper-scrollbar {
+.dog-products-scroll .swiper-scrollbar {
     background: transparent !important;
     height: 8px !important;
     border-radius: 4px !important;
+    bottom: 32% !important;
+}
+
+.cat-products-scroll .swiper-scrollbar{
+    background: transparent !important;
+    height: 8px !important;
+    border-radius: 4px !important;
+    bottom: 35% !important;
 }
 
 .dog-products-scroll .swiper-scrollbar-drag,
