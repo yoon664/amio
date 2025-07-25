@@ -6,51 +6,170 @@ document.addEventListener('DOMContentLoaded', () => {
     // DOM 요소 참조 설정
     heroSection = document.getElementById('heroSection');
     
+    // 히어로 섹션 높이는 그대로 유지 (100vh)
+    
     // 모든 초기화 함수 실행
     initScrollEvents();
     initSwiperMenus(); // 모든 스와이퍼 초기화
     initIngredientClick();
 });
 
-// 스크롤 기반 애니메이션 이벤트 초기화
 function initScrollEvents() {
-    // 스크롤 이벤트 리스너
-    window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY;
-        const windowHeight = window.innerHeight;
-        
-        // 스크롤 위치에 따른 상태 변경
-        updateScrollStage(scrollY, windowHeight);
-    });
-
-    // 리사이즈 이벤트 (반응형 대응)
-    window.addEventListener('resize', () => {
-        const scrollY = window.scrollY;
-        const windowHeight = window.innerHeight;
-        updateScrollStage(scrollY, windowHeight);
-    });
-}
-
-function updateScrollStage(scrollY, windowHeight) {
-    // heroSection이 존재하지 않으면 return
-    if (!heroSection) return;
+    let isScrollLocked = false;
+    let currentStage = 0; // 0: 초기, 1: 강아지, 2: 고양이, 3: 완료
     
-    // 모든 포커스 클래스 제거
-    heroSection.classList.remove('dog-focus', 'cat-focus');
-    
-    // 스크롤 위치에 따른 상태 결정
-    if (scrollY < windowHeight * 0.3) {
-        // 초기 상태 (0 ~ 30vh)
-        // 클래스 없음 (기본 상태)
-    } else if (scrollY < windowHeight * 0.5) {
-        // 강아지 포커스 상태 (30vh ~ 80vh)
-        heroSection.classList.add('dog-focus');
-    } else if (scrollY < windowHeight * 1) {
-        // 고양이 포커스 상태 (80vh ~ 130vh)
-        heroSection.classList.add('cat-focus');
+    // 애니메이션 완료를 감지하는 함수
+    function waitForAnimationComplete() {
+        return new Promise(resolve => {
+            setTimeout(resolve, 1000);
+        });
     }
-    // 130vh 이후는 일반 스크롤 (클래스 없음)
+    
+    // 스크롤 잠금/해제 함수
+    function setScrollLock(locked) {
+        isScrollLocked = locked;
+    }
+    
+    // 다음 단계로 이동하는 함수
+    async function goToNextStage() {
+        if (isScrollLocked) return;
+        
+        setScrollLock(true);
+        
+        if (currentStage === 0) {
+            // 초기 → 강아지
+            currentStage = 1;
+            heroSection.classList.add('dog-focus');
+            await waitForAnimationComplete();
+        } else if (currentStage === 1) {
+            // 강아지 → 고양이
+            currentStage = 2;
+            heroSection.classList.remove('dog-focus');
+            heroSection.classList.add('cat-focus');
+            await waitForAnimationComplete();
+        } else if (currentStage === 2) {
+            // 고양이 → 다음 섹션으로 스크롤
+            currentStage = 3;
+            setScrollLock(false); // 잠금만 해제하고 자연스러운 스크롤 허용
+            return;
+        }
+        
+        setScrollLock(false);
+    }
+    
+    // 이전 단계로 이동하는 함수
+    async function goToPrevStage() {
+        if (isScrollLocked) return;
+        
+        // 이미 다음 섹션에 있으면 히어로 섹션으로 돌아가기
+        if (currentStage === 3) {
+            currentStage = 2;
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            setTimeout(() => {
+                heroSection.classList.add('cat-focus');
+            }, 300);
+            return;
+        }
+        
+        setScrollLock(true);
+        
+        if (currentStage === 2) {
+            // 고양이 → 강아지
+            currentStage = 1;
+            heroSection.classList.remove('cat-focus');
+            heroSection.classList.add('dog-focus');
+            await waitForAnimationComplete();
+        } else if (currentStage === 1) {
+            // 강아지 → 초기
+            currentStage = 0;
+            heroSection.classList.remove('dog-focus');
+            await waitForAnimationComplete();
+        } else if (currentStage === 0) {
+            // 이미 맨 위
+            setScrollLock(false);
+            return;
+        }
+        
+        setScrollLock(false);
+    }
+    
+    window.addEventListener('wheel', (e) => {
+        // 히어로 섹션에서만 특별 처리
+        if (window.scrollY < window.innerHeight * 1.1) {
+            // currentStage가 3(완료)이면 정상 스크롤 허용
+            if (currentStage === 3) {
+                return; // preventDefault 하지 않음 - 정상 스크롤 허용
+            }
+            
+            if (!isScrollLocked) {
+                e.preventDefault();
+                
+                if (e.deltaY > 0) {
+                    goToNextStage();
+                } else {
+                    goToPrevStage();
+                }
+            } else {
+                e.preventDefault();
+            }
+        }
+    }, { passive: false });
+    
+    // 키보드 이벤트
+    window.addEventListener('keydown', (e) => {
+        if (window.scrollY < window.innerHeight * 1.1) {
+            if (e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                goToNextStage();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                goToPrevStage();
+            }
+        }
+    });
+    
+    // 스크롤 이벤트 - 상태 감지
+    window.addEventListener('scroll', () => {
+        if (window.scrollY >= window.innerHeight * 1.1) {
+            // 다음 섹션에 있음
+            if (currentStage !== 3) {
+                currentStage = 3;
+            }
+            setScrollLock(false);
+            if (heroSection) {
+                heroSection.classList.remove('dog-focus', 'cat-focus');
+            }
+        } else {
+            // 히어로 섹션에 있음
+            if (currentStage === 3) {
+                currentStage = 2; // 다시 고양이 상태로
+                heroSection.classList.add('cat-focus');
+            }
+        }
+    });
 }
+
+// function updateScrollStage(scrollY, windowHeight) {
+//     // heroSection이 존재하지 않으면 return
+//     if (!heroSection) return;
+    
+//     // 모든 포커스 클래스 제거
+//     heroSection.classList.remove('dog-focus', 'cat-focus');
+    
+//     // 구간을 더 길게 확장 (기존의 2배)
+//     if (scrollY < windowHeight * 0.1) {
+//         // 초기 상태 (0vh ~ 60vh)
+//     } else if (scrollY < windowHeight * 0.5) {
+//         // 강아지 포커스 상태 (60vh ~ 130vh)
+//         heroSection.classList.add('dog-focus');
+//     } else if (scrollY < windowHeight * 2.0) {
+//         // 고양이 포커스 상태 (130vh ~ 200vh)
+//         heroSection.classList.add('cat-focus');
+//     }
+// }
 
 // =====모든 Swiper 초기화===== //
 function initSwiperMenus() {
@@ -152,69 +271,7 @@ function initProductSwiper() {
     catInfoSwiper.controller.control = catImagesSwiper;
 }
 
-// 리뷰 카드 스와이퍼 (중앙 정렬 + 부드러운 효과)
-function initReviewSwiper() {
-    // 리뷰 카드 컨테이너가 존재하는지 확인
-    const reviewContainer = document.querySelector('.review-card-swiper');
-    if (!reviewContainer) {
-        console.warn('리뷰 카드 스와이퍼 컨테이너를 찾을 수 없습니다.');
-        return;
-    }
 
-    // 자동재생 설정 (필요에 따라 변경 가능)
-    const autoplayEnabled = true; // false로 변경하면 자동재생 비활성화
-
-    const reviewSwiper = new Swiper('.review-card-swiper', {
-        // 기본 설정 (중앙 정렬로 수정)
-        slidesPerView: 3, // 한 번에 3개 카드 표시
-        spaceBetween: -130, // 음수로 카드들이 겹치도록 설정
-        centeredSlides: true, // 중앙 정렬로 변경 (새로고침 시 중앙에 위치)
-        initialSlide: 0, // 첫 번째 슬라이드부터 시작 (review1)
-        
-        // 무한 루프 설정
-        loop: true,
-        loopedSlides: 5, // 실제 슬라이드 개수
-        
-        // 터치 설정
-        grabCursor: true,
-        touchRatio: 1,
-        resistance: true,
-        resistanceRatio: 0.85,
-        
-        // 슬라이드 전환 설정 (더 부드럽게)
-        slidesPerGroup: 1, // 한 번에 1개씩 이동
-        speed: 1000, // 조금 더 느리게 (부드러운 효과)
-        
-        // 부드러운 전환을 위한 설정
-        freeMode: false,
-        freeModeSticky: false,
-        
-        // 자동 재생 (조건부 설정)
-        ...(autoplayEnabled && {
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-            }
-        }),
-        
-        // 이벤트 콜백
-        on: {
-            init: function() {
-                console.log('리뷰 카드 스와이퍼 초기화됨');
-                console.log('초기 순서: review1, review2, review3, review4, review5');
-                console.log('중앙 정렬 활성화됨');
-            },
-            slideChange: function () {
-                const currentReview = this.realIndex + 1;
-                console.log('현재 리뷰 슬라이드:', currentReview);
-            }
-        },
-    });
-
-    console.log('리뷰 카드 스와이퍼 초기화 완료');
-    return reviewSwiper;
-}
 
 // 식재료 데이터 (기존과 동일)
 const ingredientData = {
@@ -283,4 +340,189 @@ function initIngredientClick() {
     });
 
     console.log('식재료 클릭 이벤트 초기화 완료');
+}
+
+
+function initReviewSwiper() {
+    // 원형 카드 배치 초기화
+    initCircularReviewCards();
+}
+
+// 원형 리뷰 카드 배치 함수
+function initCircularReviewCards() {
+    let cardImages = [];
+    let isDragging = false;
+    let startAngle = 0;
+    let currentRotation = 0;
+    let lastMouseAngle = 0;
+    const cardCount = 16;
+    const visibleCardCount = 5;
+
+    // 카드 이미지 배열 설정
+    function loadCardImage() {
+        cardImages = [
+            'img/1.png',
+            'img/2.png', 
+            'img/3.png',
+            'img/4.png',
+            'img/5.png'
+        ];
+    }
+
+    // 마우스 위치를 각도로 변환
+    function getAngleFromMouse(clientX, clientY) {
+        const container = document.querySelector('.circular-cards-container');
+        if (!container) return 0;
+        
+        const rect = container.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const deltaX = clientX - centerX;
+        const deltaY = clientY - centerY;
+        
+        return Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+    }
+
+    // 보이는 카드 업데이트
+    function updateVisibleCards() {
+        const cards = document.querySelectorAll('.review-card');
+        const centerIndex = Math.round(-currentRotation / (360 / cardCount)) % cardCount;
+        const normalizedCenterIndex = centerIndex < 0 ? centerIndex + cardCount : centerIndex;
+        
+        cards.forEach((card, index) => {
+            card.classList.remove('visible');
+            
+            // 중앙을 기준으로 앞뒤 2개씩, 총 5개 카드가 보이도록
+            const distanceFromCenter = Math.min(
+                Math.abs(index - normalizedCenterIndex),
+                cardCount - Math.abs(index - normalizedCenterIndex)
+            );
+            
+            if (distanceFromCenter <= 2) {
+                card.classList.add('visible');
+
+                if (distanceFromCenter === 0) {
+                card.classList.add('center-card');
+                }
+            }
+        });
+    }
+
+    // 카드 생성 및 배치
+    function createCards() {
+        loadCardImage();
+        
+        const container = document.getElementById('reviewCardContainer');
+        if (!container) return;
+
+        const centerX = 600;
+        const centerY = 600;
+        const radius = 620;
+
+        for (let i = 0; i < cardCount; i++) {
+            const card = document.createElement('div');
+            card.className = 'review-card';
+            
+            // 각도 계산 (12시 방향부터 시작)
+            const angle = (360 / cardCount) * i - 90;
+            const radian = (angle * Math.PI) / 180;
+            
+            const x = centerX + Math.cos(radian) * radius;
+            const y = centerY + Math.sin(radian) * radius;
+            
+            card.style.left = (x - 125) + 'px';
+            card.style.top = (y - 162.5) + 'px';
+            
+            // 카드가 중앙을 향하도록 회전
+            const rotationAngle = angle + 90;
+            card.style.transform = `rotate(${rotationAngle}deg)`;
+            
+            // 5개 이미지를 순환해서 사용
+            const imageIndex = i % 5;
+            const cardImageSrc = cardImages[imageIndex];
+            
+            card.innerHTML = `
+                <img src="${cardImageSrc}" alt="고객 리뷰${i + 1}" onerror="this.style.display='none'">
+            `;
+            
+            // 카드 클릭 이벤트
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                console.log(`리뷰 카드 ${i + 1} 클릭됨`);
+            });
+            
+            container.appendChild(card);
+            
+            setTimeout(() => {
+                card.classList.add('dealing');
+            }, i * 100);
+        }
+
+        // currentRotation = -(360 / cardCount);
+        
+        // 초기 보이는 카드 설정
+        setTimeout(() => {
+            updateVisibleCards();
+        }, cardCount * 100 + 1000);
+    }
+
+    // 드래그 이벤트
+    function handleMouseDown(e) {
+        const container = document.querySelector('.circular-cards-container');
+        if (!container || !container.contains(e.target)) return;
+        
+        isDragging = true;
+        startAngle = getAngleFromMouse(e.clientX, e.clientY);
+        lastMouseAngle = startAngle;
+        const hint = document.querySelector('.drag-hint');
+        if (hint) hint.style.display = 'none';
+    }
+
+    function handleMouseMove(e) {
+        if (!isDragging) return;
+        
+        const mouseAngle = getAngleFromMouse(e.clientX, e.clientY);
+        let deltaAngle = mouseAngle - lastMouseAngle;
+        
+        // 각도 차이가 180도보다 크면 반대 방향으로 계산
+        if (deltaAngle > 180) deltaAngle -= 360;
+        if (deltaAngle < -180) deltaAngle += 360;
+        
+        currentRotation += deltaAngle;
+        lastMouseAngle = mouseAngle;
+        
+        const container = document.getElementById('reviewCardContainer');
+        if (container) {
+            container.style.transform = `rotate(${currentRotation}deg)`;
+        }
+        
+        updateVisibleCards();
+    }
+
+    function handleMouseUp() {
+        isDragging = false;
+        
+        // 스냅 기능: 가장 가까운 카드 위치로 맞춤
+        const snapAngle = 360 / cardCount;
+        const snappedRotation = Math.round(currentRotation / snapAngle) * snapAngle;
+        currentRotation = snappedRotation;
+        
+        const container = document.getElementById('reviewCardContainer');
+        if (container) {
+            container.style.transform = `rotate(${currentRotation}deg)`;
+        }
+        
+        updateVisibleCards();
+    }
+
+    // 이벤트 리스너 등록 (마우스 드래그만)
+    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    // 페이지 로드시 카드 생성
+    createCards();
+
+    console.log('원형 리뷰 카드 초기화 완료');
 }

@@ -15,10 +15,10 @@ body {
 }
 
 
-/* 첫 번째 섹션 컨테이너 - 기존 높이 유지 */
+
 .hero-section {
     width: 100%;
-    min-height: 100vh; /* 원래대로 100vh 유지 */
+    min-height: 150vh; /* 100에서 300으로 */
     height: auto;
     position: relative;
     background: url('img/mainBg.png') center center / cover no-repeat;
@@ -26,6 +26,22 @@ body {
     transition: all 0.5s ease-out;
     padding-bottom: 200px; 
 }
+
+#heroSection {
+  position: relative;
+  min-height: 250vh;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.hero-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
 
 /* 네비게이션 */
 .nav-container {
@@ -65,10 +81,10 @@ body {
 
 /* 메인 테이블 (앞쪽에 놓인) */
 .main-table {
-    position: absolute;
+    position: static;
     top: 50%;
     bottom: 0;
-    left: 50%;
+    /* left: 50%; */
     transform: translateX(-50%);
     width: 100%;
     max-width: 1920px;
@@ -844,8 +860,8 @@ body {
     white-space: nowrap !important;
     padding: 60px 0 20px 0 !important;
     margin: 0 auto !important;
-    max-width: 1550px !important;
-    top: 80px !important;
+    /* max-width: 1550px !important; */
+    top: 210px !important;
     z-index: 15 !important;
     width: auto !important;
     height: auto !important;
@@ -880,6 +896,7 @@ body {
 .product-combined-item .product-info {
     text-align: left;
     padding: 0 20px; /* 좌우 여백 */
+    padding-left: 52px;
 }
 
 .product-combined-item .product-info img:first-child {

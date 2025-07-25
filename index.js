@@ -6,7 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // DOM 요소 참조 설정
     heroSection = document.getElementById('heroSection');
     
-    // 히어로 섹션 높이는 그대로 유지 (100vh)
+    // 히어로 섹션 높이를 250vh로 설정 (여유 있는 애니메이션)
+    if (heroSection) {
+        heroSection.style.minHeight = '250vh';
+        // 초기 요소들이 첫 화면(100vh)에 제대로 배치되도록 설정
+        heroSection.style.position = 'relative';
+    }
     
     // 모든 초기화 함수 실행
     initScrollEvents();
@@ -15,161 +20,211 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initScrollEvents() {
-    let isScrollLocked = false;
-    let currentStage = 0; // 0: 초기, 1: 강아지, 2: 고양이, 3: 완료
-    
-    // 애니메이션 완료를 감지하는 함수
-    function waitForAnimationComplete() {
-        return new Promise(resolve => {
-            setTimeout(resolve, 1000);
-        });
+    // 스크롤 기반 애니메이션 함수
+    function updateScrollAnimations() {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        
+        // 첫 화면(100vh)까지는 애니메이션 적용하지 않음
+        // 100vh ~ 250vh 구간에서 애니메이션 (총 150vh 구간)
+        const animationStart = windowHeight * 0; // 바로 시작
+        const animationRange = windowHeight * 2.2; // 220vh까지 애니메이션
+        
+        // 스크롤 진행도 계산 (0 ~ 1)
+        const scrollProgress = Math.max(0, Math.min((scrollY - animationStart) / animationRange, 1));
+        
+        // main-table도 스크롤에 따라 이동
+        updateMainTable(scrollProgress);
+        
+        // 각 단계별 진행도 계산
+        // 0 ~ 0.33: 초기 → 강아지 포커스
+        // 0.33 ~ 0.66: 강아지 → 고양이 포커스  
+        // 0.66 ~ 1: 고양이 → 다음 섹션
+        
+        const dogProgress = Math.max(0, Math.min((scrollProgress - 0) / 0.33, 1));
+        const catProgress = Math.max(0, Math.min((scrollProgress - 0.33) / 0.33, 1));
+        const exitProgress = Math.max(0, Math.min((scrollProgress - 0.66) / 0.34, 1));
+        
+        updateMainTable(scrollProgress);
+        updateDogFocus(dogProgress);
+        updateCatFocus(catProgress, dogProgress);
+        updateExitTransition(exitProgress);
     }
     
-    // 스크롤 잠금/해제 함수
-    function setScrollLock(locked) {
-        isScrollLocked = locked;
+    // main-table 스크롤 따라 이동
+    function updateMainTable(progress) {
+        const mainTable = document.querySelector('.main-table');
+        if (!mainTable) return;
+        
+        // 스크롤에 따라 테이블이 자연스럽게 아래로 이동 (더 부드럽게)
+        const translateY = progress * 30; // 30vh만큼 아래로 이동
+        mainTable.style.transform = `translateY(${translateY}vh)`;
+        
+        // 투명도는 거의 변하지 않게
+        const opacity = 1 - (progress * 0.1); // 10%만 투명해짐
+        mainTable.style.opacity = Math.max(0.9, opacity);
     }
     
-    // 다음 단계로 이동하는 함수
-    async function goToNextStage() {
-        if (isScrollLocked) return;
+    // 강아지 포커스 애니메이션
+    function updateDogFocus(progress) {
+        const dogArea = document.querySelector('.dog-area');
+        const character = document.querySelector('.character');
+        const catTower = document.querySelector('.cat-tower');
+        const logo = document.querySelector('.logo');
+        const subtitle = document.querySelector('.subtitle-img');
+        const speechBubble = document.querySelector('.speech-bubble-container');
+        const dogFocusImage = document.querySelector('.dog-focus-image');
         
-        setScrollLock(true);
+        if (!dogArea || !character || !catTower) return;
         
-        if (currentStage === 0) {
-            // 초기 → 강아지
-            currentStage = 1;
-            heroSection.classList.add('dog-focus');
-            await waitForAnimationComplete();
-        } else if (currentStage === 1) {
-            // 강아지 → 고양이
-            currentStage = 2;
-            heroSection.classList.remove('dog-focus');
-            heroSection.classList.add('cat-focus');
-            await waitForAnimationComplete();
-        } else if (currentStage === 2) {
-            // 고양이 → 다음 섹션으로 스크롤
-            currentStage = 3;
-            setScrollLock(false); // 잠금만 해제하고 자연스러운 스크롤 허용
-            return;
+        // progress가 0이면 애니메이션 적용하지 않음
+        if (progress === 0) return;
+        
+        // 강아지가 앞으로 나오면서 커지는 애니메이션
+        const dogScale = 1 + (progress * 0.5); // 1.0 → 1.5
+        const dogTranslateX = progress * -150; // 0% → -150%
+        const dogTranslateY = progress * 10; // 0% → 10%
+        
+        dogArea.style.transform = `scale(${dogScale}) translateX(${dogTranslateX}%) translateY(${dogTranslateY}%)`;
+        dogArea.style.zIndex = progress > 0.1 ? 30 : '';
+        
+        // 캐릭터가 뒤로 물러나면서 투명해짐
+        const characterScale = 1 + (progress * 0.8); // 1.0 → 1.8
+        const characterTranslateX = progress * -100; // 0% → -100%
+        const characterOpacity = 1 - progress; // 1 → 0
+        
+        character.style.transform = `scale(${characterScale}) translateX(${characterTranslateX}%)`;
+        character.style.opacity = characterOpacity;
+        
+        // 고양이 타워도 살짝 뒤로
+        const catTowerScale = 1 + (progress * 0.8);
+        const catTowerTranslateX = progress * -115;
+        const catTowerOpacity = 1 - (progress * 0.3); // 1 → 0.7
+        
+        catTower.style.transform = `scale(${catTowerScale}) translateX(${catTowerTranslateX}%)`;
+        catTower.style.opacity = catTowerOpacity;
+        
+        // 로고와 서브타이틀 투명해짐
+        const logoOpacity = 1 - (progress * 0.7); // 1 → 0.3
+        if (logo) logo.style.opacity = logoOpacity;
+        if (subtitle) subtitle.style.opacity = logoOpacity;
+        
+        // 말풍선 사라짐
+        if (speechBubble) {
+            speechBubble.style.opacity = 1 - progress;
+            speechBubble.style.pointerEvents = progress > 0.5 ? 'none' : '';
         }
         
-        setScrollLock(false);
+        // 강아지 포커스 이미지 나타남
+        if (dogFocusImage) {
+            const imageOpacity = Math.max(0, (progress - 0.3) / 0.7); // 30% 지점부터 나타남
+            const imageTranslateY = (1 - imageOpacity) * 30;
+            
+            dogFocusImage.style.opacity = imageOpacity;
+            dogFocusImage.style.transform = `translate(-50%, -50%) translateY(${imageTranslateY}px) scale(1)`;
+        }
     }
     
-    // 이전 단계로 이동하는 함수
-    async function goToPrevStage() {
-        if (isScrollLocked) return;
+    // 고양이 포커스 애니메이션
+    function updateCatFocus(catProgress, dogProgress) {
+        const dogArea = document.querySelector('.dog-area');
+        const character = document.querySelector('.character');
+        const catTower = document.querySelector('.cat-tower');
+        const dogFocusImage = document.querySelector('.dog-focus-image');
+        const catFocusImage = document.querySelector('.cat-focus-image');
         
-        // 이미 다음 섹션에 있으면 히어로 섹션으로 돌아가기
-        if (currentStage === 3) {
-            currentStage = 2;
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-            setTimeout(() => {
-                heroSection.classList.add('cat-focus');
-            }, 300);
-            return;
+        if (!dogArea || !catTower) return;
+        
+        // 강아지가 완전히 뒤로 사라짐
+        if (catProgress > 0) {
+            const dogExitScale = 1.5 + (catProgress * 0.3); // 1.5 → 1.8
+            const dogExitTranslateX = -150 + (catProgress * 250); // -150% → 100%
+            const dogExitOpacity = 1 - catProgress; // 1 → 0
+            
+            dogArea.style.transform = `scale(${dogExitScale}) translateX(${dogExitTranslateX}%) translateY(10%)`;
+            dogArea.style.opacity = dogExitOpacity;
         }
         
-        setScrollLock(true);
+        // 고양이 타워가 앞으로 나옴
+        const catScale = (1 + dogProgress * 0.8) + (catProgress * 1.0); // 현재 스케일 + 추가 확대
+        const catTranslateX = (-115 + dogProgress * 115) + (catProgress * 101); // -115% → -14%
+        const catTranslateY = catProgress * 60; // 0% → 60%
+        const catOpacity = Math.min(1, (1 - dogProgress * 0.3) + (catProgress * 0.3)); // 0.7 → 1.0
         
-        if (currentStage === 2) {
-            // 고양이 → 강아지
-            currentStage = 1;
-            heroSection.classList.remove('cat-focus');
-            heroSection.classList.add('dog-focus');
-            await waitForAnimationComplete();
-        } else if (currentStage === 1) {
-            // 강아지 → 초기
-            currentStage = 0;
-            heroSection.classList.remove('dog-focus');
-            await waitForAnimationComplete();
-        } else if (currentStage === 0) {
-            // 이미 맨 위
-            setScrollLock(false);
-            return;
+        catTower.style.transform = `scale(${catScale}) translateX(${catTranslateX}%) translateY(${catTranslateY}%)`;
+        catTower.style.opacity = catOpacity;
+        catTower.style.zIndex = catProgress > 0.1 ? 20 : 'auto';
+        
+        // 강아지 포커스 이미지 사라짐
+        if (dogFocusImage && catProgress > 0) {
+            const dogImageOpacity = 1 - catProgress;
+            dogFocusImage.style.opacity = dogImageOpacity;
         }
         
-        setScrollLock(false);
+        // 고양이 포커스 이미지 나타남
+        if (catFocusImage && catProgress > 0) {
+            const catImageOpacity = Math.max(0, (catProgress - 0.3) / 0.7);
+            const catImageTranslateY = (1 - catImageOpacity) * 30;
+            
+            catFocusImage.style.opacity = catImageOpacity;
+            catFocusImage.style.transform = `translate(-50%, -50%) translateY(${catImageTranslateY}px) scale(1)`;
+        }
     }
     
-    window.addEventListener('wheel', (e) => {
-        // 히어로 섹션에서만 특별 처리
-        if (window.scrollY < window.innerHeight * 1.1) {
-            // currentStage가 3(완료)이면 정상 스크롤 허용
-            if (currentStage === 3) {
-                return; // preventDefault 하지 않음 - 정상 스크롤 허용
+    // 마지막 단계 - 다음 섹션으로의 전환
+    function updateExitTransition(exitProgress) {
+        const catTower = document.querySelector('.cat-tower');
+        const catFocusImage = document.querySelector('.cat-focus-image');
+        const logo = document.querySelector('.logo');
+        const subtitle = document.querySelector('.subtitle-img');
+        
+        if (exitProgress > 0) {
+            // 모든 요소들이 서서히 사라짐
+            const fadeOpacity = 1 - exitProgress;
+            
+            if (catTower) {
+                catTower.style.opacity = Math.max(0, fadeOpacity);
+                // 살짝 축소되면서 사라짐
+                const currentScale = parseFloat(catTower.style.transform.match(/scale\(([^)]+)\)/)?.[1] || 1.8);
+                const exitScale = currentScale - (exitProgress * 0.3);
+                const currentTransform = catTower.style.transform || '';
+                catTower.style.transform = currentTransform.replace(/scale\([^)]+\)/, `scale(${exitScale})`);
             }
             
-            if (!isScrollLocked) {
-                e.preventDefault();
-                
-                if (e.deltaY > 0) {
-                    goToNextStage();
-                } else {
-                    goToPrevStage();
-                }
-            } else {
-                e.preventDefault();
+            if (catFocusImage) {
+                catFocusImage.style.opacity = Math.max(0, fadeOpacity);
+            }
+            
+            if (logo) {
+                logo.style.opacity = Math.max(0.3, fadeOpacity);
+            }
+            
+            if (subtitle) {
+                subtitle.style.opacity = Math.max(0.3, fadeOpacity);
             }
         }
-    }, { passive: false });
+    }
     
-    // 키보드 이벤트
-    window.addEventListener('keydown', (e) => {
-        if (window.scrollY < window.innerHeight * 1.1) {
-            if (e.key === 'ArrowDown' || e.key === ' ') {
-                e.preventDefault();
-                goToNextStage();
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                goToPrevStage();
-            }
-        }
-    });
+    // 스크롤 이벤트 리스너 - 성능 최적화
+    let ticking = false;
     
-    // 스크롤 이벤트 - 상태 감지
-    window.addEventListener('scroll', () => {
-        if (window.scrollY >= window.innerHeight * 1.1) {
-            // 다음 섹션에 있음
-            if (currentStage !== 3) {
-                currentStage = 3;
-            }
-            setScrollLock(false);
-            if (heroSection) {
-                heroSection.classList.remove('dog-focus', 'cat-focus');
-            }
-        } else {
-            // 히어로 섹션에 있음
-            if (currentStage === 3) {
-                currentStage = 2; // 다시 고양이 상태로
-                heroSection.classList.add('cat-focus');
-            }
+    function handleScroll() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateScrollAnimations();
+                ticking = false;
+            });
+            ticking = true;
         }
-    });
+    }
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    // 초기 상태 설정
+    updateScrollAnimations();
 }
 
-// function updateScrollStage(scrollY, windowHeight) {
-//     // heroSection이 존재하지 않으면 return
-//     if (!heroSection) return;
-    
-//     // 모든 포커스 클래스 제거
-//     heroSection.classList.remove('dog-focus', 'cat-focus');
-    
-//     // 구간을 더 길게 확장 (기존의 2배)
-//     if (scrollY < windowHeight * 0.1) {
-//         // 초기 상태 (0vh ~ 60vh)
-//     } else if (scrollY < windowHeight * 0.5) {
-//         // 강아지 포커스 상태 (60vh ~ 130vh)
-//         heroSection.classList.add('dog-focus');
-//     } else if (scrollY < windowHeight * 2.0) {
-//         // 고양이 포커스 상태 (130vh ~ 200vh)
-//         heroSection.classList.add('cat-focus');
-//     }
-// }
+// ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
 
 // =====모든 Swiper 초기화===== //
 function initSwiperMenus() {
@@ -198,8 +253,8 @@ function initSwiperMenus() {
 
 // 기존 강아지/고양이 제품 스와이퍼
 function initProductSwiper() {
-    // 강아지 이미지 Swiper와 정보 Swiper 연동
-    const dogImagesSwiper = new Swiper('.dog-images-scroll', {
+    // 강아지 통합 제품 스와이퍼 (이미지 + 정보 결합)
+    const dogProductsSwiper = new Swiper('.dog-products-scroll', {
         slidesPerView: 'auto',
         spaceBetween: 40,
         freeMode: {
@@ -211,28 +266,11 @@ function initProductSwiper() {
         grabCursor: true,
         mousewheel: false,
         scrollbar: {
-            el: '.dog-images-scroll .swiper-scrollbar',
+            el: '.dog-products-scroll .swiper-scrollbar',
             draggable: true,
             dragSize: 'auto',
         },
     });
-
-    const dogInfoSwiper = new Swiper('.dog-info-scroll', {
-        slidesPerView: 'auto',
-        spaceBetween: 40,
-        freeMode: {
-            enabled: true,
-            sticky: false,
-            momentumRatio: 1,
-            momentumVelocityRatio: 1,
-        },
-        allowTouchMove: false, // 터치 비활성화 (이미지에만 반응)
-        mousewheel: false,
-    });
-
-    // 강아지 이미지 ↔ 정보 동기화
-    dogImagesSwiper.controller.control = dogInfoSwiper;
-    dogInfoSwiper.controller.control = dogImagesSwiper;
 
     // 고양이 이미지 Swiper와 정보 Swiper 연동
     const catImagesSwiper = new Swiper('.cat-images-scroll', {
@@ -271,9 +309,7 @@ function initProductSwiper() {
     catInfoSwiper.controller.control = catImagesSwiper;
 }
 
-
-
-// 식재료 데이터 (기존과 동일)
+// 식재료 데이터
 const ingredientData = {
     chicken: {
         image: 'img/닭고기.png',
@@ -301,7 +337,7 @@ const ingredientData = {
     }
 };
 
-// 원형 버튼 클릭 이벤트 초기화 (기존과 동일)
+// 원형 버튼 클릭 이벤트 초기화
 function initIngredientClick() {
     const circleButtons = document.querySelectorAll('.circle-button');
     const ingredientImg = document.getElementById('ingredient-image');
@@ -342,7 +378,6 @@ function initIngredientClick() {
     console.log('식재료 클릭 이벤트 초기화 완료');
 }
 
-
 function initReviewSwiper() {
     // 원형 카드 배치 초기화
     initCircularReviewCards();
@@ -356,7 +391,6 @@ function initCircularReviewCards() {
     let currentRotation = 0;
     let lastMouseAngle = 0;
     const cardCount = 16;
-    const visibleCardCount = 5;
 
     // 카드 이미지 배열 설정
     function loadCardImage() {
@@ -391,7 +425,7 @@ function initCircularReviewCards() {
         const normalizedCenterIndex = centerIndex < 0 ? centerIndex + cardCount : centerIndex;
         
         cards.forEach((card, index) => {
-            card.classList.remove('visible');
+            card.classList.remove('visible', 'center-card');
             
             // 중앙을 기준으로 앞뒤 2개씩, 총 5개 카드가 보이도록
             const distanceFromCenter = Math.min(
@@ -403,7 +437,7 @@ function initCircularReviewCards() {
                 card.classList.add('visible');
 
                 if (distanceFromCenter === 0) {
-                card.classList.add('center-card');
+                    card.classList.add('center-card');
                 }
             }
         });
@@ -459,8 +493,6 @@ function initCircularReviewCards() {
             }, i * 100);
         }
 
-        // currentRotation = -(360 / cardCount);
-        
         // 초기 보이는 카드 설정
         setTimeout(() => {
             updateVisibleCards();
@@ -475,8 +507,6 @@ function initCircularReviewCards() {
         isDragging = true;
         startAngle = getAngleFromMouse(e.clientX, e.clientY);
         lastMouseAngle = startAngle;
-        const hint = document.querySelector('.drag-hint');
-        if (hint) hint.style.display = 'none';
     }
 
     function handleMouseMove(e) {
@@ -516,7 +546,7 @@ function initCircularReviewCards() {
         updateVisibleCards();
     }
 
-    // 이벤트 리스너 등록 (마우스 드래그만)
+    // 이벤트 리스너 등록
     document.addEventListener('mousedown', handleMouseDown);
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
