@@ -81,10 +81,10 @@ body {
 
 /* 메인 테이블 (앞쪽에 놓인) */
 .main-table {
-    position: static;
+    position: absolute;
     top: 50%;
     bottom: 0;
-    /* left: 50%; */
+    left: 50%;
     transform: translateX(-50%);
     width: 100%;
     max-width: 1920px;

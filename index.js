@@ -6,11 +6,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // DOM 요소 참조 설정
     heroSection = document.getElementById('heroSection');
     
-    // 히어로 섹션 높이를 250vh로 설정 (여유 있는 애니메이션)
+    // 히어로 섹션 높이를 250vh로 설정하되, 내부 배치는 100vh 기준 유지
     if (heroSection) {
         heroSection.style.minHeight = '250vh';
-        // 초기 요소들이 첫 화면(100vh)에 제대로 배치되도록 설정
         heroSection.style.position = 'relative';
+        
+        const mainContent = heroSection.querySelector('.main-content');
+        const mainTable = heroSection.querySelector('.main-table');
+        const hangingLights = heroSection.querySelector('.hanging-lights');
+        const plants = heroSection.querySelector('.plants');
+        const navContainer = heroSection.querySelector('.nav-container');
+        
+        // 요소 100vh에 고정
+        if (mainContent) {
+            mainContent.style.position = 'absolute';
+            mainContent.style.height = '100vh';
+        }
+        if (mainTable) {
+            mainTable.style.position = 'absolute';
+        }
+        if (hangingLights) {
+            hangingLights.style.position = 'absolute';
+            hangingLights.style.height = '100vh';
+        }
+        if (plants) {
+            plants.style.position = 'absolute';
+            plants.style.height = '100vh';
+        }
+        if (navContainer) {
+            navContainer.style.position = 'absolute';
+        }
     }
     
     // 모든 초기화 함수 실행
@@ -25,47 +50,91 @@ function initScrollEvents() {
         const scrollY = window.scrollY;
         const windowHeight = window.innerHeight;
         
-        // 첫 화면(100vh)까지는 애니메이션 적용하지 않음
-        // 100vh ~ 250vh 구간에서 애니메이션 (총 150vh 구간)
-        const animationStart = windowHeight * 0; // 바로 시작
-        const animationRange = windowHeight * 2.2; // 220vh까지 애니메이션
+
+        const animationStart = windowHeight * 0.8; // 80vh부터 애니메이션 시작 (기존 배치 유지)
+        const animationRange = windowHeight * 1.4; // 140vh 구간으로 애니메이션
+        
+        // 80vh 이전에는 완전히 기존 배치 유지
+        if (scrollY < animationStart) {
+            resetToInitialState();
+            return;
+        }
         
         // 스크롤 진행도 계산 (0 ~ 1)
         const scrollProgress = Math.max(0, Math.min((scrollY - animationStart) / animationRange, 1));
         
-        // main-table도 스크롤에 따라 이동
-        updateMainTable(scrollProgress);
+
+        const dogStart = 0;      // 강아지 시작점 (0%)
+        const dogDuration = 0.5; // 강아지 애니메이션 길이 (50%)
+        const catStart = 0.4;    // 고양이 시작점 (40%) - 강아지와 약간 겹침
+        const catDuration = 0.6; // 고양이 애니메이션 길이 (60%)
         
-        // 각 단계별 진행도 계산
-        // 0 ~ 0.33: 초기 → 강아지 포커스
-        // 0.33 ~ 0.66: 강아지 → 고양이 포커스  
-        // 0.66 ~ 1: 고양이 → 다음 섹션
-        
-        const dogProgress = Math.max(0, Math.min((scrollProgress - 0) / 0.33, 1));
-        const catProgress = Math.max(0, Math.min((scrollProgress - 0.33) / 0.33, 1));
-        const exitProgress = Math.max(0, Math.min((scrollProgress - 0.66) / 0.34, 1));
+        const dogProgress = Math.max(0, Math.min((scrollProgress - dogStart) / dogDuration, 1));
+        const catProgress = Math.max(0, Math.min((scrollProgress - catStart) / catDuration, 1));
         
         updateMainTable(scrollProgress);
         updateDogFocus(dogProgress);
         updateCatFocus(catProgress, dogProgress);
-        updateExitTransition(exitProgress);
     }
     
-    // main-table 스크롤 따라 이동
+    // 모든 요소를 완전히 초기 상태로 리셋
+    function resetToInitialState() {
+        const dogArea = document.querySelector('.dog-area');
+        const character = document.querySelector('.character');
+        const catTower = document.querySelector('.cat-tower');
+        const logo = document.querySelector('.logo');
+        const subtitle = document.querySelector('.subtitle-img');
+        const speechBubble = document.querySelector('.speech-bubble-container');
+        const dogFocusImage = document.querySelector('.dog-focus-image');
+        const catFocusImage = document.querySelector('.cat-focus-image');
+        const mainTable = document.querySelector('.main-table');
+        
+        // 모든 인라인 스타일 제거하여 CSS 기본값으로 완전 복원
+        if (dogArea) {
+            dogArea.style.transform = '';
+            dogArea.style.zIndex = '';
+            dogArea.style.opacity = '';
+        }
+        if (character) {
+            character.style.transform = '';
+            character.style.opacity = '';
+        }
+        if (catTower) {
+            catTower.style.transform = '';
+            catTower.style.opacity = '';
+            catTower.style.zIndex = '';
+        }
+        if (logo) logo.style.opacity = '';
+        if (subtitle) subtitle.style.opacity = '';
+        if (speechBubble) {
+            speechBubble.style.opacity = '';
+            speechBubble.style.pointerEvents = '';
+        }
+        if (dogFocusImage) {
+            dogFocusImage.style.opacity = '0';
+            dogFocusImage.style.transform = '';
+        }
+        if (catFocusImage) {
+            catFocusImage.style.opacity = '0';
+            catFocusImage.style.transform = '';
+        }
+        if (mainTable) {
+            mainTable.style.transform = '';
+        }
+    }
+    
+    // main-table 스크롤 따라 이동 (opacity는 건들지 않음)
     function updateMainTable(progress) {
         const mainTable = document.querySelector('.main-table');
         if (!mainTable) return;
         
-        // 스크롤에 따라 테이블이 자연스럽게 아래로 이동 (더 부드럽게)
+        // 스크롤에 따라 테이블이 자연스럽게 아래로 이동
         const translateY = progress * 30; // 30vh만큼 아래로 이동
-        mainTable.style.transform = `translateY(${translateY}vh)`;
-        
-        // 투명도는 거의 변하지 않게
-        const opacity = 1 - (progress * 0.1); // 10%만 투명해짐
-        mainTable.style.opacity = Math.max(0.9, opacity);
+        const translateX = -50; // 중앙 정렬 유지
+        mainTable.style.transform = `translateX(${translateX}%) translateY(${translateY}vh)`;
     }
     
-    // 강아지 포커스 애니메이션
+    // 강아지 포커스 애니메이션 - 강아지 이미지 + dogidcard 이미지
     function updateDogFocus(progress) {
         const dogArea = document.querySelector('.dog-area');
         const character = document.querySelector('.character');
@@ -76,98 +145,86 @@ function initScrollEvents() {
         const dogFocusImage = document.querySelector('.dog-focus-image');
         
         if (!dogArea || !character || !catTower) return;
-        
-        // progress가 0이면 애니메이션 적용하지 않음
         if (progress === 0) return;
         
-        // 강아지가 앞으로 나오면서 커지는 애니메이션
-        const dogScale = 1 + (progress * 0.5); // 1.0 → 1.5
-        const dogTranslateX = progress * -150; // 0% → -150%
-        const dogTranslateY = progress * 10; // 0% → 10%
+        const dogScale = 1 + (progress * 0.8);      // 1.0 → 1.8로 확대
+        const dogTranslateX = progress * -80;       // 중앙쪽으로 이동
+        const dogTranslateY = progress * -20;       // 위로 살짝 이동
         
         dogArea.style.transform = `scale(${dogScale}) translateX(${dogTranslateX}%) translateY(${dogTranslateY}%)`;
         dogArea.style.zIndex = progress > 0.1 ? 30 : '';
         
-        // 캐릭터가 뒤로 물러나면서 투명해짐
-        const characterScale = 1 + (progress * 0.8); // 1.0 → 1.8
-        const characterTranslateX = progress * -100; // 0% → -100%
-        const characterOpacity = 1 - progress; // 1 → 0
+        const characterScale = 1 + (progress * 0.5);
+        const characterTranslateX = progress * -120;
+        const characterOpacity = 1 - (progress * 0.8);
         
         character.style.transform = `scale(${characterScale}) translateX(${characterTranslateX}%)`;
         character.style.opacity = characterOpacity;
         
-        // 고양이 타워도 살짝 뒤로
-        const catTowerScale = 1 + (progress * 0.8);
-        const catTowerTranslateX = progress * -115;
-        const catTowerOpacity = 1 - (progress * 0.3); // 1 → 0.7
-        
-        catTower.style.transform = `scale(${catTowerScale}) translateX(${catTowerTranslateX}%)`;
+        const catTowerOpacity = 1 - (progress * 0.5);
         catTower.style.opacity = catTowerOpacity;
-        
-        // 로고와 서브타이틀 투명해짐
-        const logoOpacity = 1 - (progress * 0.7); // 1 → 0.3
+
+        const logoOpacity = 1 - (progress * 0.8);
         if (logo) logo.style.opacity = logoOpacity;
         if (subtitle) subtitle.style.opacity = logoOpacity;
         
-        // 말풍선 사라짐
         if (speechBubble) {
             speechBubble.style.opacity = 1 - progress;
-            speechBubble.style.pointerEvents = progress > 0.5 ? 'none' : '';
+            speechBubble.style.pointerEvents = progress > 0.3 ? 'none' : '';
         }
         
-        // 강아지 포커스 이미지 나타남
         if (dogFocusImage) {
-            const imageOpacity = Math.max(0, (progress - 0.3) / 0.7); // 30% 지점부터 나타남
-            const imageTranslateY = (1 - imageOpacity) * 30;
+            const imageOpacity = Math.max(0, (progress - 0.4) / 0.6); // 40% 지점부터 나타남
+            const imageScale = 0.8 + (imageOpacity * 0.2); // 0.8 → 1.0으로 확대
             
             dogFocusImage.style.opacity = imageOpacity;
-            dogFocusImage.style.transform = `translate(-50%, -50%) translateY(${imageTranslateY}px) scale(1)`;
+            dogFocusImage.style.transform = `translate(-50%, -50%) scale(${imageScale})`;
         }
     }
     
-    // 고양이 포커스 애니메이션
+
     function updateCatFocus(catProgress, dogProgress) {
         const dogArea = document.querySelector('.dog-area');
-        const character = document.querySelector('.character');
         const catTower = document.querySelector('.cat-tower');
         const dogFocusImage = document.querySelector('.dog-focus-image');
         const catFocusImage = document.querySelector('.cat-focus-image');
         
         if (!dogArea || !catTower) return;
         
-        // 강아지가 완전히 뒤로 사라짐
+        // 강아지 완전히 사라지기 (앞으로 나오면서 opacity 0)
         if (catProgress > 0) {
-            const dogExitScale = 1.5 + (catProgress * 0.3); // 1.5 → 1.8
-            const dogExitTranslateX = -150 + (catProgress * 250); // -150% → 100%
-            const dogExitOpacity = 1 - catProgress; // 1 → 0
+            const dogExitScale = 1.8 + (catProgress * 0.5);  // 더 크게 확대되면서
+            const dogExitTranslateX = -80 + (catProgress * -50); // 더 앞으로 나오면서
+            const dogExitOpacity = 1 - (catProgress * 1.2);  // 빠르게 투명해짐
             
-            dogArea.style.transform = `scale(${dogExitScale}) translateX(${dogExitTranslateX}%) translateY(10%)`;
-            dogArea.style.opacity = dogExitOpacity;
+            dogArea.style.transform = `scale(${dogExitScale}) translateX(${dogExitTranslateX}%) translateY(-20%)`;
+            dogArea.style.opacity = Math.max(0, dogExitOpacity);
         }
         
-        // 고양이 타워가 앞으로 나옴
-        const catScale = (1 + dogProgress * 0.8) + (catProgress * 1.0); // 현재 스케일 + 추가 확대
-        const catTranslateX = (-115 + dogProgress * 115) + (catProgress * 101); // -115% → -14%
-        const catTranslateY = catProgress * 60; // 0% → 60%
-        const catOpacity = Math.min(1, (1 - dogProgress * 0.3) + (catProgress * 0.3)); // 0.7 → 1.0
+        // 고양이 중앙으로
+        const catBaseScale = 1 - (dogProgress * 0.5); // 강아지 단계에서 줄어들었던 것을 고려
+        const catScale = catBaseScale + (catProgress * 1.3); // 1.0 → 1.8로 확대
+        const catTranslateX = catProgress * 30;  // 중앙쪽으로 이동
+        const catTranslateY = catProgress * -10; // 위로 살짝 이동
+        const catOpacity = (1 - dogProgress * 0.5) + (catProgress * 0.5); // 투명도 복원
         
         catTower.style.transform = `scale(${catScale}) translateX(${catTranslateX}%) translateY(${catTranslateY}%)`;
-        catTower.style.opacity = catOpacity;
-        catTower.style.zIndex = catProgress > 0.1 ? 20 : 'auto';
+        catTower.style.opacity = Math.min(1, catOpacity);
+        catTower.style.zIndex = catProgress > 0.1 ? 30 : '';
         
-        // 강아지 포커스 이미지 사라짐
+        //강아지 ID카드 이미지 사라짐
         if (dogFocusImage && catProgress > 0) {
-            const dogImageOpacity = 1 - catProgress;
-            dogFocusImage.style.opacity = dogImageOpacity;
+            const dogImageOpacity = 1 - (catProgress * 1.5); // 빠르게 사라짐
+            dogFocusImage.style.opacity = Math.max(0, dogImageOpacity);
         }
         
-        // 고양이 포커스 이미지 나타남
+        // 고양이 ID카드 이미지 나타남
         if (catFocusImage && catProgress > 0) {
-            const catImageOpacity = Math.max(0, (catProgress - 0.3) / 0.7);
-            const catImageTranslateY = (1 - catImageOpacity) * 30;
+            const catImageOpacity = Math.max(0, (catProgress - 0.3) / 0.7); // 30% 지점부터 나타남
+            const catImageScale = 0.8 + (catImageOpacity * 0.2); // 0.8 → 1.0으로 확대
             
             catFocusImage.style.opacity = catImageOpacity;
-            catFocusImage.style.transform = `translate(-50%, -50%) translateY(${catImageTranslateY}px) scale(1)`;
+            catFocusImage.style.transform = `translate(-50%, -50%) scale(${catImageScale})`;
         }
     }
     
@@ -223,8 +280,6 @@ function initScrollEvents() {
     // 초기 상태 설정
     updateScrollAnimations();
 }
-
-// ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
 
 // =====모든 Swiper 초기화===== //
 function initSwiperMenus() {
