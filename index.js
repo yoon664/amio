@@ -1,12 +1,11 @@
-// 전역 변수들을 먼저 선언
+
 let heroSection;
 
 // DOM이 로드된 후 초기화
 document.addEventListener('DOMContentLoaded', () => {
     // DOM 요소 참조 설정
     heroSection = document.getElementById('heroSection');
-    
-    // 히어로 섹션 높이를 250vh로 설정하되, 내부 배치는 100vh 기준 유지
+
     if (heroSection) {
         heroSection.style.minHeight = '200vh';
         heroSection.style.position = 'relative';
@@ -38,9 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // 모든 초기화 함수 실행
     initScrollEvents();
-    initSwiperMenus(); // 모든 스와이퍼 초기화
+    initSwiperMenus();
     initIngredientClick();
 });
 
@@ -51,10 +49,10 @@ function initScrollEvents() {
         const windowHeight = window.innerHeight;
         
 
-        const animationStart = windowHeight * 0.8; // 80vh부터 애니메이션 시작 (기존 배치 유지)
+        const animationStart = windowHeight * 0.2; // 50vh부터
         const animationRange = windowHeight * 1.4; // 140vh 구간으로 애니메이션
         
-        // 80vh 이전에는 완전히 기존 배치 유지
+        // 50vh 이전에는 완전히 기존 배치 유지
         if (scrollY < animationStart) {
             resetToInitialState();
             return;
