@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     heroSection = document.getElementById('heroSection');
 
     if (heroSection) {
-        heroSection.style.minHeight = '200vh';
+        heroSection.style.minHeight = '300vh';
         heroSection.style.position = 'relative';
         
         const mainContent = heroSection.querySelector('.main-content');
@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // 요소 100vh에 고정
         if (mainContent) {
-            mainContent.style.position = 'absolute';
-            mainContent.style.height = '100vh';
+            // mainContent.style.position = 'absolute';
+            // mainContent.style.height = '100vh';
         }
         if (mainTable) {
             mainTable.style.position = 'absolute';
@@ -49,8 +49,8 @@ function initScrollEvents() {
         const windowHeight = window.innerHeight;
         
 
-        const animationStart = windowHeight * 0.2; // 50vh부터
-        const animationRange = windowHeight * 1.4; // 140vh 구간으로 애니메이션
+        const animationStart = windowHeight * 0.1; // 10vh부터 시작
+        const animationRange = windowHeight * 2.0; // 200vh 구간으로 애니메이션
         
         // 50vh 이전에는 완전히 기존 배치 유지
         if (scrollY < animationStart) {
@@ -63,9 +63,9 @@ function initScrollEvents() {
         
 
         const dogStart = 0;      // 강아지 시작점 (0%)
-        const dogDuration = 0.5; // 강아지 애니메이션 길이 (50%)
-        const catStart = 0.4;    // 고양이 시작점 (40%) - 강아지와 약간 겹침
-        const catDuration = 0.6; // 고양이 애니메이션 길이 (60%)
+        const dogDuration = 0.4; // 강아지 애니메이션 길이 (40%)
+        const catStart = 0.3;    // 고양이 시작점 (30%) - 강아지와 약간 겹침
+        const catDuration = 0.5; // 고양이 애니메이션 길이 (50%)
         
         const dogProgress = Math.max(0, Math.min((scrollProgress - dogStart) / dogDuration, 1));
         const catProgress = Math.max(0, Math.min((scrollProgress - catStart) / catDuration, 1));
@@ -127,7 +127,7 @@ function initScrollEvents() {
         if (!mainTable) return;
         
         // 스크롤에 따라 테이블이 자연스럽게 아래로 이동
-        const translateY = progress * 30; // 30vh만큼 아래로 이동
+        const translateY = progress * 50; // 50vh만큼 아래로 이동
         const translateX = -50; // 중앙 정렬 유지
         mainTable.style.transform = `translateX(${translateX}%) translateY(${translateY}vh)`;
     }
@@ -145,16 +145,16 @@ function initScrollEvents() {
         if (!dogArea || !character || !catTower) return;
         if (progress === 0) return;
         
-        const dogScale = 1 + (progress * 0.8);      // 1.0 → 1.8로 확대
-        const dogTranslateX = progress * -80;       // 중앙쪽으로 이동
-        const dogTranslateY = progress * -20;       // 위로 살짝 이동
+        const dogScale = 1 + (progress * 1.2);      // 1.0 → 2.2로 확대 (더 크게)
+        const dogTranslateX = progress * -100;       // 중앙쪽으로 더 많이 이동
+        const dogTranslateY = progress * -30;       // 위로 더 많이 이동
         
         dogArea.style.transform = `scale(${dogScale}) translateX(${dogTranslateX}%) translateY(${dogTranslateY}%)`;
         dogArea.style.zIndex = progress > 0.1 ? 30 : '';
         
-        const characterScale = 1 + (progress * 0.5);
-        const characterTranslateX = progress * -120;
-        const characterOpacity = 1 - (progress * 0.8);
+        const characterScale = 1 + (progress * 0.8);
+        const characterTranslateX = progress * -150;
+        const characterOpacity = 1 - (progress * 0.9);
         
         character.style.transform = `scale(${characterScale}) translateX(${characterTranslateX}%)`;
         character.style.opacity = characterOpacity;
@@ -191,20 +191,20 @@ function initScrollEvents() {
         
         // 강아지 완전히 사라지기 (앞으로 나오면서 opacity 0)
         if (catProgress > 0) {
-            const dogExitScale = 1.8 + (catProgress * 0.5);  // 더 크게 확대되면서
-            const dogExitTranslateX = -80 + (catProgress * -50); // 더 앞으로 나오면서
-            const dogExitOpacity = 1 - (catProgress * 1.2);  // 빠르게 투명해짐
+            const dogExitScale = 2.2 + (catProgress * 0.8);  // 더 크게 확대되면서
+            const dogExitTranslateX = -100 + (catProgress * -60); // 더 앞으로 나오면서
+            const dogExitOpacity = 1 - (catProgress * 1.5);  // 빠르게 투명해짐
             
             dogArea.style.transform = `scale(${dogExitScale}) translateX(${dogExitTranslateX}%) translateY(-20%)`;
             dogArea.style.opacity = Math.max(0, dogExitOpacity);
         }
         
         // 고양이 중앙으로
-        const catBaseScale = 1 - (dogProgress * 0.5); // 강아지 단계에서 줄어들었던 것을 고려
-        const catScale = catBaseScale + (catProgress * 1.3); // 1.0 → 1.8로 확대
-        const catTranslateX = catProgress * 30;  // 중앙쪽으로 이동
-        const catTranslateY = catProgress * -10; // 위로 살짝 이동
-        const catOpacity = (1 - dogProgress * 0.5) + (catProgress * 0.5); // 투명도 복원
+        const catBaseScale = 1 - (dogProgress * 0.6); // 강아지 단계에서 줄어들었던 것을 고려
+        const catScale = catBaseScale + (catProgress * 1.5); // 1.0 → 2.0으로 확대
+        const catTranslateX = catProgress * 50;  // 중앙쪽으로 더 많이 이동
+        const catTranslateY = catProgress * -20; // 위로 더 많이 이동
+        const catOpacity = (1 - dogProgress * 0.6) + (catProgress * 0.6); // 투명도 복원
         
         catTower.style.transform = `scale(${catScale}) translateX(${catTranslateX}%) translateY(${catTranslateY}%)`;
         catTower.style.opacity = Math.min(1, catOpacity);

@@ -18,7 +18,7 @@ body {
 
 .hero-section {
     width: 100%;
-    min-height: 150vh; /* 100에서 300으로 */
+    min-height: 300vh; /* 100에서 300으로 */
     height: auto;
     position: relative;
     background: url('img/mainBg.png') center center / cover no-repeat;
@@ -29,7 +29,7 @@ body {
 
 #heroSection {
   position: relative;
-  min-height: 250vh;
+ height: 300vh;
   overflow-x: hidden;
   overflow-y: visible;
 }
@@ -40,6 +40,7 @@ body {
   height: 100vh;
   width: 100%;
   overflow: hidden;
+  z-index: 10;
 }
 
 
@@ -95,10 +96,10 @@ body {
 
 /* 메인 컨텐츠 영역 */
 .main-content {
-    position: absolute;
-    top: 45%;
+    position:sticky;
+    top:0;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     width: 90%;
     max-width: 1400px;
     height: 70%;
