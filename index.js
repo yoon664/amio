@@ -70,7 +70,7 @@ function initScrollEvents() {
     });
 }
 
-// test2와 동일한 Red Box 애니메이션 (직원)
+// 직원
 function updateRedBox(progress) {
     const redBox = document.querySelector('.character-box');
     const speechBubble = document.querySelector('.speech-bubble-container');
@@ -88,7 +88,7 @@ function updateRedBox(progress) {
         
         const transform = `translateX(-50%) scale(${redScale}) translateX(${redTranslateX}%) translateY(${redTranslateY}%)`;
         
-        // 디버깅: 첫 번째 애니메이션 시작 시점에서만 로그 출력
+        // 디버깅
         if (progress > 0 && progress < 0.1) {
             console.log('Red Box 애니메이션 시작:', {
                 progress: progress.toFixed(2),
@@ -120,13 +120,12 @@ function updateRedBox(progress) {
     }
 }
 
-// test2와 동일한 Blue Box 애니메이션 (강아지)  
+// 강아지
 function updateBlueBox(blueProgress, redProgress) {
     const blueBox = document.querySelector('.dog-box');
     
     if (!blueBox) return;
     
-    // Red 애니메이션의 영향
     const blueBaseTranslateX = redProgress * -20;   
     const blueBaseScale = 1 + (redProgress * 0.3);
     const blueBaseTranslateY = redProgress * -10;       
@@ -151,7 +150,7 @@ function updateBlueBox(blueProgress, redProgress) {
     }
 }
 
-// test2와 동일한 Green Box 애니메이션 (고양이)
+// 고양
 function updateGreenBox(greenProgress, blueProgress, redProgress) {
     const greenBox = document.querySelector('.cat-box');
     
