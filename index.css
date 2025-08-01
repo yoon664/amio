@@ -15,34 +15,22 @@ body {
 }
 
 
-
 .hero-section {
     width: 100%;
-    min-height: 300vh; /* 100에서 300으로 */
-    height: auto;
-    position: relative;
+    height: 300vh;
     background: url('img/mainBg.png') center center / cover no-repeat;
-    overflow: visible;
-    transition: all 0.5s ease-out;
-    padding-bottom: 200px; 
+    overflow-x: clip;
 }
 
-#heroSection {
-  position: relative;
- height: 300vh;
-  overflow-x: hidden;
-  overflow-y: visible;
-}
 
-.hero-inner {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  z-index: 10;
+.hero-sticky-container {
+    width: 100%;
+    height: 100vh;
+    position: sticky; 
+    top: 0; 
+    margin: 0 auto;
+    overflow: hidden;
 }
-
 
 /* 네비게이션 */
 .nav-container {
@@ -78,191 +66,6 @@ body {
 
 .nav li:hover {
     opacity: 0.8;
-}
-
-/* 메인 테이블 (앞쪽에 놓인) */
-.main-table {
-    position: absolute;
-    top: 50%;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 1920px;
-    height: 832px;
-    background: url('img/mainTable2.png') center bottom / contain no-repeat;
-    z-index: 50;
-}
-
-/* 메인 컨텐츠 영역 */
-.main-content {
-    position:sticky;
-    top:0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 1400px;
-    height: 70%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 10;
-    transition: transform 1s ease-out;
-}
-
-/* 왼쪽 영역 - 캣타워 */
-.left-area {
-    flex: 1;
-    height: 100%;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding-bottom: 120px;
-    transition: all 1s ease-out;
-}
-
-.cat-tower-container {
-    position: relative;
-    width: 300px;
-    height: 450px;
-    transition: all 1s ease-out;
-}
-
-/* 캣타워 (고양이들이 포함된 이미지) */
-.cat-tower {
-    position: absolute;
-    top: 35%;
-    bottom: 0;
-    left: -10%;
-    width: 520px;
-    height: 630px;
-    background: url('img/고양이타워.png') center bottom / contain no-repeat;
-    transition: all 1s ease-out;
-    transform-origin: center bottom;
-}
-
-/* 중앙 영역 - 로고와 캐릭터 */
-.center-area {
-    flex: 1.5;
-    height: 100%;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-    transition: all 1s ease-out;
-}
-
-/* 로고 */
-.logo {
-    margin-bottom: 10px;
-    width: 450px;
-    height: 140px;
-    background: url('img/amio_logo.png') center / contain no-repeat;
-    transition: all 1s ease-out;
-}
-
-/* 서브타이틀 텍스트 이미지 */
-.subtitle-img {
-    width: 380px;
-    height: 80px;
-    background: url('img/바른먹거리\ 풀무원\ 아미오.png') center / contain no-repeat;
-    margin: 0 auto 60px;
-    transition: all 1s ease-out;
-}
-
-/* 캐릭터 */
-.character-container {
-    position: relative;
-    transition: all 1s ease-out;
-}
-
-.character {
-    position: absolute;
-    top: 1vw;
-    width: 400px;
-    height: 630px;
-    background: url('img/staff.png') center / contain no-repeat;
-    margin: 0 auto;
-    transition: all 1s ease-out;
-    transform-origin: center bottom;
-}
-
-/* 말풍선 */
-.speech-bubble-container {
-    top: -60px;
-    right: -280px;
-    width: 340px;
-    height: 140px;
-    transition: all 0.5s ease-out;
-}
-
-.speech-bubble-bg {
-    position: absolute;
-    top: -25%;
-    left: 80%;
-    width: 380px;
-    height: 165px;
-    background: url('img/말풍선1.png') center / contain no-repeat;
-}
-
-.speech-bubble-text {
-    position: absolute;
-    top: 35%;
-    left: 145%;
-    transform: translate(-50%, -50%);
-    width: 75%;
-    font-size: 19px;
-    font-weight: 600;
-    line-height: 1.5;
-    color: #468402;
-    text-align: left;
-    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-}
-
-/* 오른쪽 영역 - 강아지와 책상 */
-.right-area {
-    flex: 1;
-    height: 100%;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding-bottom: 120px;
-}
-
-.right-content {
-    position: relative;
-    width: 300px;
-    height: 450px;
-    transition: all 1s ease-out;
-}
-
-/* 책상 테이블 */
-.desk-table {
-    position: absolute;
-    right: -105%;
-    top: 280px;
-    width: 430px;
-    height: 420px;
-    background: url('img/subTable.png') center / contain no-repeat;
-    transition: all 1s ease-out;
-    z-index: 2;
-}
-
-/* 강아지 (침대와 그릇 포함) */
-.dog-area {
-    position: absolute;
-    top:112%;
-    bottom: 0;
-    left: -40%;
-    width: 120%;
-    height: 200px;
-    background: url('img/happypuppySet.png') center bottom / contain no-repeat;
-    transition: all 1s ease-out;
-    transform-origin: center bottom;
 }
 
 /* 장식 요소들 - 매달린 조명 */
@@ -313,6 +116,7 @@ body {
     background: url('img/treeLeft1.png') center bottom / contain no-repeat;
     z-index: 30;
 }
+
 .plant-left2 {
     position: absolute;
     bottom: -48%;
@@ -331,6 +135,7 @@ body {
     background: url('img/treeRight1.png') center bottom / contain no-repeat;
     z-index: 30;
 }
+
 .plant-right2 {
     position: absolute;
     bottom: -38%;
@@ -341,140 +146,181 @@ body {
     z-index: 1000;
 }
 
-/* 스크롤 효과 */
-/* 강아지 포커스 상태 */
-.dog-focus .main-content {
-    transform: translate(-50%, -50%);  /* 원위치 유지 */
+/* 중앙 로고 영역 */
+.center-logo-area {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 50;
 }
 
-.dog-focus .dog-area {
-    transform: scale(1.5) translateX(-150%) translateY(10%);
-    z-index: 30;
+.logo {
+    width: 450px;
+    height: 140px;
+    background: url('img/amio_logo.png') center / contain no-repeat;
+    margin-bottom: 10px;
 }
 
-.dog-focus .character {
-    transform: scale(1.8) translateX(-100%);
-    opacity: 0;
+.subtitle-img {
+    width: 380px;
+    height: 80px;
+    background: url('img/바른먹거리\ 풀무원\ 아미오.png') center / contain no-repeat;
+    margin: 0 auto;
 }
 
-.dog-focus .cat-tower {
-    transform: scale(1.8) translateX(-115%);
-    opacity: 0.70;
+/* 메인 캐릭터들 컨테이너 */
+.main-characters {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-.dog-focus .logo,
-.dog-focus .subtitle-img {
-    opacity: 0.3;
+/* 공통 박스 스타일 */
+.box {
+    position: absolute;
+    bottom: 0;
+    transition: all 0.5s ease-out;
 }
 
-.dog-focus .left-area,
-.dog-focus .center-area {
-    z-index: 5;
+/* 직원 박스 (red-box) - test2와 정확히 동일 */
+.character-box {
+    width: 500px;
+    height: 500px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
 }
 
-.dog-focus .right-area {
-    z-index: 20;
+/* 강아지 박스 (blue-box) - test2와 정확히 동일 */
+.dog-box {
+    width: 500px;
+    height: 500px;
+    left: 80%;
+    transform: translateX(-50%);
+    z-index: 95;
 }
 
-/* 고양이 포커스 상태 */
-.cat-focus .main-content {
-    transform: translate(-50%, -50%); 
+/* 고양이 박스 (green-box) - test2와 정확히 동일 */
+.cat-box {
+    width: 500px;
+    height: 500px;
+    left: 20%;
+    transform: translateX(-50%);
+    z-index: 90;
 }
 
-.cat-focus .cat-tower {
-    transform: scale(1.8) translateX(-14%) translateY(60%);
-    z-index: 20;
+/* 각 박스 내부 캐릭터 요소들 */
+.character {
+    position: absolute;
+    bottom: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 630px;
+    background: url('img/staff.png') center / contain no-repeat;
 }
 
-.cat-focus .character {
-    transform: scale(1.8) translateX(100%);
-    opacity: 0;
+.dog-area {
+    position: absolute;
+    bottom: 25%;
+    left: 22%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 200px;
+    background: url('img/happypuppySet.png') center bottom / contain no-repeat;
 }
 
-.cat-focus .dog-area {
-    transform: scale(1.8) translateX(100%);
-    opacity: 0;
+.cat-tower {
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 520px;
+    height: 630px;
+    background: url('img/고양이타워.png') center bottom / contain no-repeat;
 }
 
-.cat-focus .logo,
-.cat-focus .subtitle-img {
-    opacity: 0.3;
+/* 말풍선 */
+.speech-bubble-container {
+    position: absolute;
+    top: -10%;
+    right: -40%;
+    width: 340px;
+    height: 140px;
+    transition: all 0.5s ease-out;
 }
 
-.cat-focus .right-area,
-.cat-focus .center-area {
-    z-index: 5;
+.speech-bubble-bg {
+    position: absolute;
+    width: 380px;
+    height: 165px;
+    background: url('img/말풍선1.png') center / contain no-repeat;
 }
 
-.cat-focus .left-area {
-    z-index: 20;
+.speech-bubble-text {
+    position: absolute;
+    top: 20%;
+    left: 27%;
+    width: 75%;
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #468402;
+    text-align: left;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
-.dog-focus .speech-bubble-container,
-.cat-focus .speech-bubble-container {
-    opacity: 0;
+/* 포커스 이미지들 */
+.focus-images {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
+    z-index: 10;
 }
 
-/* 스크롤 포커스별 추가 이미지들 */
+.character-focus-image,
 .dog-focus-image,
 .cat-focus-image {
     position: absolute;
+    top: 42%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(30px) scale(1);
+    width: 882px;
+    height: 464px;
     opacity: 0;
-    transition: all 0.7s linear;
-    z-index: 10;
-    pointer-events: none;
+    transition: all 0.7s ease;
 }
 
-/* 강아지 포커스 이미지 - 정 가운데 배치 */
-.dog-focus-image {
-    top: 42%;
-    left: 50%;
-    transform: translate(-50%, -50%) translateY(30px) scale(1);
-    width: 882px;
-    height: 464px;
-}
-
-.dog-focus-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-/* 고양이 포커스 이미지 - 정 가운데 배치 */
-.cat-focus-image {
-    top: 42%;
-    left: 50%;
-    transform: translate(-50%, -50%) translateY(30px) scale(1);
-    width: 882px;
-    height: 464px;
-}
-
+.character-focus-image img,
+.dog-focus-image img,
 .cat-focus-image img {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
 
-/* 강아지 포커스 상태일 때 */
-.dog-focus .dog-focus-image {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateY(0) scale(1);
+/* 메인 테이블 - test2와 정확히 동일 */
+.main-table {
+    position: absolute;
+    bottom: -300px; /* test2와 동일 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1920px;
+    height: 832px;
+    background: url('img/mainTable2.png') center bottom / contain no-repeat;
+    z-index: 999; 
 }
 
-/* 고양이 포커스 상태일 때 */
-.cat-focus .cat-focus-image {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateY(0) scale(1);
-}
+/* ================================================= */
+/* 기존 CSS 유지 - 대표메뉴부터 */
 
-.dog-focus .cat-focus {
-    z-index: 30;
-}
-
-/* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /* 대표메뉴 가로스크롤 */
-
 .best-menu {
     position: relative;
     background: #f8f9fa;
@@ -1483,4 +1329,3 @@ body {
     animation: dealReviewCard 0.8s ease-out forwards;
     pointer-events: none;
 }
-
