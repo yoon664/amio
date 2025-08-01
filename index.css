@@ -68,7 +68,7 @@ body {
     opacity: 0.8;
 }
 
-/* 장식 요소들 - 매달린 조명 */
+/* 매달린 조명 */
 .hanging-lights {
     position: absolute;
     top: 0;
@@ -177,14 +177,12 @@ body {
     height: 100%;
 }
 
-/* 공통 박스 스타일 */
 .box {
     position: absolute;
     bottom: 0;
     transition: all 0.5s ease-out;
 }
 
-/* 직원 박스 (red-box) - test2와 정확히 동일 */
 .character-box {
     width: 500px;
     height: 500px;
@@ -193,7 +191,7 @@ body {
     z-index: 100;
 }
 
-/* 강아지 박스 (blue-box) - test2와 정확히 동일 */
+
 .dog-box {
     width: 500px;
     height: 500px;
@@ -202,7 +200,7 @@ body {
     z-index: 95;
 }
 
-/* 고양이 박스 (green-box) - test2와 정확히 동일 */
+
 .cat-box {
     width: 500px;
     height: 500px;
@@ -304,10 +302,10 @@ body {
     object-fit: contain;
 }
 
-/* 메인 테이블 - test2와 정확히 동일 */
+/* 메인 테이블 */
 .main-table {
     position: absolute;
-    bottom: -300px; /* test2와 동일 */
+    bottom: -300px;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -318,12 +316,11 @@ body {
 }
 
 /* ================================================= */
-/* 기존 CSS 유지 - 대표메뉴부터 */
 
 /* 대표메뉴 가로스크롤 */
 .best-menu {
     position: relative;
-    background: #f8f9fa;
+    /* background: #f8f9fa; */
     padding-top: 100px;
     z-index: 30;
     background-image: url('img/bg\ copy.png');

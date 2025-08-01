@@ -1,3 +1,4 @@
+
 let heroSection;
 
 // DOM이 로드된 후 초기화
@@ -31,12 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
 function initScrollEvents() {
     console.log('스크롤 이벤트 초기화');
     
-    // test2.html과 정확히 동일한 스크롤 애니메이션
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
         const windowHeight = window.innerHeight;
         
-        // test2와 동일: 10vh에서 시작해서 200vh 구간에서 애니메이션
         const animationStart = windowHeight * 0.1; 
         const animationRange = windowHeight * 2.0; 
         
@@ -61,9 +60,9 @@ function initScrollEvents() {
         const blueProgress = Math.max(0, Math.min((scrollProgress - blueStart) / blueDuration, 1));
         const greenProgress = Math.max(0, Math.min((scrollProgress - greenStart) / greenDuration, 1));
         
-        // test2와 동일한 애니메이션 적용 (테이블 애니메이션 제거)
+        // 수정된 함수 호출 - greenProgress 매개변수 추가
         updateRedBox(redProgress);
-        updateBlueBox(blueProgress, redProgress);
+        updateBlueBox(blueProgress, redProgress, greenProgress); // greenProgress 추가
         updateGreenBox(greenProgress, blueProgress, redProgress);
         updateCenterLogo(scrollProgress);
         updateFocusImages(redProgress, blueProgress, greenProgress);
@@ -121,36 +120,49 @@ function updateRedBox(progress) {
 }
 
 // 강아지
-function updateBlueBox(blueProgress, redProgress) {
+function updateBlueBox(blueProgress, redProgress, greenProgress) {
     const blueBox = document.querySelector('.dog-box');
     
     if (!blueBox) return;
     
     const blueBaseTranslateX = redProgress * -20;   
-    const blueBaseScale = 1 + (redProgress * 0.3);
+    const blueBaseScale = 0.8 + (redProgress * 0);
     const blueBaseTranslateY = redProgress * -10;       
     
+
+    if (greenProgress > 0.7) { 
+        const fadeProgress = (greenProgress - 0.7) / 0.3; // 0.7~1.0을 0~1로 변환
+        blueBox.style.opacity = 1 - fadeProgress; // 천천히 사라짐
+        blueBox.style.left = '50%';
+        return;
+    }
+    
     if (blueProgress > 0) {
-        const blueScale = blueBaseScale + (blueProgress * 1.2);    
-        const blueTranslateX = blueBaseTranslateX + (blueProgress * -30);      
-        const blueTranslateY = blueBaseTranslateY + (blueProgress * -30);      
-        const blueOpacity = 1 - blueProgress;  
+        const blueScale = blueBaseScale + (blueProgress * 1);    
+        const blueTranslateX = blueBaseTranslateX + (blueProgress * -10);      
+        const blueTranslateY = blueBaseTranslateY + (blueProgress * -1);      
         
+        // 강아지 위치 이동: 80% → 50% (적당히 중앙으로)
+        const dogPositionX = 80 - (blueProgress * 30); // 80% → 50%로 이동 (30% 감소)
+        
+        blueBox.style.left = `${dogPositionX}%`;
         blueBox.style.transform = `translateX(-50%) scale(${blueScale}) translateX(${blueTranslateX}%) translateY(${blueTranslateY}%)`;
-        blueBox.style.opacity = blueOpacity;
+        blueBox.style.opacity = 1; // 사라지지 않고 유지
         blueBox.style.zIndex = (redProgress > 0.1 || blueProgress > 0.1) ? 200 : 95;
     } else if (redProgress > 0) {
+        blueBox.style.left = '80%'; // 기본 위치 유지
         blueBox.style.transform = `translateX(-50%) scale(${blueBaseScale}) translateX(${blueBaseTranslateX}%) translateY(${blueBaseTranslateY}%)`;
         blueBox.style.opacity = 1;
         blueBox.style.zIndex = redProgress > 0.1 ? 200 : 95;
     } else {
+        blueBox.style.left = '80%'; // 기본 위치로 복원
         blueBox.style.transform = 'translateX(-50%)';
         blueBox.style.opacity = 1;
         blueBox.style.zIndex = 95;
     }
 }
 
-// 고양
+// 고양이
 function updateGreenBox(greenProgress, blueProgress, redProgress) {
     const greenBox = document.querySelector('.cat-box');
     
@@ -158,41 +170,116 @@ function updateGreenBox(greenProgress, blueProgress, redProgress) {
     
     // 이전 애니메이션들의 영향
     const greenBaseTranslateX = redProgress * -15;  
-    const greenBaseScale = 1 + (redProgress * 0.2); 
+    const greenBaseScale = 1 + (redProgress * 0); 
     const greenBaseTranslateY = redProgress * -8;   
     
-    if (greenProgress > 0) {
-        const greenScale = greenBaseScale + (greenProgress * 1.3);  
-        const greenTranslateX = greenBaseTranslateX + (greenProgress * 30);     
-        const greenTranslateY = greenBaseTranslateY + (greenProgress * -30);    
-        const greenOpacity = 1 - greenProgress; 
+    // 강아지 애니메이션 중일 때 고양이를 화면 밖으로 이동
+    if (blueProgress > 0 && greenProgress === 0) {
+        const catPositionX = 20 - (blueProgress * 40); // 20% → -20% (화면 밖)
         
+        greenBox.style.left = `${catPositionX}%`;
+        greenBox.style.transform = `translateX(-50%) scale(${greenBaseScale}) translateX(${greenBaseTranslateX}%) translateY(${greenBaseTranslateY}%)`;
+        greenBox.style.opacity = 1;
+        greenBox.style.zIndex = 90;
+    }
+
+    else if (greenProgress > 0.6) { 
+        const appearProgress = (greenProgress - 0.6) / 0.4; // 0.6~1.0을 0~1로 변환
+        
+        const greenScale = 1; 
+        const greenTranslateX = 0; 
+        const greenTranslateY = appearProgress * 15; 
+        
+        // 고양이가 점진적으로 나타남
+        const catPositionX = 20 + (appearProgress * 0); // 기본 위치에서 나타남
+        
+        greenBox.style.left = `${catPositionX}%`;
         greenBox.style.transform = `translateX(-50%) scale(${greenScale}) translateX(${greenTranslateX}%) translateY(${greenTranslateY}%)`;
-        greenBox.style.opacity = greenOpacity;
-        greenBox.style.zIndex = (redProgress > 0.1 || greenProgress > 0.1) ? 200 : 90;
-    } else if (redProgress > 0) {
+        greenBox.style.opacity = appearProgress; // 점진적으로 나타남
+        greenBox.style.zIndex = 200;
+    }
+
+    else if (greenProgress > 0 && greenProgress <= 0.6) {
+        // 화면 밖에서 대기 (보이지 않음)
+        greenBox.style.left = '-50%'; // 화면 밖
+        greenBox.style.opacity = 0;
+        greenBox.style.zIndex = 90;
+    }
+    // red 애니메이션만 진행 중일 때
+    else if (redProgress > 0) {
+        greenBox.style.left = '20%'; // 기본 위치 유지
         greenBox.style.transform = `translateX(-50%) scale(${greenBaseScale}) translateX(${greenBaseTranslateX}%) translateY(${greenBaseTranslateY}%)`;
         greenBox.style.opacity = 1;
         greenBox.style.zIndex = redProgress > 0.1 ? 200 : 90;
-    } else {
+    } 
+    // 초기 상태
+    else {
+        greenBox.style.left = '20%'; // 기본 위치
         greenBox.style.transform = 'translateX(-50%)';
         greenBox.style.opacity = 1;
         greenBox.style.zIndex = 90;
     }
 }
 
-// 중앙 로고 페이드 아웃
+// 포커스 이미지들 처리 - 타이밍 조절
+function updateFocusImages(redProgress, blueProgress, greenProgress) {
+    const characterFocusImage = document.querySelector('.character-focus-image');
+    const dogFocusImage = document.querySelector('.dog-focus-image');
+    const catFocusImage = document.querySelector('.cat-focus-image');
+    
+    // 직원 포커스 이미지
+    if (characterFocusImage && redProgress > 0) {
+        const imageOpacity = Math.max(0, (redProgress - 0.4) / 0.6);
+        const imageScale = 0.8 + (imageOpacity * 0.2);
+        
+        characterFocusImage.style.opacity = imageOpacity;
+        characterFocusImage.style.transform = `translate(-50%, -50%) scale(${imageScale})`;
+    }
+    
+
+    if (dogFocusImage) {
+        if (blueProgress > 0 && greenProgress <= 0.5) {
+            const imageOpacity = Math.max(0, (blueProgress - 0.4) / 0.6);
+            const imageScale = 0.8 + (imageOpacity * 0.2);
+            
+            dogFocusImage.style.opacity = imageOpacity;
+            dogFocusImage.style.transform = `translate(-50%, -50%) scale(${imageScale})`;
+        } else if (greenProgress > 0.5) {
+            // greenProgress 50% 이후에 사라짐
+            const fadeProgress = (greenProgress - 0.5) / 0.5;
+            const imageOpacity = 1 - (fadeProgress * 2);
+            dogFocusImage.style.opacity = Math.max(0, imageOpacity);
+        } else {
+            dogFocusImage.style.opacity = 0;
+        }
+    }
+    
+    if (catFocusImage) {
+        if (greenProgress > 0.5) {
+            const appearProgress = (greenProgress - 0.5) / 0.5;
+            const imageOpacity = Math.max(0, (appearProgress - 0.3) / 0.7);
+            const imageScale = 0.8 + (imageOpacity * 0.2);
+            
+            catFocusImage.style.opacity = imageOpacity;
+            catFocusImage.style.transform = `translate(-50%, -50%) scale(${imageScale})`;
+        } else {
+            catFocusImage.style.opacity = 0;
+        }
+    }
+}
+
+// 중앙 로고 페이드 아웃 - 완전히 투명하게 수정
 function updateCenterLogo(scrollProgress) {
     const logo = document.querySelector('.logo');
     const subtitle = document.querySelector('.subtitle-img');
     
-    const logoOpacity = 1 - (scrollProgress * 0.8);
+    const logoOpacity = 1 - (scrollProgress * 1.5); // 더 빠르게 사라지도록
     
-    if (logo) logo.style.opacity = Math.max(0.2, logoOpacity);
-    if (subtitle) subtitle.style.opacity = Math.max(0.2, logoOpacity);
+    if (logo) logo.style.opacity = Math.max(0, logoOpacity); // 완전 투명 가능
+    if (subtitle) subtitle.style.opacity = Math.max(0, logoOpacity); // 완전 투명 가능
 }
 
-// 포커스 이미지들 처리 - 매개변수 이름 변경
+// 포커스 이미지들 처리
 function updateFocusImages(redProgress, blueProgress, greenProgress) {
     const characterFocusImage = document.querySelector('.character-focus-image');
     const dogFocusImage = document.querySelector('.dog-focus-image');
@@ -207,7 +294,7 @@ function updateFocusImages(redProgress, blueProgress, greenProgress) {
         characterFocusImage.style.transform = `translate(-50%, -50%) scale(${imageScale})`;
     }
     
-    // 강아지 포커스 이미지
+    // 강아지 포커스 이미지 - 고양이 단계에서 사라지도록 수정
     if (dogFocusImage) {
         if (blueProgress > 0 && greenProgress === 0) {
             const imageOpacity = Math.max(0, (blueProgress - 0.4) / 0.6);
@@ -217,7 +304,7 @@ function updateFocusImages(redProgress, blueProgress, greenProgress) {
             dogFocusImage.style.transform = `translate(-50%, -50%) scale(${imageScale})`;
         } else if (greenProgress > 0) {
             // 고양이 단계에서 강아지 이미지 사라짐
-            const imageOpacity = 1 - (greenProgress * 1.5);
+            const imageOpacity = 1 - (greenProgress * 2); // 더 빠르게 사라짐
             dogFocusImage.style.opacity = Math.max(0, imageOpacity);
         } else {
             dogFocusImage.style.opacity = 0;
@@ -227,7 +314,7 @@ function updateFocusImages(redProgress, blueProgress, greenProgress) {
     // 고양이 포커스 이미지
     if (catFocusImage && greenProgress > 0) {
         const imageOpacity = Math.max(0, (greenProgress - 0.3) / 0.7); // 30% 지점부터 나타남
-        const imageScale = 0.8 + (imageOpacity * 0.2); // 0.8 → 1.0으로 확대
+        const imageScale = 0.8 + (imageOpacity * 0.2);
         
         catFocusImage.style.opacity = imageOpacity;
         catFocusImage.style.transform = `translate(-50%, -50%) scale(${imageScale})`;
