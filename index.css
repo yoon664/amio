@@ -20,6 +20,8 @@ body {
     height: 300vh;
     background: url('img/mainBg.png') center center / cover no-repeat;
     overflow-x: clip;
+    position: relative;
+    z-index: 999;
 }
 
 
@@ -29,7 +31,7 @@ body {
     position: sticky; 
     top: 0; 
     margin: 0 auto;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 /* 네비게이션 */
@@ -1082,7 +1084,7 @@ body {
 .footer {
     transform: translateY(-380px);
     position: relative;
-    height: auto%;
+    height: auto;
 }
 
 .footer::before {

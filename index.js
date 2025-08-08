@@ -39,7 +39,7 @@ function initScrollEvents() {
         const animationStart = windowHeight * 0.1; 
         const animationRange = windowHeight * 2.0; 
         
-        // 스크롤 진행도 계산 (0-1) - test2와 동일
+        // 스크롤 진행도 계산 (0-1)
         const scrollProgress = Math.max(0, Math.min((scrollY - animationStart) / animationRange, 1));
         
         // 스크롤 정보 출력 (너무 많이 출력되지 않도록 10% 단위로만)
@@ -47,22 +47,19 @@ function initScrollEvents() {
             console.log(`스크롤 진행도: ${Math.floor(scrollProgress * 100)}%`);
         }
         
-        // test2와 동일한 단계 설정
         const redStart = 0;     
         const redDuration = 0.3; 
-        const blueStart = 0.3; 
-        const blueDuration = 0.3; 
+        const blueStart = 0.2; 
+        const blueDuration = 0.4; 
         const greenStart = 0.6; 
         const greenDuration = 0.3; 
 
-        // test2와 동일한 진행도 계산
         const redProgress = Math.max(0, Math.min((scrollProgress - redStart) / redDuration, 1));
         const blueProgress = Math.max(0, Math.min((scrollProgress - blueStart) / blueDuration, 1));
         const greenProgress = Math.max(0, Math.min((scrollProgress - greenStart) / greenDuration, 1));
         
-        // 수정된 함수 호출 - greenProgress 매개변수 추가
         updateRedBox(redProgress);
-        updateBlueBox(blueProgress, redProgress, greenProgress); // greenProgress 추가
+        updateBlueBox(blueProgress, redProgress, greenProgress);
         updateGreenBox(greenProgress, blueProgress, redProgress);
         updateCenterLogo(scrollProgress);
         updateFocusImages(redProgress, blueProgress, greenProgress);
@@ -150,12 +147,12 @@ function updateBlueBox(blueProgress, redProgress, greenProgress) {
         blueBox.style.opacity = 1; // 사라지지 않고 유지
         blueBox.style.zIndex = (redProgress > 0.1 || blueProgress > 0.1) ? 200 : 95;
     } else if (redProgress > 0) {
-        blueBox.style.left = '80%'; // 기본 위치 유지
+        blueBox.style.left = '80%';
         blueBox.style.transform = `translateX(-50%) scale(${blueBaseScale}) translateX(${blueBaseTranslateX}%) translateY(${blueBaseTranslateY}%)`;
         blueBox.style.opacity = 1;
         blueBox.style.zIndex = redProgress > 0.1 ? 200 : 95;
     } else {
-        blueBox.style.left = '80%'; // 기본 위치로 복원
+        blueBox.style.left = '80%'; 
         blueBox.style.transform = 'translateX(-50%)';
         blueBox.style.opacity = 1;
         blueBox.style.zIndex = 95;
@@ -227,19 +224,10 @@ function updateFocusImages(redProgress, blueProgress, greenProgress) {
     const dogFocusImage = document.querySelector('.dog-focus-image');
     const catFocusImage = document.querySelector('.cat-focus-image');
     
-    // 직원 포커스 이미지
-    if (characterFocusImage && redProgress > 0) {
-        const imageOpacity = Math.max(0, (redProgress - 0.4) / 0.6);
-        const imageScale = 0.8 + (imageOpacity * 0.2);
-        
-        characterFocusImage.style.opacity = imageOpacity;
-        characterFocusImage.style.transform = `translate(-50%, -50%) scale(${imageScale})`;
-    }
-    
 
     if (dogFocusImage) {
         if (blueProgress > 0 && greenProgress <= 0.5) {
-            const imageOpacity = Math.max(0, (blueProgress - 0.4) / 0.6);
+            const imageOpacity = Math.max(0, (blueProgress - 0.1) / 0.6);
             const imageScale = 0.8 + (imageOpacity * 0.2);
             
             dogFocusImage.style.opacity = imageOpacity;
