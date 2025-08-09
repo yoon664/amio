@@ -54,7 +54,7 @@ function initScrollEvents() {
         const secondPhaseStart = 0.5;
         const secondPhaseProgress = Math.max(0, Math.min((scrollProgress - secondPhaseStart) / 0.5, 1));
         
-        const catEnterStart = 0.5;
+        const catEnterStart = 0.6;
         const catEnterDuration = 0.4; // 0.5~0.9
         const catEnterProgress = Math.max(0, Math.min((scrollProgress - catEnterStart) / catEnterDuration, 1));
         
@@ -154,7 +154,7 @@ function updateCat(exitProgress, enterProgress, overallScrollProgress) {
     
     
     if (enterProgress > 0) {
-        const catScale = 1 + (enterProgress * 0.2);     
+        const catScale = 1;
         
         const catPositionX = 120 - (enterProgress * 100); 
         
@@ -227,7 +227,7 @@ function updateFocusImages(staffProgress, dogFirstProgress, dogExitProgress, cat
     if (dogFocusImage) {
         // 강아지 사라지는 단계
         if (dogExitProgress > 0) {
-            const imageOpacity = 1 - dogExitProgress; // 강아지와 함께 사라짐
+            const imageOpacity = 1 - (dogExitProgress * 2); // 강아지와 함께 사라짐
             dogFocusImage.style.opacity = Math.max(0, imageOpacity);
         }
         // 강아지 첫 번째 단계
@@ -245,9 +245,9 @@ function updateFocusImages(staffProgress, dogFirstProgress, dogExitProgress, cat
     // 고양이 포커스 이미지
     if (catFocusImage) {
         // 고양이 등장 단계
-        if (catEnterProgress > 0) {
-            const imageOpacity = Math.max(0, (catEnterProgress - 0.3) / 0.7); // 30% 지점부터 나타남
-            const imageScale = 0.8 + (imageOpacity * 0.2);
+        if (catEnterProgress > 0 && dogExitProgress >= 0.5) {
+            const imageOpacity = Math.max(0, (catEnterProgress - 0.1) / 0.5);
+            const imageScale = 1;
             
             catFocusImage.style.opacity = imageOpacity;
             catFocusImage.style.transform = `translate(-50%, -50%) scale(${imageScale})`;
