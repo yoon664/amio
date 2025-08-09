@@ -19,6 +19,7 @@ body {
     width: 100%;
     height: 300vh;
     background: url('img/mainBg.png') center center / cover no-repeat;
+    background-attachment: fixed;
     overflow-x: clip;
     position: relative;
     z-index: 999;
@@ -110,7 +111,7 @@ body {
     pointer-events: none;
 }
 
-.plant-left1 {
+/* .plant-left1 {
     position: absolute;
     bottom: 5%;
     width: 350px;
@@ -146,7 +147,7 @@ body {
     height: 460px;
     background: url('img/treeRight2.png') center bottom / contain no-repeat;
     z-index: 1000;
-}
+} */
 
 /* 중앙 로고 영역 */
 .center-logo-area {

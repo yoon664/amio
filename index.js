@@ -114,7 +114,7 @@ function updateDog(firstProgress, exitProgress) {
     if (!dogBox) return;
     
     if (exitProgress > 0) {
-        const dogScale = 1.2 + (exitProgress * 0.1);     
+        const dogScale = 1.5 + (exitProgress * 0.1);     
         const dogTranslateX = exitProgress * 100;        
         const dogOpacity = 1 - exitProgress;             
         
@@ -127,8 +127,8 @@ function updateDog(firstProgress, exitProgress) {
     }
 
     else if (firstProgress > 0) {
-        const dogScale = 1 + (firstProgress * 0.2);  
-                 const dogPositionX = 80 - (firstProgress * 50); 
+        const dogScale = 1 + (firstProgress * 0.7); 
+        const dogPositionX = 80 - (firstProgress * 50); 
         
         const transform = `translateX(-50%) scale(${dogScale})`;
         
@@ -154,12 +154,14 @@ function updateCat(exitProgress, enterProgress, overallScrollProgress) {
     
     
     if (enterProgress > 0) {
-        const catScale = 1;
+        const catScale = 1 + (enterProgress * 0.3);
+        const catTranslateY = enterProgress * 5;
         
-        const catPositionX = 120 - (enterProgress * 100); 
+        const catPositionX = 25 - (enterProgress * 10); 
         
-        const transform = `translateX(-50%) scale(${catScale})`;
+        const transform = `translateX(-50%) scale(${catScale}) translateY(${catTranslateY}%)`;
         
+        catBox.style.left = `${catPositionX}%`;  //고양 위치 조정
         catBox.style.transform = transform;
         catBox.style.opacity = Math.min(enterProgress * 2, 1); 
         catBox.style.zIndex = 200;
