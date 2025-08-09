@@ -37,11 +37,11 @@ body {
 
 /* 네비게이션 */
 .nav-container {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 100;
+    z-index: 9999;
 }
 
 .nav {
