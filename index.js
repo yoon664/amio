@@ -210,10 +210,10 @@ function updateCenterLogo(scrollProgress) {
     const logo = document.querySelector('.logo');
     const subtitle = document.querySelector('.subtitle-img');
     
-    const logoOpacity = 1 - (scrollProgress * 1.5); // 더 빠르게 사라지도록
+    const logoOpacity = 1 - (scrollProgress * 3.5); // 더 빠르게 사라지도록
     
-    if (logo) logo.style.opacity = Math.max(0, logoOpacity); // 완전 투명 가능
-    if (subtitle) subtitle.style.opacity = Math.max(0, logoOpacity); // 완전 투명 가능
+    if (logo) logo.style.opacity = Math.max(0, logoOpacity);
+    if (subtitle) subtitle.style.opacity = Math.max(0, logoOpacity);
 }
 
 // 포커스 이미지들 처리
@@ -222,19 +222,6 @@ function updateFocusImages(staffProgress, dogFirstProgress, dogExitProgress, cat
     const dogFocusImage = document.querySelector('.dog-focus-image');
     const catFocusImage = document.querySelector('.cat-focus-image');
     
-    // 직원 포커스 이미지 - 직원과 함께 사라짐
-    if (characterFocusImage) {
-        if (staffProgress > 0) {
-            const imageOpacity = Math.max(0, (staffProgress - 0.1) / 0.2); // 10% 지점부터 나타남
-            const imageScale = 0.8 + (imageOpacity * 0.2);
-            const finalOpacity = imageOpacity * (1 - staffProgress); // 직원과 함께 사라짐
-            
-            characterFocusImage.style.opacity = finalOpacity;
-            characterFocusImage.style.transform = `translate(-50%, -50%) scale(${imageScale})`;
-        } else {
-            characterFocusImage.style.opacity = 0;
-        }
-    }
     
     // 강아지 포커스 이미지
     if (dogFocusImage) {
